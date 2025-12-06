@@ -6,6 +6,9 @@ import Cart from './pages/cart/Cart';
 import AuthLayout from './layout/AuthLayout';
 import Login from './pages/login/Login';
 import Register from './pages/register/Register';
+import Contact from './pages/contact/Contact';
+import About from './pages/about/About';
+import Wishlist from './pages/wishlist/Wishlist';
 
 const router = createBrowserRouter([
   {
@@ -13,12 +16,24 @@ const router = createBrowserRouter([
     element: <MainLayout/>,
     children:[
         {
-            path: 'home',
-            element: <Home/>
+          path: 'home',
+          element: <Home/>
         },
         {
-            path: 'cart',
-            element: <Cart/>
+          path: 'contact',
+          element: <Contact />
+        },
+        {
+          path: 'about',
+          element: <About/>
+        },
+        {
+          path: 'wishlist',
+          element: <Wishlist/>            
+        },
+        {
+          path: 'cart',
+          element: <Cart/>
         }
     ],
   },
