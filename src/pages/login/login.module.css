@@ -1,0 +1,10 @@
+@media (max-width: 1284px) {
+  .image {
+    max-width: 550px;
+  }
+}
+@media (max-width: 1029px) {
+  .image {
+    max-width: 400px;
+  }
+}
