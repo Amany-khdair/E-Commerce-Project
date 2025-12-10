@@ -16,7 +16,7 @@ import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
 import { styled } from "@mui/material/styles";
 import Link from "@mui/material/Link";
-import { useNavigate, Link as RouterLink} from "react-router-dom";
+import { Link as RouterLink} from "react-router-dom";
 
 
 // =====================Search box =====================
@@ -24,8 +24,7 @@ const SearchWrapper = styled("div")(() => ({
   position: "relative",
   backgroundColor: "#F5F5F5",
   borderRadius: "4px",
-  width: "100%",     
-  maxWidth: "250px", 
+  width: "250px",
   height: "40px",
   display: "flex",
   alignItems: "center",
@@ -56,9 +55,8 @@ const NavItem = styled("span")(() => ({
   },
 }));
 
-export default function Navbar() {
-  const [openDrawer, setOpenDrawer] = useState(false);
-  const navigate = useNavigate();
+export default function RegisterNavbar() {
+  const [openDrawer, setOpenDrawer] = useState(false);  
   return (
     <>
       <AppBar
@@ -120,30 +118,10 @@ export default function Navbar() {
             <SearchInput placeholder="What are you looking for?" />
             <SearchIcon sx={{ cursor: "pointer" }} />
           </SearchWrapper>
-
-          <IconButton onClick={() => navigate("/wishlist")}>
-            <FavoriteBorderIcon sx={{ color: "black" }} />
-          </IconButton>
-          <IconButton>
-            <ShoppingCartOutlinedIcon sx={{ color: "black" }} />
-          </IconButton>
         </Box>
 
         {/*=====================Mobile View==================*/}
-        <Box sx={{ display: { xs: "flex", md: "none" }}}>
-          <SearchWrapper>
-            <SearchInput placeholder="What are you looking for?" />
-            <SearchIcon sx={{ cursor: "pointer"}} />
-          </SearchWrapper>
-
-          <IconButton component={RouterLink} to='/wishlist'>
-            <FavoriteBorderIcon sx={{ color: "black" }} />
-          </IconButton>
-
-          <IconButton component={RouterLink} to='/cart'> 
-            <ShoppingCartOutlinedIcon sx={{ color: "black" }} />
-          </IconButton>
-
+        <Box sx={{ display: { xs: "flex", md: "none" }, gap: "10px" }}>          
           <IconButton onClick={() => setOpenDrawer(true)}>
             <MenuIcon sx={{ color: "black" }} />
           </IconButton>
@@ -161,45 +139,47 @@ export default function Navbar() {
             sx={{ position: "absolute", top: 10, right: 10, zIndex: 10,}}>
             <CloseIcon />
           </IconButton>
-          <List>
-            {[
-              { text: "Home", path: "/home" },
-              { text: "Contact", path: "/contact" },
-              { text: "About", path: "/about" },
-              { text: "Sign Up", path: "/auth/register" },
-            ].map((item) => (
-              <ListItem
-                button
-                key={item.text}
-                component={RouterLink}
-                to={item.path}
-                onClick={() => setOpenDrawer(false)}>
+            <List>
+                {[
+                    { text: "Home", path: "/home" },
+                    { text: "Contact", path: "/contact" },
+                    { text: "About", path: "/about" },
+                    { text: "Sign Up", path: "/auth/register" },
+                ].map((item) => (
+                    <ListItem
+                    button
+                    key={item.text}
+                    component={RouterLink}
+                    to={item.path}
+                    onClick={() => setOpenDrawer(false)} 
+                    >
+                    <ListItemText
+                        primary={item.text}  
+                        sx={{
+                            ".MuiTypography-root": {
+                            fontSize: "14px",
+                            color: "black",
+                            fontWeight: 500,
+                            width: "fit-content",
+                            cursor: "pointer",
+                            position: "relative",
+                            paddingBottom: "3px",
+                            "&:hover::after": {
+                                content: "''",
+                                position: "absolute",
+                                left: 0,
+                                bottom: 0,
+                                width: "100%",
+                                height: "2px",
+                                backgroundColor: "black",
+                            },
+                            },
+                        }}                    
+                    />
+                    </ListItem>
+                ))}
+            </List>
 
-                <ListItemText
-                  primary={item.text}    
-                  sx={{
-                    ".MuiTypography-root": {
-                      fontSize: "14px",
-                      color: "black",
-                      fontWeight: 500,
-                      width: "fit-content",
-                      cursor: "pointer",
-                      position: "relative",
-                      paddingBottom: "3px",
-                      "&:hover::after": {
-                        content: "''",
-                        position: "absolute",
-                        left: 0,
-                        bottom: 0,
-                        width: "100%",
-                        height: "2px",
-                        backgroundColor: "black",
-                      },
-                    },
-                  }}/>
-              </ListItem>
-            ))}
-          </List>
 
         </Box>
       </Drawer>
