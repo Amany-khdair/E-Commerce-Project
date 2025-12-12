@@ -1,13 +1,7 @@
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import sideImage from "../../assets/images/Side Image.webp";
-import {
-  Button,
-  CircularProgress,
-  TextField,
-  Typography,
-  useMediaQuery,
-} from "@mui/material";
+import { Button, CircularProgress, TextField, Typography, useMediaQuery} from "@mui/material";
 import SendIcon from "@mui/icons-material/Send";
 import GoogleIcon from "@mui/icons-material/Google";
 import styles from "./register.module.css";
@@ -150,9 +144,9 @@ export default function Register() {
                     overflow: "hidden",
                     width: "fit-content",
                     animation: `
-                  ${typing} 1.6s steps(12) forwards,
-                  ${lift} 3s ease-in-out infinite 1.6s
-                `,
+                      ${typing} 1.6s steps(12) forwards,
+                      ${lift} 3s ease-in-out infinite 1.6s
+                    `,
                     background: "linear-gradient(90deg, #000, #DB4444, #000)",
                     WebkitBackgroundClip: "text",
                     color: "transparent",
