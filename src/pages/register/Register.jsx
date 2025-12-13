@@ -1,20 +1,22 @@
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import sideImage from "../../assets/images/Side Image.webp";
-import { Button, CircularProgress, TextField, Typography, useMediaQuery} from "@mui/material";
+import { Button, CircularProgress, IconButton, InputAdornment, TextField, Typography, useMediaQuery} from "@mui/material";
 import SendIcon from "@mui/icons-material/Send";
 import GoogleIcon from "@mui/icons-material/Google";
 import styles from "./register.module.css";
 import { Link as RouterLink } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import axios from "axios";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { registerSchema } from "../../validations/registerSchema";
 import LoadingButton from "@mui/lab/LoadingButton";
 import Fade from "@mui/material/Fade";
 import Slide from "@mui/material/Slide";
 import { typing, shine, lift } from "../../animation/LogoAnimation";
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
 export default function Register() {
   const {
@@ -51,12 +53,9 @@ export default function Register() {
     });
 
     try {
-      const response = await axios.post(
-        "https://knowledgeshop.runasp.net/api/Auth/Account/Register",
-        values
-      );
+      const response = await axios.post("https://knowledgeshop.runasp.net/api/Auth/Account/Register", values);
       console.log(response);
-    } catch (error) {
+    }catch (error) {
       const serverErrors = error.response?.data?.errors || [];
 
       const newErrors = {
@@ -83,7 +82,20 @@ export default function Register() {
     }
   };
 
+  const [showPassword, setShowPassword] = React.useState(false);
+  
+  const handleClickShowPassword = () => setShowPassword((show) => !show);
+
+  const handleMouseDownPassword = (event) => {
+    event.preventDefault();
+  };
+
+  const handleMouseUpPassword = (event) => {
+    event.preventDefault();
+  };
+
   const isSmallScreen = useMediaQuery("(max-width:900px)");
+
   return (
     <Grid container spacing={3} sx={{ my: "60px" }}>
       <Grid
@@ -252,13 +264,27 @@ export default function Register() {
                     id="standard-basic"
                     label="Password"
                     {...register("password")}
-                    type="password"
+                    type={showPassword ? "text" : "password"}
                     variant="standard"
                     onChange={(e) => {
                       setValue("password", e.target.value);
                     }}
                     error={errors.password}
                     helperText={errors.password?.message}
+                    InputProps={{
+                      endAdornment: (
+                        <InputAdornment position="end">
+                          <IconButton
+                            onClick={handleClickShowPassword}
+                            onMouseDown={handleMouseDownPassword}
+                            onMouseUp={handleMouseUpPassword}
+                            edge="end"
+                          >
+                            {showPassword ? <VisibilityOff /> : <Visibility />}
+                          </IconButton>
+                        </InputAdornment>
+                      ),
+                    }}
                   />
                   {fieldErrors.password && (
                     <Typography sx={{ color: "red", fontSize: "14px" }}>

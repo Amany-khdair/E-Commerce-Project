@@ -44,12 +44,13 @@ export default function VerifyCode() {
     await Swal.fire({
       icon: "success",
       title: "Code received ✔",
-      text: "You Can Know Set Your New Password!",
+      text: "You can know set your new password!",
       confirmButtonColor: "#DB4444",
     });
 
     navigate("/auth/resetPassword");
   };
+
   return (
     <Box sx={{ maxWidth: 400, mx: "auto", mt: 10, textAlign: "center" }}>
       <Typography variant="h3" sx={{
@@ -77,11 +78,7 @@ export default function VerifyCode() {
             left: 0,
             top: 0,
           },
-        }}
-      >
-        {" "}
-        Verify Code
-      </Typography>
+        }}>Verify Code </Typography>
       <Typography>Enter The 4-Digit Sent to Your Email</Typography>
 
       <Box sx={{ display: "flex", justifyContent: "center", mt: 4,gap: 2 }}>

@@ -1,23 +1,19 @@
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import sideImage from "../../assets/images/Side Image.webp";
-import {
-  Button,
-  CircularProgress,
-  TextField,
-  Typography,
-  useMediaQuery,
-} from "@mui/material";
+import {Button, CircularProgress, IconButton, InputAdornment, TextField, Typography, useMediaQuery} from "@mui/material";
 import SendIcon from "@mui/icons-material/Send";
 import styles from "./login.module.css";
 import { Link as RouterLink } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import axios from "axios";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { loginSchema } from "../../validations/loginSchema";
 import LoadingButton from "@mui/lab/LoadingButton";
 import { typing, shine, lift } from "../../animation/LogoAnimation";
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
 export default function Login() {
   const {
@@ -36,6 +32,18 @@ export default function Login() {
   useEffect(() => {
     setTimeout(() => setAnimate(true), 50);
   }, []);
+
+  const [showPassword, setShowPassword] = React.useState(false);
+
+  const handleClickShowPassword = () => setShowPassword((show) => !show);
+
+  const handleMouseDownPassword = (event) => {
+    event.preventDefault();
+  };
+
+  const handleMouseUpPassword = (event) => {
+    event.preventDefault();
+  };
 
   const registerForm = async (values) => {
     console.log(values);
@@ -74,6 +82,7 @@ export default function Login() {
   };
 
   const isSmallScreen = useMediaQuery("(max-width:900px)");
+
   return (
     <Grid container spacing={3} sx={{ my: "60px" }}>
       <Grid
@@ -188,13 +197,27 @@ export default function Login() {
                 id="standard-basic"
                 label="Password"
                 {...register("password")}
-                type="password"
+                type={showPassword ? "text" : "password"}
                 variant="standard"
                 onChange={(e) => {
                   setValue("password", e.target.value);
                 }}
                 error={errors.password}
                 helperText={errors.password?.message}
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton
+                        onClick={handleClickShowPassword}
+                        onMouseDown={handleMouseDownPassword}
+                        onMouseUp={handleMouseUpPassword}
+                        edge="end"
+                      >
+                        {showPassword ? <VisibilityOff /> : <Visibility />}
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                }}
               />
               {fieldErrors.password && (
                 <Typography sx={{ color: "red", fontSize: "14px" }}>
@@ -220,8 +243,7 @@ export default function Login() {
                     mx: "5px",
                   }}
                   endIcon={<SendIcon />}
-                >
-                  Log in
+                >Log in
                 </LoadingButton>
                 <Typography
                   component={RouterLink}
