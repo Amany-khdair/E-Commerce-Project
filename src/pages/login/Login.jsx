@@ -21,10 +21,7 @@ import { typing, shine, lift } from "../../animation/LogoAnimation";
 
 export default function Login() {
   const {
-    register,
-    handleSubmit,
-    setValue,
-    formState: { errors, isSubmitting },
+    register, handleSubmit, setValue, formState: { errors, isSubmitting },
   } = useForm({
     resolver: yupResolver(loginSchema),
     mode: "onBlur",
@@ -47,10 +44,7 @@ export default function Login() {
       password: "",
     });
     try {
-      const response = await axios.post(
-        "https://knowledgeshop.runasp.net/api/Auth/Account/Login",
-        values
-      );
+      const response = await axios.post("https://knowledgeshop.runasp.net/api/Auth/Account/Login", values);
 
       if (response.status === 200) {
         console.log(response);
@@ -231,7 +225,7 @@ export default function Login() {
                 </LoadingButton>
                 <Typography
                   component={RouterLink}
-                  to={"/contact"}
+                  to={"/auth/forgetPassword"}
                   variant="span"
                   sx={{
                     color: "#DB4444",

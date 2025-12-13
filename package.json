@@ -23,6 +23,7 @@
     "react-hook-form": "^7.68.0",
     "react-router-dom": "^7.10.0",
     "react-social-login-buttons": "^4.1.1",
+    "sweetalert2": "^11.26.10",
     "yup": "^1.7.1"
   },
   "devDependencies": {

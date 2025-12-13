@@ -9,6 +9,9 @@ import Register from './pages/register/Register';
 import Contact from './pages/contact/Contact';
 import About from './pages/about/About';
 import Wishlist from './pages/wishlist/Wishlist';
+import ForgetPassword from './pages/login/ForgetPassword';
+import VerifyCode from './pages/login/VerifyCode';
+import ResetPassword from './pages/login/ResetPassword';
 
 const router = createBrowserRouter([
   {
@@ -44,6 +47,18 @@ const router = createBrowserRouter([
         {
             path: 'login',
             element: <Login/>
+        },
+        {
+            path: 'forgetPassword',
+            element: <ForgetPassword/>
+        },
+        {
+          path: 'verifyCode',
+          element: <VerifyCode/>
+        },
+        {
+          path: 'resetPassword',
+          element: <ResetPassword/>
         },
         {
             path: 'register',
