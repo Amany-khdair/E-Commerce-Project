@@ -3,24 +3,27 @@ import { typing, shine, lift } from "../../animation/LogoAnimation";
 import { Box, Button, TextField, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
+import { useForm } from "react-hook-form";
+import { LoadingButton } from "@mui/lab";
 
 export default function VerifyCode() {
   const [code, setCode] = useState(["", "", "", ""]);
   const input = useRef([]);
   const navigate = useNavigate();
-
+  const {formState: {isSubmitting}} = useForm();
   const handleChange = (value, index) => {
+    //check if the entered values are numbers
     if (!/^\d?$/.test(value)) return;
-
+    //display numbers on the screen
     const newCode = [...code];
     newCode[index] = value;
     setCode(newCode);
-
+    //to jump on the next index if theres a value entered
     if (value && index < 3) {
       input.current[index + 1].focus();
     }
   };
-
+  //to enable backspace when delete a value
   const handleKeyDown = (e, index) => {
     if (e.key === "Backspace" && !code[index] && index > 0) {
         input.current[index - 1].focus();
@@ -52,12 +55,12 @@ export default function VerifyCode() {
   };
 
   return (
-    <Box sx={{ maxWidth: 400, mx: "auto", mt: 10, textAlign: "center" }}>
+    <Box sx={{ maxWidth: {xs: "90%", sm: 400}, mx: "auto", mt:{xs: 6,sm: 10} , px:{xs: 2, sm:0}, textAlign: "center" }}>
       <Typography variant="h3" sx={{
           fontWeight: 700,
           textAlign: "center",
           mb: 3,
-          whiteSpace: "nowrap",
+          whiteSpace:{xs: "normal", sm: "nowrap"},
           overflow: "hidden",
           width: "fit-content",
           animation: `
@@ -93,9 +96,9 @@ export default function VerifyCode() {
         ))}
       </Box>
 
-      <Button onClick={handleSubmit} variant="contained" fullWidth sx={{ mt: 5, py: "14px", backgroundColor: "#DB4444" }}>
-        Verify
-      </Button>
+      <LoadingButton onClick={handleSubmit} fullWidth loading={isSubmitting} loadingIndicator="Processing..." variant="contained" type="submit" 
+            sx={{backgroundColor: "#DB4444", py: "14px", px: "45px", my: "15px", fontSize: "16px"}}
+            > Verify </LoadingButton>
     </Box>
   );
 }

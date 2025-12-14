@@ -97,58 +97,38 @@ export default function Register() {
   const isSmallScreen = useMediaQuery("(max-width:900px)");
 
   return (
-    <Grid container spacing={3} sx={{ my: "60px" }}>
-      <Grid
-        item
-        xs={12}
-        md={6}
-        sx={{
+    <Grid container sx={{ my: "60px" }}>
+      <Grid item xs={12} md={6} sx={{
           display: { xs: "none", md: "flex" },
           justifyContent: "center",
           alignItems: "center",
           height: "111vh",
-        }}
-      >
-        <Box
-          component="img"
-          src={sideImage}
-          alt="Side"
-          sx={{ width: "100%", height: "100%", objectFit: "cover" }}
-          className={styles.image}
-        />
+        }}>
+        <Box component="img" src={sideImage} alt="Side" sx={{ width: "100%", height: "100%", objectFit: "cover" }}
+          className={styles.image} />
       </Grid>
 
       <Fade in={animate} timeout={500}>
         <Slide direction="left" in={animate} timeout={700}>
-          <Box
-            className={`${styles.slideEnterRight} ${
-              animate ? styles.active : ""
-            }`}
+          <Box className={`${styles.slideEnterRight} ${animate ? styles.active : ""}`}
             sx={{
               display: "flex",
               flexDirection: "column",
               justifyContent: "center",
               alignItems: "center",
               margin: "auto",
-            }}
-          >
-            <Grid
-              item
-              xs={12}
-              md={6}
-              sx={{
+            }}>
+            <Grid item xs={12} md={6} sx={{
                 display: "flex",
                 flexDirection: "column",
                 justifyContent: "center",
                 alignItems: "center",
                 margin: "auto",
                 p: 4,
-              }}
-            >
+              }}>
+
               {isSmallScreen && (
-                <Typography
-                  variant="h3"
-                  sx={{
+                <Typography variant="h3" sx={{
                     fontWeight: 700,
                     textAlign: "center",
                     mb: 3,
@@ -180,10 +160,7 @@ export default function Register() {
               )}
 
               <Box sx={{ width: "100%", maxWidth: 400 }}>
-                <Typography
-                  variant="h4"
-                  sx={{ fontWeight: 400, marginBottom: 3 }}
-                >
+                <Typography variant="h4" sx={{ fontWeight: 400, marginBottom: 3 }}>
                   Create an account
                 </Typography>
                 <Typography variant="h6" sx={{ fontWeight: 300 }}>
@@ -198,26 +175,16 @@ export default function Register() {
                     ))}
                   </Box>
                 )} */}
-                <Box
-                  onSubmit={handleSubmit(registerForm)}
-                  component={"form"}
-                  sx={{
+                <Box onSubmit={handleSubmit(registerForm)} component={"form"} sx={{
                     mt: 5,
                     display: "flex",
                     flexDirection: "column",
                     gap: 3,
-                  }}
-                >
-                  <TextField
-                    id="standard-basic"
-                    label="User Name"
-                    {...register("userName")}
-                    variant="standard"
+                  }}>
+                  <TextField id="standard-basic" label="User Name" {...register("userName")} variant="standard"
                     onChange={(e) => {
                       setValue("userName", e.target.value);
-                    }}
-                    error={errors.userName}
-                    helperText={errors.userName?.message}
+                    }} error={errors.userName} helperText={errors.userName?.message}
                   />
                   {fieldErrors.userName && (
                     <Typography sx={{ color: "red", fontSize: "14px" }}>
@@ -225,16 +192,10 @@ export default function Register() {
                     </Typography>
                   )}
 
-                  <TextField
-                    id="standard-basic"
-                    label="Full Name"
-                    {...register("fullName")}
-                    variant="standard"
+                  <TextField id="standard-basic" label="Full Name" {...register("fullName")} variant="standard" 
                     onChange={(e) => {
                       setValue("fullName", e.target.value);
-                    }}
-                    error={errors.fullName}
-                    helperText={errors.fullName?.message}
+                    }} error={errors.fullName} helperText={errors.fullName?.message}
                   />
                   {fieldErrors.fullName && (
                     <Typography sx={{ color: "red", fontSize: "14px" }}>
@@ -242,17 +203,10 @@ export default function Register() {
                     </Typography>
                   )}
 
-                  <TextField
-                    id="standard-basic"
-                    label="User Email"
-                    {...register("email")}
-                    type="email"
-                    variant="standard"
+                  <TextField id="standard-basic" label="User Email" {...register("email")} type="email" variant="standard"
                     onChange={(e) => {
                       setValue("email", e.target.value);
-                    }}
-                    error={errors.email}
-                    helperText={errors.email?.message}
+                    }} error={errors.email} helperText={errors.email?.message}
                   />
                   {fieldErrors.email && (
                     <Typography sx={{ color: "red", fontSize: "14px" }}>
@@ -260,17 +214,10 @@ export default function Register() {
                     </Typography>
                   )}
 
-                  <TextField
-                    id="standard-basic"
-                    label="Password"
-                    {...register("password")}
-                    type={showPassword ? "text" : "password"}
-                    variant="standard"
+                  <TextField id="standard-basic" label="Password" {...register("password")} type={showPassword ? "text" : "password"} variant="standard"
                     onChange={(e) => {
                       setValue("password", e.target.value);
-                    }}
-                    error={errors.password}
-                    helperText={errors.password?.message}
+                    }} error={errors.password} helperText={errors.password?.message}
                     InputProps={{
                       endAdornment: (
                         <InputAdornment position="end">
@@ -292,16 +239,10 @@ export default function Register() {
                     </Typography>
                   )}
 
-                  <TextField
-                    id="standard-basic"
-                    label="Phone Number"
-                    {...register("phoneNumber")}
-                    variant="standard"
+                  <TextField id="standard-basic" label="Phone Number" {...register("phoneNumber")} variant="standard"
                     onChange={(e) => {
                       setValue("phoneNumber", e.target.value);
-                    }}
-                    error={errors.phoneNumber}
-                    helperText={errors.phoneNumber?.message}
+                    }} error={errors.phoneNumber} helperText={errors.phoneNumber?.message}
                   />
                   {fieldErrors.phoneNumber && (
                     <Typography sx={{ color: "red", fontSize: "14px" }}>
@@ -309,8 +250,7 @@ export default function Register() {
                     </Typography>
                   )}
 
-                  <LoadingButton
-                    loading={isSubmitting}
+                  <LoadingButton loading={isSubmitting}
                     loadingIndicator="Processing..."
                     variant="contained"
                     type="submit"
@@ -324,37 +264,22 @@ export default function Register() {
                   >
                     Create Account
                   </LoadingButton>
-                  <Button
-                    variant="contained"
-                    sx={{
+                  <Button variant="contained" sx={{
                       backgroundColor: "#fff",
                       color: "black",
                       fontWeight: 400,
                       py: "16px",
                       border: "2px solid #ccc",
-                    }}
-                    endIcon={<GoogleIcon />}
-                  >
+                    }} endIcon={<GoogleIcon />}>
                     Sign up with Google
                   </Button>
-                  <Typography
-                    variant="body2"
-                    color="textSecondary"
-                    align="center"
-                    sx={{ mt: 2 }}
-                  >
+                  <Typography variant="body2" color="textSecondary" align="center" sx={{ mt: 2 }}>
                     Already have account?{" "}
-                    <Box
-                      component={RouterLink}
-                      to={"/auth/Login"}
-                      color="textSecondary"
-                      variant="span"
-                      sx={{
+                    <Box component={RouterLink} to={"/auth/Login"} color="textSecondary" variant="span" sx={{
                         textDecoration: "underline",
                         cursor: "pointer",
                         color: "#4c4b4bff",
-                      }}
-                    >
+                      }}>
                       Log in
                     </Box>
                   </Typography>

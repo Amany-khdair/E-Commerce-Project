@@ -9,27 +9,29 @@ import Swal from 'sweetalert2';
 import React from 'react';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import { LoadingButton } from '@mui/lab';
 
 export default function ResetPassword() {
     const email = localStorage.getItem("resetEmail");
     const code = localStorage.getItem("resetCode");
-    const {register, handleSubmit, formState: { errors}} = useForm({
+    const {register, handleSubmit, formState: { errors, isSubmitting}} = useForm({
         resolver: yupResolver(resetPasswordSchema),
         mode: "onBlur",
     });
    const navigate = useNavigate();
-//console.log("Errors:", errors);
-    const [showPassword, setShowPassword] = React.useState(false);
-    
-    const handleClickShowPassword = () => setShowPassword((show) => !show);
+   //console.log("Errors:", errors);
 
-    const handleMouseDownPassword = (event) => {
-    event.preventDefault();
-    };
+   const [showPassword, setShowPassword] = React.useState(false);
 
-    const handleMouseUpPassword = (event) => {
-    event.preventDefault();
-    };
+   const handleClickShowPassword = () => setShowPassword((show) => !show);
+
+   const handleMouseDownPassword = (event) => {
+   event.preventDefault();
+   };
+
+   const handleMouseUpPassword = (event) => {
+   event.preventDefault();
+   };
 
     const onSubmit = async (data) =>{
         const sendData ={
@@ -63,13 +65,13 @@ export default function ResetPassword() {
     }
     
   return (
-    <Box sx={{maxWidth: 400, mx: 'auto', mt: 10, textAlign: 'center'}}>
+    <Box sx={{ maxWidth: {xs: "90%", sm: 400}, mx: "auto", mt:{xs: 6,sm: 10} , px:{xs: 2, sm:0}, textAlign: "center" }}>
         <Typography variant="h3" 
                 sx={{
                   fontWeight: 700,
                   textAlign: "center",
                   mb: 3,
-                  whiteSpace: "nowrap",
+                  whiteSpace:{xs: "normal", sm: "nowrap"},
                   overflow: "hidden",
                   width: "fit-content",
                   animation: `
@@ -109,7 +111,9 @@ export default function ResetPassword() {
                                 </InputAdornment>
                               ),
                             }}></TextField>
-            <Button fullWidth variant ="contained" type ="submit" sx={{backgroundColor: "#DB4444", fontSize: "16px", textDecoration: "none"}}>Submit Password</Button>
+            <LoadingButton fullWidth loading={isSubmitting} loadingIndicator="Processing..." variant="contained" type="submit" 
+            sx={{backgroundColor: "#DB4444", py: "13px", px: "45px", mx: "5px", fontSize: "16px"}}
+            > Submit Password </LoadingButton>
         </Box>
     </Box>
   )

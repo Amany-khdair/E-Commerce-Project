@@ -5,9 +5,10 @@ import { useNavigate } from 'react-router-dom';
 import { typing, shine, lift } from "../../animation/LogoAnimation";
 import axios from 'axios';
 import Swal from "sweetalert2";
+import { LoadingButton } from '@mui/lab';
 
 export default function ForgetPassword() {
-  const {register, handleSubmit} = useForm();
+  const {register, handleSubmit, formState: {isSubmitting}} = useForm();
   const navigate = useNavigate();
 
   const sendCode = async (data) =>{
@@ -37,12 +38,12 @@ export default function ForgetPassword() {
     }
   }
    return (
-    <Box sx={{maxWidth: 400, mx: 'auto', mt: 10}}>
+    <Box sx={{ maxWidth: {xs: "90%", sm: 400}, mx: "auto", mt:{xs: 6,sm: 10} , px:{xs: 2, sm:0}, textAlign: "center" }}>
         <Typography variant="h3" sx={{
                         fontWeight: 700,
                         textAlign: "center",
                         mb: 3,
-                        whiteSpace: "nowrap",
+                        whiteSpace:{xs: "normal", sm: "nowrap"},
                         overflow: "hidden",
                         width: "fit-content",
                         animation: `
@@ -66,7 +67,9 @@ export default function ForgetPassword() {
                       }}> Forget Password</Typography>
         <Box component={'form'} onSubmit={handleSubmit(sendCode)} sx={{ mt: 5, display: "flex", flexDirection: "column", gap: 3 }}>
             <TextField id="standard-basic" label="User Email" type="email" fullWidth variant="standard" {...register('email', {required: true})}/>                         
-            <Button type="submit" fullWidth variant="contained" sx={{ backgroundColor: "#DB4444", py: "13px", px: "45px"}}>Send Code</Button>
+            <LoadingButton fullWidth loading={isSubmitting} loadingIndicator="Processing..." variant="contained" type="submit" 
+                        sx={{backgroundColor: "#DB4444", py: "13px", px: "45px", mx: "5px", fontSize: "16px"}}
+                        > Send Code </LoadingButton>
         </Box>
     </Box>
   )

@@ -85,22 +85,13 @@ export default function Login() {
 
   return (
     <Grid container spacing={3} sx={{ my: "60px" }}>
-      <Grid
-        item
-        xs={12}
-        md={6}
-        sx={{
+      <Grid item xs={12} md={6} sx={{
           display: { xs: "none", md: "flex" },
           justifyContent: "center",
           alignItems: "center",
           height: "111vh",
-        }}
-      >
-        <Box
-          component="img"
-          src={sideImage}
-          alt="Side"
-          sx={{ width: "100%", height: "100%", objectFit: "cover" }}
+        }}>
+        <Box component="img" src={sideImage} alt="Side" sx={{ width: "100%", height: "100%", objectFit: "cover" }}
           className={styles.image}
         />
       </Grid>
@@ -113,24 +104,17 @@ export default function Login() {
           justifyContent: "center",
           alignItems: "center",
           margin: "auto",
-        }}
-      >
-        <Grid
-          item
-          xs={12}
-          md={6}
-          sx={{
+        }}>
+        <Grid item xs={12} md={6} sx={{
             display: "flex",
             flexDirection: "column",
             justifyContent: "center",
             alignItems: "center",
             margin: "auto",
             p: 4,
-          }}
-        >
+          }}>
           {isSmallScreen && (
-            <Typography
-              variant="h3"
+            <Typography variant="h3"
               sx={{
                 fontWeight: 700,
                 textAlign: "center",
@@ -170,22 +154,11 @@ export default function Login() {
               Enter your details below
             </Typography>
 
-            <Box
-              onSubmit={handleSubmit(registerForm)}
-              component={"form"}
-              sx={{ mt: 5, display: "flex", flexDirection: "column", gap: 3 }}
-            >
-              <TextField
-                id="standard-basic"
-                label="User Email"
-                {...register("email")}
-                type="email"
-                variant="standard"
-                onChange={(e) => {
+            <Box onSubmit={handleSubmit(registerForm)} component={"form"} sx={{ mt: 5, display: "flex", flexDirection: "column", gap: 3 }}>
+              <TextField id="standard-basic" label="User Email" {...register("email")} type="email"
+                variant="standard" onChange={(e) => {
                   setValue("email", e.target.value);
-                }}
-                error={errors.email}
-                helperText={errors.email?.message}
+                }} error={errors.email} helperText={errors.email?.message}
               />
               {fieldErrors.email && (
                 <Typography sx={{ color: "red", fontSize: "14px" }}>
@@ -193,17 +166,10 @@ export default function Login() {
                 </Typography>
               )}
 
-              <TextField
-                id="standard-basic"
-                label="Password"
-                {...register("password")}
-                type={showPassword ? "text" : "password"}
-                variant="standard"
+              <TextField id="standard-basic" label="Password" {...register("password")} type={showPassword ? "text" : "password"} variant="standard"
                 onChange={(e) => {
                   setValue("password", e.target.value);
-                }}
-                error={errors.password}
-                helperText={errors.password?.message}
+                }} error={errors.password} helperText={errors.password?.message}
                 InputProps={{
                   endAdornment: (
                     <InputAdornment position="end">
