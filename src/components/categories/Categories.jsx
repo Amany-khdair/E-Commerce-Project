@@ -18,7 +18,7 @@ export default function Categories() {
   })
   if(isLoading)return(
     <Box sx={{display: "flex", justifyContent: "center", alignItems: "center", py: 5}}>
-        <CircularProgress/>
+        <CircularProgress sx={{color: "#DB4444"}}/>
     </Box>
   )
   if(isError)return <Typography sx={{color: "red", textAlign: "center", py: 6 }}>Something went wrong!</Typography>
