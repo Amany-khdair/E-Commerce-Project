@@ -6,7 +6,6 @@ import SendIcon from "@mui/icons-material/Send";
 import styles from "./login.module.css";
 import { Link as RouterLink } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { loginSchema } from "../../validations/loginSchema";
@@ -14,6 +13,7 @@ import LoadingButton from "@mui/lab/LoadingButton";
 import { typing, shine, lift } from "../../animation/LogoAnimation";
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import axiosInstance from "../../api/axiosInstance";
 
 export default function Login() {
   const {
@@ -52,7 +52,7 @@ export default function Login() {
       password: "",
     });
     try {
-      const response = await axios.post("https://knowledgeshop.runasp.net/api/Auth/Account/Login", values);
+      const response = await axiosInstance.post(`/Auth/Account/Login`, values);
 
       if (response.status === 200) {
         console.log(response);

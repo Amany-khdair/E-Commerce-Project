@@ -7,7 +7,6 @@ import GoogleIcon from "@mui/icons-material/Google";
 import styles from "./register.module.css";
 import { Link as RouterLink } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { registerSchema } from "../../validations/registerSchema";
@@ -17,6 +16,7 @@ import Slide from "@mui/material/Slide";
 import { typing, shine, lift } from "../../animation/LogoAnimation";
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import axiosInstance from "../../api/axiosInstance";
 
 export default function Register() {
   const {
@@ -53,7 +53,7 @@ export default function Register() {
     });
 
     try {
-      const response = await axios.post("https://knowledgeshop.runasp.net/api/Auth/Account/Register", values);
+      const response = await axiosInstance.post(`/Auth/Account/Register`, values);
       console.log(response);
     }catch (error) {
       const serverErrors = error.response?.data?.errors || [];

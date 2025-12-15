@@ -3,13 +3,13 @@ import { typing, shine, lift } from "../../animation/LogoAnimation";
 import { useForm } from 'react-hook-form';
 import { yupResolver } from "@hookform/resolvers/yup";
 import { resetPasswordSchema } from "../../validations/resetPasswordSchema";
-import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import React from 'react';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import { LoadingButton } from '@mui/lab';
+import axiosInstance from '../../api/axiosInstance';
 
 export default function ResetPassword() {
     const email = localStorage.getItem("resetEmail");
@@ -39,7 +39,7 @@ export default function ResetPassword() {
         };
         console.log(sendData);
         try{
-            const response = await axios.patch("https://knowledgeshop.runasp.net/api/Auth/Account/ResetPassword", sendData);
+            const response = await axiosInstance.patch(`/Auth/Account/ResetPassword`, sendData);
             if (response.status === 200){
                 console.log(response);
                 await Swal.fire({

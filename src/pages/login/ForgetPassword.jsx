@@ -3,9 +3,9 @@ import React from 'react'
 import { useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom';
 import { typing, shine, lift } from "../../animation/LogoAnimation";
-import axios from 'axios';
 import Swal from "sweetalert2";
 import { LoadingButton } from '@mui/lab';
+import axiosInstance from '../../api/axiosInstance';
 
 export default function ForgetPassword() {
   const {register, handleSubmit, formState: {isSubmitting}} = useForm();
@@ -13,7 +13,7 @@ export default function ForgetPassword() {
 
   const sendCode = async (data) =>{
     try{
-        const response = await axios.post("https://knowledgeshop.runasp.net/api/Auth/Account/SendCode", data);
+        const response = await axiosInstance.post(`/Auth/Account/SendCode`, data);
         if (response.status === 200){
             console.log(response);
             localStorage.setItem("resetEmail", data.email);
