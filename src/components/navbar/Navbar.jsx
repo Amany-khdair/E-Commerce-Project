@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
@@ -17,6 +17,11 @@ import ListItemText from "@mui/material/ListItemText";
 import { styled } from "@mui/material/styles";
 import Link from "@mui/material/Link";
 import { useNavigate, Link as RouterLink} from "react-router-dom";
+import { AuthContext } from "../../context/AuthContext";
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
+import Divider from "@mui/material/Divider";
+import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
 
 
 // =====================Search box =====================
@@ -59,11 +64,19 @@ const NavItem = styled("span")(() => ({
 export default function Navbar() {
   const [openDrawer, setOpenDrawer] = useState(false);
   const navigate = useNavigate();
+  const {token, logout} = useContext(AuthContext);
+  const [anchorEl, setAnchorEl] = useState(null);
+
+  const handleOpenMenu = (event) => setAnchorEl(event.currentTarget);
+  const handleCloseMenu = () => setAnchorEl(null);
+  const handleLogout = () =>{
+    logout();
+    navigate("/auth/login");
+  }
+
   return (
     <>
-      <AppBar
-        position="static"
-        sx={{
+      <AppBar position="static" sx={{
           backgroundColor: "white",
           color: "black",
           boxShadow: "none",
@@ -85,31 +98,28 @@ export default function Navbar() {
         </Box>
 
         {/*================Nav Items===================*/}
-        <Box
-          sx={{
+        <Box sx={{
             flex: 1,
             display: { xs: "none", md: "flex" },
             justifyContent: "center",
             alignItems: "center",
             gap: "30px",
           }}>
+
           <Link component={RouterLink} color="inherit" underline="none" to='/home'>
             <NavItem>Home</NavItem>
-          </Link>
+          </Link>          
           <Link component={RouterLink} color="inherit" underline="none" to='/contact'>
             <NavItem>Contact</NavItem>
           </Link>
           <Link component={RouterLink} color="inherit" underline="none" to='/about'>
             <NavItem>About</NavItem>
-          </Link>
-          <Link component={RouterLink} color="inherit" underline="none" to='/auth/register'>
-            <NavItem>Sign Up</NavItem>
-          </Link>
+          </Link>                  
+          
         </Box>
 
         {/* =============Right Side================ */}
-        <Box
-          sx={{
+        <Box sx={{
             flex: 1,
             display: { xs: "none", md: "flex" },
             justifyContent: "flex-end",
@@ -121,12 +131,38 @@ export default function Navbar() {
             <SearchIcon sx={{ cursor: "pointer" }} />
           </SearchWrapper>
 
-          <IconButton onClick={() => navigate("/wishlist")}>
-            <FavoriteBorderIcon sx={{ color: "black" }} />
-          </IconButton>
-          <IconButton>
-            <ShoppingCartOutlinedIcon sx={{ color: "black" }} />
-          </IconButton>
+          {token != null ? (
+            <>
+              <IconButton onClick={() => navigate("/wishlist")}>
+                <FavoriteBorderIcon sx={{ color: "black" }} />
+              </IconButton>
+              
+              <IconButton>
+                <ShoppingCartOutlinedIcon sx={{ color: "black" }} />
+              </IconButton>
+
+              <IconButton onClick={handleOpenMenu}>
+                <PersonOutlineIcon sx={{ color: "black" }} />
+              </IconButton>
+
+              <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={handleCloseMenu}>
+                <MenuItem>Manage My Account</MenuItem>
+                <MenuItem>My Orders</MenuItem>
+                <MenuItem>My Cancellations</MenuItem>                
+                <MenuItem>My Reviews</MenuItem>
+                <Divider />
+                <MenuItem onClick={handleLogout}>
+                  Logout
+                </MenuItem>
+              </Menu>
+            </>
+          ) : (
+            <>
+              <Link component={RouterLink} color="inherit" underline="none" to="/auth/login">Login</Link>
+              <Link component={RouterLink} color="inherit" underline="none" to="/auth/register">Sign Up</Link>
+            </>
+          )}
+
         </Box>
 
         {/*=====================Mobile View==================*/}
@@ -136,17 +172,28 @@ export default function Navbar() {
             <SearchIcon sx={{ cursor: "pointer"}} />
           </SearchWrapper>
 
-          <IconButton component={RouterLink} to='/wishlist'>
-            <FavoriteBorderIcon sx={{ color: "black" }} />
-          </IconButton>
+          {token != null ?
+          <>
+            <IconButton component={RouterLink} to='/wishlist'>
+              <FavoriteBorderIcon sx={{ color: "black" }} />
+            </IconButton>
 
-          <IconButton component={RouterLink} to='/cart'> 
-            <ShoppingCartOutlinedIcon sx={{ color: "black" }} />
-          </IconButton>
+            <IconButton component={RouterLink} to='/cart'> 
+              <ShoppingCartOutlinedIcon sx={{ color: "black" }} />
+            </IconButton>
 
-          <IconButton onClick={() => setOpenDrawer(true)}>
-            <MenuIcon sx={{ color: "black" }} />
-          </IconButton>
+            <IconButton onClick={() => setOpenDrawer(true)}>
+              <MenuIcon sx={{ color: "black" }} />
+            </IconButton>
+          </>
+          :
+          <>
+            <IconButton onClick={() => setOpenDrawer(true)}>
+              <MenuIcon sx={{ color: "black" }} />
+            </IconButton>
+          </>
+          }
+          
         </Box>
 
       </Toolbar>
@@ -162,18 +209,33 @@ export default function Navbar() {
             <CloseIcon />
           </IconButton>
           <List>
+            
             {[
               { text: "Home", path: "/home" },
               { text: "Contact", path: "/contact" },
               { text: "About", path: "/about" },
-              { text: "Sign Up", path: "/auth/register" },
-            ].map((item) => (
-              <ListItem
+              ...(!token ? [{ text: "Sign Up", path: "/auth/register" },
+                            {text: "Log In", path: "/auth/login" }] : []),              
+              
+               ...(token ? [
+              { type: "divider", key: "divider-1" },
+              { text: "Manage My Account", path: "/profile" },
+              { text: "My Orders", path: "/orders" },
+              { text: "My Cancellations", path: "/cancellations" },
+              { text: "My Reviews", path: "/reviews" },
+              { text: "Logout", onClick: handleLogout } ]: []),
+             
+            ].map((item) => {
+              if (item.type === "divider") return <Divider key={item.key} sx={{ my: 1 }} />;
+              return(
+                <ListItem
                 button
                 key={item.text}
-                component={RouterLink}
+                component={item.path ? RouterLink : "button"}
                 to={item.path}
-                onClick={() => setOpenDrawer(false)}>
+                onClick={() => {
+                  item.onClick?.();
+                  setOpenDrawer(false)}}>
 
                 <ListItemText
                   primary={item.text}    
@@ -197,8 +259,10 @@ export default function Navbar() {
                       },
                     },
                   }}/>
-              </ListItem>
-            ))}
+                </ListItem>
+              )
+              
+            })}
           </List>
 
         </Box>

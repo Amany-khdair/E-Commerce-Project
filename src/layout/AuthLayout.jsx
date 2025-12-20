@@ -9,7 +9,7 @@ export default function AuthLayout() {
     <Outlet/>
 
     <div className='footer'>
-        this is auth footer
+        this is auth footer2
     </div>
     
     </>

@@ -4,9 +4,9 @@ import sideImage from "../../assets/images/Side Image.webp";
 import {Button, CircularProgress, IconButton, InputAdornment, TextField, Typography, useMediaQuery} from "@mui/material";
 import SendIcon from "@mui/icons-material/Send";
 import styles from "./login.module.css";
-import { Link as RouterLink } from "react-router-dom";
+import { Link as RouterLink, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { loginSchema } from "../../validations/loginSchema";
 import LoadingButton from "@mui/lab/LoadingButton";
@@ -14,14 +14,14 @@ import { typing, shine, lift } from "../../animation/LogoAnimation";
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import axiosInstance from "../../api/axiosInstance";
+import { AuthContext } from "../../context/AuthContext";
 
 export default function Login() {
-  const {
-    register, handleSubmit, setValue, formState: { errors, isSubmitting },
-  } = useForm({
+  const {register, handleSubmit, setValue, formState: { errors, isSubmitting }} = useForm({
     resolver: yupResolver(loginSchema),
     mode: "onBlur",
   });
+
   const [fieldErrors, setFieldErrors] = useState({
     email: "",
     password: "",
@@ -45,7 +45,11 @@ export default function Login() {
     event.preventDefault();
   };
 
-  const registerForm = async (values) => {
+  const navigate = useNavigate();
+  
+  const {setToken, setAccessToken} = useContext(AuthContext);
+
+  const loginForm = async (values) => {
     console.log(values);
     setFieldErrors({
       email: "",
@@ -56,7 +60,10 @@ export default function Login() {
 
       if (response.status === 200) {
         console.log(response);
-        localStorage.setItem("token", response.data.accessToken);
+        //localStorage.setItem("token", response.data.accessToken);
+        setToken(response.data.accessToken);
+        setAccessToken(response.data.accessToken);
+        navigate('/home');
       }
       console.log(response);
     } catch (error) {
@@ -154,7 +161,7 @@ export default function Login() {
               Enter your details below
             </Typography>
 
-            <Box onSubmit={handleSubmit(registerForm)} component={"form"} sx={{ mt: 5, display: "flex", flexDirection: "column", gap: 3 }}>
+            <Box onSubmit={handleSubmit(loginForm)} component={"form"} sx={{ mt: 5, display: "flex", flexDirection: "column", gap: 3 }}>
               <TextField id="standard-basic" label="User Email" {...register("email")} type="email"
                 variant="standard" onChange={(e) => {
                   setValue("email", e.target.value);
