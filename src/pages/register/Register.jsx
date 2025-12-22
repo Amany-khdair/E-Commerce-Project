@@ -17,6 +17,7 @@ import { typing, shine, lift } from "../../animation/LogoAnimation";
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import { useRegister } from "../../hooks/useRegister";
+import Snowfall from "react-snowfall";
 
 export default function Register() {
   const { register, handleSubmit, setValue, formState: { errors, isSubmitting }} = useForm({
@@ -53,6 +54,7 @@ export default function Register() {
 
   return (
     <Grid container sx={{ my: "60px" }}>
+      <Snowfall color='#82C3D9'/>
       <Grid item xs={12} md={6} sx={{
           display: { xs: "none", md: "flex" },
           justifyContent: "center",

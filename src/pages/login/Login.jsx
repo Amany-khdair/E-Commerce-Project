@@ -14,6 +14,7 @@ import { typing, shine, lift } from "../../animation/LogoAnimation";
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import { useSignin } from "../../hooks/useSignin";
+import Snowfall from "react-snowfall";
 
 export default function Login() {
   const {register, handleSubmit, formState: { errors, isSubmitting }} = useForm({
@@ -53,6 +54,7 @@ export default function Login() {
 
   return (
     <Grid container spacing={3} sx={{ my: "60px" }}>
+      <Snowfall color='#82C3D9'/>
       <Grid item xs={12} md={6} sx={{
           display: { xs: "none", md: "flex" },
           justifyContent: "center",
