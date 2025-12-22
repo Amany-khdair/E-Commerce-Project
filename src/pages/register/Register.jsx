@@ -1,11 +1,11 @@
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import sideImage from "../../assets/images/Side Image.webp";
-import { Button, CircularProgress, IconButton, InputAdornment, TextField, Typography, useMediaQuery} from "@mui/material";
+import { Button, IconButton, InputAdornment, TextField, Typography, useMediaQuery} from "@mui/material";
 import SendIcon from "@mui/icons-material/Send";
 import GoogleIcon from "@mui/icons-material/Google";
 import styles from "./register.module.css";
-import { Link as RouterLink } from "react-router-dom";
+import { Link as RouterLink} from "react-router-dom";
 import { useForm } from "react-hook-form";
 import React, { useEffect, useState } from "react";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -16,25 +16,12 @@ import Slide from "@mui/material/Slide";
 import { typing, shine, lift } from "../../animation/LogoAnimation";
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
-import axiosInstance from "../../api/axiosInstance";
+import { useRegister } from "../../hooks/useRegister";
 
 export default function Register() {
-  const {
-    register,
-    handleSubmit,
-    setValue,
-    formState: { errors, isSubmitting },
-  } = useForm({
+  const { register, handleSubmit, setValue, formState: { errors, isSubmitting }} = useForm({
     resolver: yupResolver(registerSchema),
     mode: "onBlur",
-  });
-
-  const [fieldErrors, setFieldErrors] = useState({
-    userName: "",
-    fullName: "",
-    email: "",
-    password: "",
-    phoneNumber: "",
   });
 
   const [animate, setAnimate] = useState(false);
@@ -42,46 +29,14 @@ export default function Register() {
     setTimeout(() => setAnimate(true), 50);
   }, []);
 
-  const registerForm = async (values) => {
-    console.log(values);
-    setFieldErrors({
-      userName: "",
-      fullName: "",
-      email: "",
-      password: "",
-      phoneNumber: "",
-    });
+  const {fieldErrors, setFieldErrors, generalError, registerMutation} = useRegister();
 
-    try {
-      const response = await axiosInstance.post(`/Auth/Account/Register`, values);
-      console.log(response);
-    }catch (error) {
-      const serverErrors = error.response?.data?.errors || [];
-
-      const newErrors = {
-        userName: "",
-        fullName: "",
-        email: "",
-        password: "",
-        phoneNumber: "",
-      };
-
-      serverErrors.forEach((err) => {
-        if (err.toLowerCase().includes("email")) {
-          newErrors.email = err;
-        } else if (err.toLowerCase().includes("password")) {
-          newErrors.password = err;
-        } else if (err.toLowerCase().includes("name")) {
-          newErrors.userName = err;
-        } else {
-          newErrors.general = err;
-        }
-      });
-
-      setFieldErrors(newErrors);
-    }
+  const registerForm = async (values) => {    
+    setFieldErrors({ userName: "", fullName: "", email: "", password: "", phoneNumber: ""});
+    registerMutation.mutate(values);
   };
 
+  
   const [showPassword, setShowPassword] = React.useState(false);
   
   const handleClickShowPassword = () => setShowPassword((show) => !show);
@@ -128,33 +83,9 @@ export default function Register() {
               }}>
 
               {isSmallScreen && (
-                <Typography variant="h3" sx={{
-                    fontWeight: 700,
-                    textAlign: "center",
-                    mb: 3,
-                    whiteSpace: "nowrap",
-                    overflow: "hidden",
-                    width: "fit-content",
-                    animation: `
-                      ${typing} 1.6s steps(12) forwards,
-                      ${lift} 3s ease-in-out infinite 1.6s
-                    `,
-                    background: "linear-gradient(90deg, #000, #DB4444, #000)",
-                    WebkitBackgroundClip: "text",
-                    color: "transparent",
-                    backgroundSize: "200%",
-                    animationDelay: "0s, 1.6s",
-                    "&:after": {
-                      content: '""',
-                      animation: `${shine} 2s linear infinite`,
-                      position: "absolute",
-                      width: "100%",
-                      height: "100%",
-                      left: 0,
-                      top: 0,
-                    },
-                  }}
-                >
+                <Typography variant="h3" sx={{fontWeight: 700, textAlign: "center", mb: 3, whiteSpace: "nowrap", overflow: "hidden", width: "fit-content",
+                                animation: ` ${typing} 1.6s steps(12) forwards, ${lift} 3s ease-in-out infinite 1.6s`, background: "linear-gradient(90deg, #000, #DB4444, #000)", WebkitBackgroundClip: "text",
+                                color: "transparent", backgroundSize: "200%", animationDelay: "0s, 1.6s", "&:after": { content: '""', animation: `${shine} 2s linear infinite`, position: "absolute", width: "100%", height: "100%", left: 0, top: 0}}}>              
                   Exclusive
                 </Typography>
               )}
@@ -175,6 +106,12 @@ export default function Register() {
                     ))}
                   </Box>
                 )} */}
+
+                {generalError && (
+                  <Typography sx={{ color: "red", fontWeight: 600 }}>
+                  {generalError}
+                  </Typography>
+                )}
                 <Box onSubmit={handleSubmit(registerForm)} component={"form"} sx={{
                     mt: 5,
                     display: "flex",

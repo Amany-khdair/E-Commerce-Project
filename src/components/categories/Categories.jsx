@@ -1,21 +1,13 @@
-import axiosInstance from '../../api/axiosInstance';
-import { useQuery } from '@tanstack/react-query';
 import { Box, Card, CircularProgress, Grid, IconButton, Paper, Typography } from '@mui/material';
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import { useRef } from 'react';
+import { useCategories } from '../../hooks/useCategories';
 
 export default function Categories() {
   const refScroll = useRef(null);  
-  const fetchCategories = async ()=>{
-    const response = await axiosInstance.get('/Categories');
-    return response.data;
-  }
-  const {isLoading, isError, data} = useQuery({
-    queryKey:['categories'],
-    staleTime:5 * 60 * 1000,
-    queryFn:fetchCategories
-  })
+  const {isLoading, isError, data} = useCategories();
+  
   if(isLoading)return(
     <Box sx={{display: "flex", justifyContent: "center", alignItems: "center", py: 5}}>
         <CircularProgress sx={{color: "#DB4444"}}/>
