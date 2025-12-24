@@ -10,6 +10,9 @@ import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import SearchIcon from "@mui/icons-material/Search";
 import MenuIcon from "@mui/icons-material/Menu";
 import CloseIcon from "@mui/icons-material/Close";
+import CancelOutlinedIcon from '@mui/icons-material/CancelOutlined';
+import StarOutlineIcon from '@mui/icons-material/StarOutline';
+import LogoutIcon from "@mui/icons-material/Logout";
 import Drawer from "@mui/material/Drawer";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
@@ -68,6 +71,7 @@ export default function Navbar() {
   const navigate = useNavigate();
   const {token, logout} = useContext(AuthContext);
   const [anchorEl, setAnchorEl] = useState(null);
+  const open = Boolean(anchorEl);
 
   const handleOpenMenu = (event) => setAnchorEl(event.currentTarget);
   const handleCloseMenu = () => setAnchorEl(null);
@@ -75,6 +79,7 @@ export default function Navbar() {
     logout();
     navigate("/auth/login");
   }
+
   const {counter, userName, increase} = useCounterStore();
   return (
     <>
@@ -144,20 +149,80 @@ export default function Navbar() {
                 <ShoppingCartOutlinedIcon sx={{ color: "black" }} />
               </IconButton>
 
-              <IconButton onClick={handleOpenMenu}>
-                <PersonOutlineIcon sx={{ color: "black" }} />
+              <IconButton onClick={handleOpenMenu}  sx={{
+                  borderRadius: "50%", backgroundColor: open ? "#DB4444" : "transparent", transition: "0.2s",                  
+                }}>
+                <PersonOutlineIcon sx={{ color: open ? "white" : "black" }} />
               </IconButton>
 
-              <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={handleCloseMenu}>
-                <MenuItem>Manage My Account</MenuItem>
-                <MenuItem>My Orders</MenuItem>
-                <MenuItem>My Cancellations</MenuItem>                
-                <MenuItem>My Reviews</MenuItem>
+
+              <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={handleCloseMenu}
+                PaperProps={{ elevation: 3, 
+                  sx: {
+                    mt: 1.5,
+                    borderRadius: "14px",
+                    padding: "10px 15px",
+                    width: "220px",
+                    background: "linear-gradient(135deg, #e5e5e599, #4b4b4b)",
+                    backdropFilter: "blur(7px)",
+                    color: "white",
+
+                    "& .MuiMenuItem-root": {
+                      gap: "10px",
+                      padding: "10px 8px",
+                      borderRadius: "8px",
+                      color: "white",
+                      fontSize: "15px",
+                      fontWeight: 500,
+                      display: "flex",
+                      alignItems: "center",
+
+                      "& svg": {
+                        fontSize: "22px",
+                        color: "white",
+                        opacity: 0.9,
+                      },
+
+                      "&:hover": {
+                        backgroundColor: "rgba(255, 255, 255, 0.08)",
+                      },
+                    },
+
+                    "& .MuiDivider-root": {
+                      backgroundColor: "rgba(255, 255, 255, 0.3)",
+                      my: 1,
+                    },
+                  },
+                }}
+              >
+                <MenuItem>
+                  <PersonOutlineIcon />
+                  Manage My Account
+                </MenuItem>
+
+                <MenuItem>
+                  <ShoppingCartOutlinedIcon />
+                  My Orders
+                </MenuItem>
+
+                <MenuItem>
+                  <CancelOutlinedIcon />
+                  My Cancellations
+                </MenuItem>
+
+                <MenuItem>
+                  <StarOutlineIcon />
+                  My Reviews
+                </MenuItem>
+
                 <Divider />
+
                 <MenuItem onClick={handleLogout}>
+                  <LogoutIcon />
                   Logout
                 </MenuItem>
               </Menu>
+
             </>
           ) : (
             <>
