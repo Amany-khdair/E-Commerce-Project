@@ -23,7 +23,7 @@ export function useRegister(){
         },
         onError:(error)=>{
             const serverErrors = error.response?.data?.errors || [];
-            setGeneralError(error.response?.data?.message || "Something went wrong");
+            setGeneralError(error.response?.data?.message || "Something went wrong. Please try again later.");
             const newErrors = {
             userName: "",
             fullName: "",
