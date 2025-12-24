@@ -5,7 +5,10 @@ import axiosInstance from "../api/axiosInstance";
 export function useCategories (){
     const fetchCategories = async ()=>{
         const response = await axiosInstance.get('/Categories');
-        return response.data;
+        if (!response.data.response || !Array.isArray(response.data.response)) {
+          throw new Error("Invalid API structure. Please try again later!");
+        }
+        return response.data.response;
   }
   const {isLoading, isError, data} = useQuery({
     queryKey:['categories'],

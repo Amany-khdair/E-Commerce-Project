@@ -24,6 +24,8 @@ export default function Categories() {
         });
     }
   };
+  console.log("DATA =>", data);
+
  return (
     <Box sx={{ px: { xs: 2, md: 6 }, py: 6 }}>    
       <Box sx={{display: "flex", justifyContent: "space-between", alignItems: "center", mb: 4}}>
