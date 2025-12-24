@@ -12,6 +12,7 @@ import Wishlist from './pages/wishlist/Wishlist';
 import ForgetPassword from './pages/login/ForgetPassword';
 import VerifyCode from './pages/login/VerifyCode';
 import ResetPassword from './pages/login/ResetPassword';
+import CheckOut from './pages/checkOut/CheckOut';
 
 const router = createBrowserRouter([
   {
@@ -40,6 +41,10 @@ const router = createBrowserRouter([
         {
           path: 'cart',
           element: <Cart/>
+        },
+        {
+          path: 'checkout',
+          element: <CheckOut/>
         }
     ],
   },

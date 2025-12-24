@@ -53,7 +53,7 @@ const NavItem = styled("span")(() => ({
   cursor: "pointer",
   position: "relative",
   paddingBottom: "4px",
-  transition: "0.2s",
+  transition: "0.5s",
 
   "&:hover::after": {
     content: "''",
@@ -73,12 +73,17 @@ export default function Navbar() {
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
 
+  const [openCart, setOpenCart] = useState(false);
+  const toggleCart = ()=>{
+    setOpenCart(!openCart);
+  };
+
   const handleOpenMenu = (event) => setAnchorEl(event.currentTarget);
   const handleCloseMenu = () => setAnchorEl(null);
   const handleLogout = () =>{
     logout();
     navigate("/auth/login");
-  }
+  };
 
   const {counter, userName, increase} = useCounterStore();
   return (
@@ -145,54 +150,79 @@ export default function Navbar() {
                 <FavoriteBorderIcon sx={{ color: "black" }} />
               </IconButton>
               
-              <IconButton>
+              <IconButton onClick={toggleCart}>
                 <ShoppingCartOutlinedIcon sx={{ color: "black" }} />
               </IconButton>
 
+              <Drawer anchor="right" open={openCart} onClose={toggleCart} slotProps={{
+                paper:{sx:{width: { xs: "85%", sm: "400px" }, padding: "20px", display: "flex", flexDirection: "column", justifyContent: "space-between"}}
+              }}>
+                
+                {/* Cart Header */}
+                <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+                  <Typography variant="h6">Shopping Cart</Typography>                 
+                  <IconButton onClick={toggleCart}>
+                    <CloseIcon />
+                  </IconButton>
+                </Box>
+
+                {/* Drawer Content */}
+                
+
+                {/* Drawer Buttons */}
+                <Box sx={{display: "flex", gap:2}}>
+                  <Button variant="outlined" sx={{color: "#DB4444", borderColor: "#DB4444", "&:hover":{backgroundColor: "#DB4444", color: "white", borderColor: "#DB4444", transition: "0.5s"}}} fullWidth onClick={()=> navigate("/cart")}>Go to Cart</Button>
+                  <Button variant="contained" fullWidth onClick={()=> navigate("/checkout")} sx={{backgroundColor: "#DB4444", "&:hover": { backgroundColor: "transparent", color: "#DB4444", transition: "0.5s" }}}>Check Out</Button>
+                </Box>
+              </Drawer>
+
               <IconButton onClick={handleOpenMenu}  sx={{
-                  borderRadius: "50%", backgroundColor: open ? "#DB4444" : "transparent", transition: "0.2s",                  
+                  borderRadius: "50%", backgroundColor: open ? "#DB4444" : "transparent", transition: "0.5s",                  
                 }}>
                 <PersonOutlineIcon sx={{ color: open ? "white" : "black" }} />
               </IconButton>
 
 
               <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={handleCloseMenu}
-                PaperProps={{ elevation: 3, 
-                  sx: {
-                    mt: 1.5,
-                    borderRadius: "14px",
-                    padding: "10px 15px",
-                    width: "220px",
-                    background: "linear-gradient(135deg, #e5e5e599, #4b4b4b)",
-                    backdropFilter: "blur(7px)",
-                    color: "white",
-
-                    "& .MuiMenuItem-root": {
-                      gap: "10px",
-                      padding: "10px 8px",
-                      borderRadius: "8px",
+                slotProps={{
+                  paper:{
+                    elevation: 3, 
+                    sx: {
+                      mt: 1.5,
+                      borderRadius: "14px",
+                      padding: "10px 15px",
+                      width: "220px",
+                      background: "linear-gradient(135deg, #e5e5e599, #4b4b4b)",
+                      backdropFilter: "blur(7px)",
                       color: "white",
-                      fontSize: "15px",
-                      fontWeight: 500,
-                      display: "flex",
-                      alignItems: "center",
 
-                      "& svg": {
-                        fontSize: "22px",
+                      "& .MuiMenuItem-root": {
+                        gap: "10px",
+                        padding: "10px 8px",
+                        borderRadius: "8px",
                         color: "white",
-                        opacity: 0.9,
+                        fontSize: "15px",
+                        fontWeight: 500,
+                        display: "flex",
+                        alignItems: "center",
+
+                        "& svg": {
+                          fontSize: "22px",
+                          color: "white",
+                          opacity: 0.9,
+                        },
+
+                        "&:hover": {
+                          backgroundColor: "rgba(255, 255, 255, 0.08)",
+                        },
                       },
 
-                      "&:hover": {
-                        backgroundColor: "rgba(255, 255, 255, 0.08)",
+                      "& .MuiDivider-root": {
+                        backgroundColor: "rgba(255, 255, 255, 0.3)",
+                        my: 1,
                       },
                     },
-
-                    "& .MuiDivider-root": {
-                      backgroundColor: "rgba(255, 255, 255, 0.3)",
-                      my: 1,
-                    },
-                  },
+                  }
                 }}
               >
                 <MenuItem>
