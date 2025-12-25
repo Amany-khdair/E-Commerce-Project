@@ -10,7 +10,7 @@ export default function Categories() {
   
   if(isLoading)return(
     <Box sx={{display: "flex", justifyContent: "center", alignItems: "center", py: 5}}>
-        <CircularProgress sx={{color: "#DB4444"}}/>
+        <CircularProgress sx={{color: "primary.main"}}/>
     </Box>
   )
   if(isError)return <Typography sx={{color: "red", textAlign: "center", py: 6 }}>Something went wrong!</Typography>
@@ -31,8 +31,8 @@ export default function Categories() {
       <Box sx={{display: "flex", justifyContent: "space-between", alignItems: "center", mb: 4}}>
         <Box sx={{display: "flex", flexDirection: "column", gap: 2}}>
           <Box sx={{display: "flex", gap: 2, alignItems: "center", alignContent:"center"}}>
-            <Box sx={{width:"15px", height: "35px", borderRadius: "4px", backgroundColor: "#DB4444", alignItems: "center"}}></Box>
-            <Typography variant="body2" sx={{ color: "#DB4444", fontWeight: 600}}>
+            <Box sx={{width:"15px", height: "35px", borderRadius: "4px", backgroundColor: "primary.main", alignItems: "center"}}></Box>
+            <Typography variant="body2" sx={{ color: "primary.main", fontWeight: 600}}>
                 Categories
             </Typography>
           </Box>

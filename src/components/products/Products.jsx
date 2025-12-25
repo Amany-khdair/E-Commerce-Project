@@ -1,10 +1,12 @@
 import React, { useRef } from 'react'
-import { useProducts } from '../../hooks/useProducs'
+import { useProducts } from '../../hooks/useProducts'
 import { Box, Button, Card, CircularProgress, Grid, IconButton, Rating, Typography } from '@mui/material';
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlined';
 import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
+import { Link } from 'react-router-dom';
+
 export default function Products() {
     const refScroll = useRef();
     const {isLoading, isError, data} = useProducts();
@@ -26,7 +28,7 @@ export default function Products() {
     });
   };
   
-  const products = data.slice(0,8); //to get the first 8 products
+  const products = data.slice(0,16); //to get the first 16 products
 
   return (
     <>
@@ -54,12 +56,12 @@ export default function Products() {
                 </IconButton>
             </Box>
             
-            <Grid container spacing={3} ref={refScroll} sx={{
-                display: "flex", flexWrap: "nowrap", overflowX: "auto", gap: 2, mt: 3, scrollBehavior: "smooth", "&::-webkit-scrollbar": { display: "none" }, // hide scrollbar
+            <Box ref={refScroll} sx={{
+                display: "grid", gridAutoFlow: "column", gridTemplateRows: "repeat(2, 1fr)", gridAutoColumns: "250px",gap: 1, overflowX: "auto", mt: 3, scrollBehavior: "smooth", "&::-webkit-scrollbar": { display: "none" }, // hide scrollbar
                 }}>
                 {products.map((product) => (
-                <Grid size={3} xs={12} sm={6} md={3} key={product.id} sx={{flex: "0 0 auto"}}>
-                    <Card sx={{Width: 250, borderRadius: "8px", p: 2, my: 2, mx: "2px", textAlign: "center", position: "relative",
+                <Box key={product.id} sx={{width: 250}}>
+                    <Card sx={{width: 250,  height: 330, borderRadius: "8px", p: 2, mx: 1, my: 0.5, textAlign: "center", position: "relative",
                         transition: "0.5s", "&:hover .hover-icons": { opacity: 1 }, "&:hover .hover-button": {opacity: 1}, "&:hover img":{ transform: "scale(1.2)"}, boxShadow: "0 2px 8px rgba(0, 0, 0, 0.08)"
                         }}>
 
@@ -72,11 +74,11 @@ export default function Products() {
                             )} */}
                             {/* Icons on hover */}
                             <Box className="hover-icons" sx={{display: "flex", flexDirection: "column", gap: 1, opacity: 0, position: "absolute", top: 10, right: 10, transition: "0.5s", zIndex: 3}}>
-                                <IconButton size='small' sx={{width: 34, height: 34, backgroundColor: "#ffff", transition: "0.5s", "&:hover":{ backgroundColor: "primary.main", color: "#fff", transition: "scale(1.1)"}, "&:hover svg":{color: "#fff"} }}>
+                                <IconButton size='small' sx={{width: 34, height: 34, backgroundColor: "#ffff", transition: "0.5s", "&:hover":{ backgroundColor: "primary.main", color: "#fff", transform: "scale(1.1)", transition: "0.7s"}, "&:hover svg":{color: "#fff"} }}>
                                     <FavoriteBorderOutlinedIcon sx={{color: "black"}}/>
                                 </IconButton>
 
-                                <IconButton size='small' sx={{width: 34, height: 34, backgroundColor: "#ffff", transition: "0.5s", "&:hover":{ backgroundColor: "primary.main", color: "#fff", transition: "scale(1.1)"}, "&:hover svg":{color: "#fff"}}}>
+                                <IconButton size='small' sx={{width: 34, height: 34, backgroundColor: "#ffff", transition: "0.5s", "&:hover":{ backgroundColor: "primary.main", color: "#fff", transform: "scale(1.1)", transition: "0.7s"}, "&:hover svg":{color: "#fff"}}}>
                                     <VisibilityOutlinedIcon  sx={{color: "black"}}/>
                                 </IconButton>
                             </Box>
@@ -89,27 +91,30 @@ export default function Products() {
                         <Typography fontWeight={500} mt={1}>
                         {product.title}
                         </Typography>
-                        <Typography color="primary.main" fontWeight={600}>
-                        ${product.price}
-                        </Typography>
-                        <Box sx={{display: "flex", alignItems: "center", gap: "4px"}}>
-                            <Rating value={product.rating} precision={0.5} readonly size="small" sx={{color: "orange"}}/>
-                            <Typography variant="body2" color="text.secondary">
-                                ({product.rating})
+                        
+                        <Box sx={{display: "flex", justifyContent: "space-evenly"}}>
+                            <Typography color="primary.main" fontWeight={600}>
+                                ${product.price}
                             </Typography>
+                            <Box sx={{display: "flex", alignItems: "center", gap: "4px"}}>
+                                <Rating value={product.rating} precision={0.5} readOnly size="small" sx={{color: "orange"}}/>                                
+                            </Box>                             
                         </Box>
-                        <Box className="hover-button" fullWidth sx={{opacity: 0, position: "absolute", bottom: 85, right: "30%", transition: "0.5s", zIndex: 3}}>
+                        
+                        <Box className="hover-button" sx={{opacity: 0, position: "absolute", bottom: 10, left: "50%", transform: "translateX(-50%)", transition: "0.5s", zIndex: 3}}>
                             <Button variant="contained"  sx={{mt: 2, width: "100%", backgroundColor: "#333", textTransform: "none" }}>
                                 Add To Cart
                             </Button>
                         </Box>
                         
                     </Card>
-                </Grid>
+                </Box>
                 ))}
-            </Grid>
+            </Box>
             <Box textAlign="center" mt={4}>
-                <Button variant="contained" sx={{backgroundColor: "primary.main", p: "10px", px: "25px", textTransform: "none"}}>View All Products</Button>
+                <Button component={Link} to="/allProducts" variant="contained" sx={{backgroundColor: "primary.main", p: "10px", px: "25px", textTransform: "none"}}>
+                    View All Products
+                </Button>
             </Box>
         </Box>
     </>

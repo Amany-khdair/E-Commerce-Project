@@ -14,6 +14,7 @@ import VerifyCode from './pages/login/VerifyCode';
 import ResetPassword from './pages/login/ResetPassword';
 import CheckOut from './pages/checkOut/CheckOut';
 import Products from './components/products/Products';
+import AllProducts from './pages/products/AllProducts';
 
 const router = createBrowserRouter([
   {
@@ -50,6 +51,10 @@ const router = createBrowserRouter([
         {
           path: 'products',
           element: <Products/>
+        },
+        {
+          path: 'allProducts',
+          element: <AllProducts/>
         }
     ],
   },
