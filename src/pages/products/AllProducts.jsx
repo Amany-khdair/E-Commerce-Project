@@ -4,6 +4,7 @@ import { Box, Button, Card, CardContent, CardMedia, CircularProgress, FormContro
 import Snowfall from 'react-snowfall';
 import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlined';
 import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
+import { useLocation } from 'react-router-dom';
 
 export default function AllProducts() {
     const {isLoading, isError, data} = useProducts();
@@ -14,12 +15,19 @@ export default function AllProducts() {
     const minPrice = Math.min(...prices);
     const maxPrice = Math.max(...prices);
     const [priceRange, setPriceRange] = useState([minPrice, maxPrice]);    
-    const productFiltered = products.filter(
-        (productPrice) => productPrice.price >= priceRange[0] && productPrice.price <= priceRange[1]
-    );
-
+    
     const [page, setPage] = useState(1);
-    const productsPerPage = 20;
+    const productsPerPage = 18;
+
+    const location = useLocation();
+    const params = new URLSearchParams(location.search);
+    const selectedCategory = params.get("category"); 
+    //filtered by category if exist
+    const filterByCategory = selectedCategory? products.filter(prod => prod.category === selectedCategory): products;
+    //filtered by price
+    const productFiltered = filterByCategory.filter(
+            (productPrice) => productPrice.price >= priceRange[0] && productPrice.price <= priceRange[1]
+    );
 
     const sort = useMemo(() => {
         const sortedProducts = [...productFiltered];//store a copy from the array productFiltered, so that we dont change the main data
