@@ -4,11 +4,21 @@ import { Box, Button, Card, CardContent, CardMedia, CircularProgress, FormContro
 import Snowfall from 'react-snowfall';
 import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlined';
 import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 export default function AllProducts() {
+    const navigate = useNavigate();
     const {isLoading, isError, data} = useProducts();
     const products = data || [];
+    const [likedProducts, setLikedProducts] = useState([]);
+    const handleLike = (id) => {
+        setLikedProducts(prev =>
+            prev.includes(id)
+            ? prev.filter(pid => pid !== id) // un-like
+            : [...prev, id] // like
+        );
+    };
+
     const [sortOption, setSortOption] = useState("titleAscending");
     
     const prices = data?.map(productPrice => productPrice.price)||[];
@@ -80,7 +90,7 @@ export default function AllProducts() {
             <Typography component="h1" sx={{fontSize: {xs: "24px", sm: "32px", md: "42px"}}} mb={1}>Explore Our Exclusive Products</Typography>
             <Box sx={{ width: 150, height: 4, bgcolor: "primary.main", mb: 3 }} />
             <Typography variant="body" color="text.secondary">Discover the latest trends and top-quality items hand-picked just for you.</Typography>
-            
+            {/* Filtered area */}
             <Box sx={{display: "flex", flexDirection:{xs: "column", sm: "row"}, justifyContent: "space-between", alignItems: "center", gap: 2, my: 3}}>                
                 <FormControl sx={{minWidth: 200}}>
                     <InputLabel sx={{fontSize: "14px", fontWeight: 500}}>Sort By</InputLabel>
@@ -108,12 +118,12 @@ export default function AllProducts() {
                             <Box sx={{ overflow: "hidden", position: "relative" }}>                                
                                 {/* Icons on hover */}
                                 <Box className="hover-icons" sx={{display: "flex", flexDirection: "column", gap: 1, opacity: 0, position: "absolute", top: 10, right: 10, transition: "0.5s", zIndex: 3}}>
-                                    <IconButton size='small' sx={{width: 34, height: 34, backgroundColor: "#ffff", transition: "0.5s", "&:hover":{backgroundColor: "primary.main", color: "#fff", transform: "scale(1.1)", transition: "0.7s"}, "&:hover svg":{color: "#fff"} }}>
-                                        <FavoriteBorderOutlinedIcon sx={{color: "black"}}/>
+                                    <IconButton size='small' onClick={() => handleLike(product.id)} sx={{width: 34, height: 34, backgroundColor: likedProducts.includes(product.id) ? "primary.main" : "#fff", transition: "0.5s", "&:hover":{backgroundColor: "primary.main", color: "#fff", transform: "scale(1.1)", transition: "0.7s"}, "&:hover svg":{color: "#fff"} }}>
+                                        <FavoriteBorderOutlinedIcon sx={{color: likedProducts.includes(product.id) ? "#fff" : "black"}}/>
                                     </IconButton>
 
                                     <IconButton size='small' sx={{width: 34, height: 34, backgroundColor: "#ffff", transition: "0.5s", "&:hover":{backgroundColor: "primary.main", color: "#fff", transform: "scale(1.1)", transition: "0.7s"}, "&:hover svg":{color: "#fff"}}}>
-                                        <VisibilityOutlinedIcon  sx={{color: "black"}}/>
+                                        <VisibilityOutlinedIcon onClick={()=>navigate(`/details/${product.id}`)}  sx={{color: "black"}}/>
                                     </IconButton>
                                 </Box>
 

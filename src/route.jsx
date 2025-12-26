@@ -15,6 +15,7 @@ import ResetPassword from './pages/login/ResetPassword';
 import CheckOut from './pages/checkOut/CheckOut';
 import Products from './components/products/Products';
 import AllProducts from './pages/products/AllProducts';
+import Details from './pages/details/Details';
 
 const router = createBrowserRouter([
   {
@@ -55,6 +56,10 @@ const router = createBrowserRouter([
         {
           path: 'allProducts',
           element: <AllProducts/>
+        },
+        {
+          path: 'details/:id',
+          element: <Details/>
         }
     ],
   },

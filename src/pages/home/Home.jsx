@@ -6,7 +6,7 @@ import Products from '../../components/products/Products'
 export default function Home() {
   return (
     <>
-      <Snowfall color='#82C3D9'/>
+      <Snowfall color='#82C3D9' style={{position: 'fixed', zIndex: 10, pointerEvents: 'none'}}/>
       <Categories/>
       <Products/>
     </>
