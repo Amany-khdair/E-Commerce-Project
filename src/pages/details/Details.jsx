@@ -1,7 +1,7 @@
-import React, { useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { useDetails } from '../../hooks/useDetails';
-import { Box, Typography, CircularProgress, Grid, Rating, Stack, IconButton, Button, Paper, Tab } from '@mui/material';
+import { Box, Typography, CircularProgress, Grid, Rating, Stack, IconButton, Button, Paper, Tab, Container, Select, MenuItem, Card, Modal, Backdrop, Fade, TextField, AccordionSummary, Accordion, AccordionDetails } from '@mui/material';
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
@@ -11,10 +11,19 @@ import Snowfall from 'react-snowfall';
 import TabContext from '@mui/lab/TabContext';
 import TabList from '@mui/lab/TabList';
 import TabPanel from '@mui/lab/TabPanel';
-
+import ReplayIcon from '@mui/icons-material/Replay';
+import VerifiedUserIcon from '@mui/icons-material/VerifiedUser';
+import DiscountIcon from '@mui/icons-material/Discount';
+import CropFreeIcon from '@mui/icons-material/CropFree';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 export default function Details() {
     const {id} = useParams();
     const {isLoading, isError, data} = useDetails(id);
+    const [selectedImage, setSelectedImage] = useState(null);
+    
+    const size = ["XS", "S", "M", "L", "XL"];
+    const [sizes, setSizes] = useState(null);
+    
     const [quantity, setQuantity] = useState(1);
     const [likedProducts, setLikedProducts] = useState([]);
     const handleLike = (id) => {
@@ -25,9 +34,6 @@ export default function Details() {
         );
     };
 
-    const size = ["XS", "S", "M", "L", "XL"];
-    const [sizes, setSizes] = useState(null);
-
     const handleIncrease = () =>setQuantity(prev => prev+1);
     const handleDecrease = () =>setQuantity(prev =>(prev > 1 ? prev - 1 : 1))
 
@@ -36,103 +42,312 @@ export default function Details() {
         setValue(newValue);
     };
     
+    const [sortReviews, setSortReviews] = useState("latest");
+    const sortedReviews = useMemo(() =>{
+        if (!data?.reviews) return [];
+        const copiedReviews = [...data.reviews];
+
+        if (sortReviews === "latest"){
+            return copiedReviews.sort((a, b) => new Date(b.date) - new Date(a.date));
+        }
+        return copiedReviews.sort((a, b) => new Date(a.date) - new Date(b.date));   
+    }, [sortReviews, data?.reviews])
+    const [openReviewModal, setOpenReviewModal] = useState(false);
+    const [expanded, setExpanded] = useState(false);
+    useEffect(() => {
+        if (data?.images?.length) {
+            setSelectedImage(data.images[0]);
+        }
+    }, [data]);
+
     if(isLoading)
         return(
             <Box sx={{display: "flex", justifyContent: "center", alignItems: "center", py: 5}}>
                 <CircularProgress sx={{color: "primary.main"}}/>
             </Box>
-        )
-  
+        ) 
     if(isError)return <Typography sx={{color: "red", textAlign: "center", py: 6 }}>Something went wrong while loading products!</Typography>        
-    
+    if (!data) return null;
+
   return (
     <>
     <Snowfall color='#82C3D9'/>
     <Box sx={{width: "100%", p: {xs: 2, sm: 4},display: "flex", justifyContent: "center"}}>
-        <Grid container spacing={4}>
-            {/* Left side */}
-            <Grid item xs={12} md={6}>
-                <Box sx={{p: 4, borderRadius: "12px", display: "flex", justifyContent: "center", alignItems: "center", backgroundColor: "#f2f2f2"}}>
-                    <Box component="img" src={data.images[0]} alt={data.title} sx={{width: "100%", maxWidth: 380, height: "auto", objectFit: "contain", transition: "0.5s", "&:hover": {transform: "scale(1.1)" }}}/>
-                </Box>
-            </Grid>
-
-            {/* Right side */}
-            <Grid item xs={12} md={6} sx={{display: "flex", flexDirection: "column", gap: 2}}>
-                               
-                <Typography variant="h4" fontWeight="600">{data.title}</Typography>                
-                <Stack direction="row" spacing={1} alignItems="center">
-                    <Rating value={data.rating} precision={0.1} readOnly/>
-                    <Typography variant="body2" color="text.secondary">{data.rating}</Typography>                    
-                </Stack>                                
-                <Typography variant="h6" fontWeight="700" mt={1} color="primary">${data.price}</Typography>
-                <Typography variant="body" sx={{ maxWidth: 450, lineHeight: 1.6 }}>{data.description}</Typography>
-                
-                <Box sx={{ borderBottom: "1px solid #ddd", my: 2 }}></Box>
-
-                <Stack my={1} direction="row" spacing={1}>
-                    <Typography component= "span" variant="body1" display="flex" fontWeight="600" alignItems="center">Size:</Typography>{size.map(item =>(
-                        <Box key={item} onClick={()=>setSizes(item)} sx={{border: "1px solid #ccc", cursor: "pointer", px: 2, py:1, fontSize: "12px", borderRadius: "5px",
-                            bgcolor: sizes === item? "primary.main": "transparent", color: sizes === item? "#fff": "black", fontWeight: 600, transition: "0.5s", "&:hover":{borderColor: "primary.main"}}}
-                        > {item}</Box>
-                    ))}
-                </Stack>
-
-                <Stack direction="row" spacing={2} mt={2} justifyContent="center" alignItems="center">
-                    <Box display="flex" alignItems="center" border="1px solid #ccc" borderRadius={1}>
-                        <IconButton onClick={handleDecrease}>
-                            <RemoveIcon />
-                        </IconButton>
-                        <Typography sx={{ px: 2 }}>{quantity}</Typography>
-                        <IconButton onClick={handleIncrease}>
-                            <AddIcon />
-                        </IconButton>
-                    </Box>
-
-                    <Button variant="contained" color="primary" sx={{textTransform: "none", px: 4, py: 1}}>
-                        Buy Now
-                    </Button>
-
-                    <IconButton onClick={() => handleLike(data.id)} sx={{border: "1px solid #ccc", borderRadius: "8px", backgroundColor: likedProducts.includes(data.id) ? "primary.main" : "transparent", color: likedProducts.includes(data.id) ? "#fff" : "primary.main", "&:hover":{color: "primary.main", border:  "1px solid #DB4444"}}}>
-                        <FavoriteBorderIcon />
-                    </IconButton>
-                </Stack>
-
-                <Stack spacing={2} my={2}>
-                    <Paper elevation={5} sx={{display: "flex", p: 2, alignItems: "center", borderRadius: 3}}>
-                        <LocalShippingIcon sx={{ mr: 2, fontSize: 40, color: "primary.main" }} />
-                        <Box>
-                            <Typography variant="subtitle1" fontWeight="bold">Free Delivery</Typography>
-                            <Typography variant="body2"color="text.secondary">Get your order delivered for free within 5-7 business days.</Typography>
+        <Box sx={{maxWidth: "1200px", width: "100%", border: "1px solid #e0e0e0", borderRadius: "16px", p: 3, mx: "auto"}}>
+            <Grid container spacing={4} sx={{display: {md: "flex"}, flexDirection: {sm: "column", md: "row"} , alignItems: {sm: "center", md: "flex-start"} }}>
+                {/* Left side */}
+                <Grid item xs={12} md={6}>
+                    <Box sx={{display: "flex", gap: 2}}>
+                        <Stack spacing={2} sx={{width:{xs: 60, sm: 90} }}>
+                            {data.images.map((img, i) =>(
+                                <Box key={i} component="img" src={img} onClick={() => setSelectedImage(img)} sx={{
+                                    width: "100%", height: {xs: 60, sm: 90} , objectFit: "cover", borderRadius: "8px", cursor: "pointer", border: selectedImage === img? "2px solid #DB4444" : "1px solid #eee", transition: "0.5s", "&:hover": {border: "2px solid #DB4444"}
+                                }}/>                            
+                            ))}
+                        </Stack>
+                        
+                        <Box sx={{display: "flex", justifyContent: "center", alignItems: "center", flex: 1, p: 4, minHeight: 350, backgroundColor: "#f2f2f2", borderRadius: "12px"}}>
+                            <Box component="img" src={selectedImage} alt={data.title} sx={{width: "100%", maxWidth: 400, height: "auto", objectFit: "contain", transition: "0.5s", "&:hover": {transform: "scale(1.1)" }}}/>                       
                         </Box>
-                    </Paper>
+                    </Box>
+                </Grid>
 
-                    <Paper elevation={5} sx={{display: "flex", p:2, alignItems: "center", borderRadius: 3}}>
-                    <AssignmentReturnIcon sx={{ mr: 2, fontSize: 40, color: "primary.main" }} />
-                    <Box>
+                {/* Right side */}
+                <Grid item xs={12} md={6} sx={{display: "flex", flexDirection: "column", gap: 2}}>
+                                
+                    <Typography variant="h4" fontWeight="600">{data.title}</Typography>                
+                    <Stack direction="row" spacing={1} alignItems="center">
+                        <Rating value={data.rating} precision={0.1} readOnly/>
+                        <Typography variant="body2" color="text.secondary">{data.rating}</Typography>                    
+                    </Stack>                                
+                    <Typography variant="h6" fontWeight="700" mt={1} color="primary">${data.price}</Typography>
+                    <Typography variant="body" sx={{ maxWidth: 450, lineHeight: 1.6 }}>{data.description}</Typography>
+                    
+                    <Box sx={{ borderBottom: "1px solid #ddd", my: 2 }}></Box>
+
+                    <Stack my={1} direction="row" spacing={1} sx={{display: "flex", justifyContent: "center"}}>
+                        <Typography component= "span" variant="body1" display="flex" fontWeight="600" alignItems="center">Size:</Typography>{size.map(item =>(
+                            <Box key={item} onClick={()=>setSizes(item)} sx={{border: "1px solid #ccc", cursor: "pointer", px: 2, py:1, fontSize: "12px", borderRadius: "5px",
+                                bgcolor: sizes === item? "primary.main": "transparent", color: sizes === item? "#fff": "black", fontWeight: 600, transition: "0.5s", "&:hover":{borderColor: "primary.main"}}}
+                            > {item}</Box>
+                        ))}
+                    </Stack>
+
+                    <Stack direction="row" spacing={2} mt={2} justifyContent="center" alignItems="center">
+                        <Box display="flex" alignItems="center" border="1px solid #ccc" borderRadius={1}>
+                            <IconButton onClick={handleDecrease}>
+                                <RemoveIcon />
+                            </IconButton>
+                            <Typography sx={{ px: 2 }}>{quantity}</Typography>
+                            <IconButton onClick={handleIncrease}>
+                                <AddIcon />
+                            </IconButton>
+                        </Box>
+
+                        <Button variant="contained" color="primary" sx={{textTransform: "none", px: {xs: 2, sm: 3}, py: {xs: 1, sm: 1}}}>
+                            Buy Now
+                        </Button>
+
+                        <IconButton onClick={() => handleLike(data.id)} sx={{border: "1px solid #ccc", borderRadius: "8px", backgroundColor: likedProducts.includes(data.id) ? "primary.main" : "transparent", color: likedProducts.includes(data.id) ? "#fff" : "primary.main", "&:hover":{color: "primary.main", border:  "1px solid #DB4444"}}}>
+                            <FavoriteBorderIcon />
+                        </IconButton>
+                    </Stack>
+
+                    <Stack spacing={2} my={2}>
+                        <Paper elevation={5} sx={{display: "flex", p: 2, alignItems: "center", borderRadius: 3}}>
+                            <LocalShippingIcon sx={{ mr: 2, fontSize: 40, color: "primary.main" }} />
+                            <Box>
+                                <Typography variant="subtitle1" fontWeight="bold">Free Delivery</Typography>
+                                <Typography variant="body2"color="text.secondary">Get your order delivered for free within 5-7 business days.</Typography>
+                            </Box>
+                        </Paper>
+
+                        <Paper elevation={5} sx={{display: "flex", p:2, alignItems: "center", borderRadius: 3}}>
+                        <AssignmentReturnIcon sx={{ mr: 2, fontSize: 40, color: "primary.main" }} />
+                        <Box>
                             <Typography variant="subtitle1" fontWeight="bold">Return Delivery</Typography>
                             <Typography variant="body2" color="text.secondary">You can return the product within 30 days for a full refund.</Typography>
                         </Box> 
-                    </Paper>
-                </Stack>
+                        </Paper>
+                    </Stack>
+                </Grid>
             </Grid>
-        </Grid>
-        
+        </Box>      
     </Box>
 
+    {/* Reviews Section */}
     <Box sx={{ width: '100%', typography: 'body1' }}>
-      <Box container sx={{ borderBottom: "1px solid #ddd", my: 2 }}></Box>
+      {/* <Box container sx={{ borderBottom: "1px solid #ddd", my: 2 }}></Box> */}
       <TabContext value={value}>
         <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
           <TabList onChange={handleChange} centered aria-label="lab API tabs example">
-            <Tab label="Details" sx={{fontSize: "20px", fontWeight: 600}} value="1" />
-            <Tab label="Rating & Reviews" sx={{fontSize: "20px", fontWeight: 600}} value="2" />
-            <Tab label="FAQs" sx={{fontSize: "20px", fontWeight: 600}} value="3" />
+            <Tab label="Rating & Reviews" sx={{fontSize: {xs: "16px", sm:"18px"}, textTransform: "none", fontWeight: 600}} value="1" />
+            <Tab label="FAQs" sx={{fontSize: {xs: "16px", sm:"18px"}, textTransform: "none", fontWeight: 600}} value="2" />
           </TabList>
         </Box>
-        <TabPanel value="1">Item One</TabPanel>
-        <TabPanel value="2">Item Two</TabPanel>
-        <TabPanel value="3">Item Three</TabPanel>
+
+        <Container>
+            {/* First Tap */}
+            <TabPanel value="1">
+                {/* Header */}
+                <Stack direction={{xs: "column", sm: "row"}} sx={{display: "flex", justifyContent: "space-between", alignItems: "center", mb: 3, gap: 1}}>
+                    <Box sx={{display: "flex", alignItems: "center"}}>                    
+                        <Typography sx={{fontSize: "20px", fontWeight: 600, color: "text.secondary"}}>
+                            All Reviews ({data?.reviews?.length || 0})
+                        </Typography>
+                    </Box>
+
+                    <Box display="flex" gap={2} sx={{fontSize: "16px"}}>
+                        <Select value={sortReviews} onChange={(e) => setSortReviews(e.target.value)} sx={{width: 150, borderRadius: "12px",backgroundColor: "#f5f5f5",
+                            "& .MuiOutlinedInput-notchedOutline": {borderColor: "#ccc"}, "&:hover .MuiOutlinedInput-notchedOutline": {borderColor: "primary.main"}, "& .MuiSelect-select": {py: 1, fontSize: "15px", fontWeight: 600} }}>
+                            <MenuItem value="latest" sx={{fontSize: "15px"}}>Latest</MenuItem>
+                            <MenuItem value="oldest" sx={{fontSize: "15px"}}>Oldest</MenuItem>
+                        </Select>
+
+                        <Button variant="contained" onClick={() => setOpenReviewModal(true)} sx={{bgcolor: "primary.main", borderRadius: "30px", py: {xs :0, sm: 1}, px: {xs: 1, sm: 3}, fontSize: {xs: "14px", sm: "16px"}, textTransform: "none"}}>
+                            Write a Review
+                        </Button>
+                    </Box>                
+                </Stack>
+
+                {/* Content */}
+                <Grid container spacing={3}>
+                    {sortedReviews.map((review, i) =>(
+                        <Grid item xs={12} sm={6} md={6} key={i} sx={{mx: {sm: "auto"}}}>
+                            <Card elevation={2} sx={{width: {xs: "100%", sm: 500}, borderRadius: "14px", border: "1px solid #ddd", p: 3}}>
+                                <Rating value={review.rating} precision={0.5} sx={{ color: "orange" }} readOnly/>
+                                <Typography sx={{mt: 1, fontWeight: 600}}>{review.reviewerName}</Typography>
+                                <Typography sx={{mt: 1, fontWeight: 500, color: "text."}}>{review.comment}</Typography>
+                                <Typography color="text.secondary" fontSize="12px">Posted on {new Date(review.date).toLocaleDateString()}</Typography>
+                            </Card>
+                        </Grid>
+                    ))}
+                </Grid>
+                {/* Review Modal */}
+                <Modal 
+                    open={openReviewModal} onClose={() => setOpenReviewModal(false)} closeAfterTransition 
+                    slots={{backdrop: Backdrop}} slotProps={{
+                        backdrop: {
+                        timeout: 300,
+                        },
+                    }}
+                    >
+                    <Fade in={openReviewModal}>
+                        <Box sx={{
+                            position: 'absolute',
+                            top: '50%',
+                            left: '50%',
+                            transform: 'translate(-50%, -50%) scale(1)',
+                            width: { xs: "90%", sm: 450 },
+                            bgcolor: 'background.paper',
+                            borderRadius: "16px",
+                            boxShadow: 24,
+                            p: 4,
+                            outline: "none",
+                        }}>
+                            <Typography variant="h5" sx={{ mb: 2, fontWeight: 700 }}>
+                                Write a Review
+                            </Typography>
+
+                            <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
+                                <TextField fullWidth label="Your Name" variant="outlined"/>
+                                <Box>
+                                    <Typography sx={{ fontSize: "16px", fontWeight: 600, mb: 1 }}>
+                                        Rating
+                                    </Typography>
+                                    <Rating size="large" />
+                                </Box>
+                                <TextField fullWidth label="Your Review" multiline rows={4} variant="outlined" />
+                                <Button variant="contained" fullWidth sx={{ py: 1.2, fontSize: "16px", borderRadius: "10px" }}>
+                                    Submit Review
+                                </Button>
+                            </Box>
+                        </Box>
+                    </Fade>
+                </Modal>
+
+            </TabPanel>
+            {/* Second Tap */}
+            <TabPanel value="2">
+                <Box sx={{ maxWidth: 900, mx: "auto", py: 6 }}>
+                    <Accordion expanded={expanded === 0} defaultExpanded onChange={() => setExpanded(expanded === 0 ? false : 0)}
+                        sx={{ mb: 2, borderRadius: 3, boxShadow: "0 6px 20px rgba(0,0,0,0.5)", transition: "0.3s" }}
+                    >
+                        <AccordionSummary
+                        expandIcon={<ExpandMoreIcon />}
+                        sx={{ px: 3, py: 1, bgcolor: expanded === 0 ? "linear-gradient(90deg, #e0f7fa, #b2ebf2)" : "#f5f5f5" }}
+                        >
+                            <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
+                                <LocalShippingIcon sx={{ color: expanded === 0 ? "#00796b" : "#4caf50", transition: "0.3s" }} />
+                                <Typography fontWeight="bold">How are products delivered?</Typography>
+                            </Box>
+                        </AccordionSummary>
+                        <AccordionDetails sx={{ px: 4, py: 2, bgcolor: "#fafafa", boxShadow: "inset 0 2px 8px rgba(0,0,0,0.05)", borderRadius: 2 }}>
+                            <Typography color="text.secondary">
+                                All our products are delivered within 3–7 business days, with tracking available directly on our website.
+                            </Typography>
+                        </AccordionDetails>
+                    </Accordion>
+
+                    <Accordion expanded={expanded === 1} onChange={() => setExpanded(expanded === 1 ? false : 1)}
+                        sx={{ mb: 2, borderRadius: 3, boxShadow: "0 6px 20px rgba(0,0,0,0.5)", transition: "0.3s" }}
+                    >
+                        <AccordionSummary
+                        expandIcon={<ExpandMoreIcon />}
+                        sx={{ px: 3, py: 1, bgcolor: expanded === 1 ? "linear-gradient(90deg, #fff3e0, #ffe0b2)" : "#f5f5f5" }}
+                        >
+                            <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
+                                <ReplayIcon sx={{ color: expanded === 1 ? "#ef6c00" : "#ff9800", transition: "0.3s" }} />
+                                <Typography fontWeight="bold">Can I return a product?</Typography>
+                            </Box>
+                        </AccordionSummary>
+                        <AccordionDetails sx={{ px: 4, py: 2, bgcolor: "#fafafa", boxShadow: "inset 0 2px 8px rgba(0,0,0,0.05)", borderRadius: 2 }}>
+                            <Typography color="text.secondary">
+                                Absolutely! You can return any product within 30 days for a full refund.
+                            </Typography>
+                        </AccordionDetails>
+                    </Accordion>
+
+                    <Accordion expanded={expanded === 2} onChange={() => setExpanded(expanded === 2 ? false : 2)}
+                        sx={{ mb: 2, borderRadius: 3, boxShadow: "0 6px 20px rgba(0,0,0,0.5)", transition: "0.3s" }}
+                    >
+                        <AccordionSummary
+                        expandIcon={<ExpandMoreIcon />}
+                        sx={{ px: 3, py: 1, bgcolor: expanded === 2 ? "linear-gradient(90deg, #e3f2fd, #bbdefb)" : "#f5f5f5" }}
+                        >
+                            <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
+                                <VerifiedUserIcon sx={{ color: expanded === 2 ? "#1565c0" : "#2196f3", transition: "0.3s" }} />
+                                <Typography fontWeight="bold">Are the products authentic?</Typography>
+                            </Box>
+                        </AccordionSummary>
+                        <AccordionDetails sx={{ px: 4, py: 2, bgcolor: "#fafafa", boxShadow: "inset 0 2px 8px rgba(0,0,0,0.05)", borderRadius: 2 }}>
+                            <Typography color="text.secondary">
+                                Yes, all products are guaranteed authentic and tested for quality standards.
+                            </Typography>
+                        </AccordionDetails>
+                    </Accordion>
+
+                    <Accordion expanded={expanded === 3} onChange={() => setExpanded(expanded === 3 ? false : 3)}
+                        sx={{ mb: 2, borderRadius: 3, boxShadow: "0 6px 20px rgba(0,0,0,0.5)", transition: "0.3s" }}
+                    >
+                        <AccordionSummary
+                        expandIcon={<ExpandMoreIcon />}
+                        sx={{ px: 3, py: 1, bgcolor: expanded === 3 ? "linear-gradient(90deg, #fce4ec, #f8bbd0)" : "#f5f5f5" }}
+                        >
+                            <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
+                                <DiscountIcon sx={{ color: expanded === 3 ? "#c2185b" : "#f50057", transition: "0.3s" }} />
+                                <Typography fontWeight="bold">How can I get discounts and offers?</Typography>
+                            </Box>
+                        </AccordionSummary>
+                        <AccordionDetails sx={{ px: 4, py: 2, bgcolor: "#fafafa", boxShadow: "inset 0 2px 8px rgba(0,0,0,0.05)", borderRadius: 2 }}>
+                            <Typography color="text.secondary">
+                                Subscribe to our newsletter for exclusive deals or follow us on social media.
+                            </Typography>
+                        </AccordionDetails>
+                    </Accordion>
+
+                    <Accordion expanded={expanded === 4} onChange={() => setExpanded(expanded === 4 ? false : 4)}
+                        sx={{ mb: 2, borderRadius: 3, boxShadow: "0 6px 20px rgba(0,0,0,0.5)", transition: "0.3s" }}
+                    >
+                        <AccordionSummary
+                        expandIcon={<ExpandMoreIcon />}
+                        sx={{ px: 3, py: 1, bgcolor: expanded === 4 ? "linear-gradient(90deg, #f3e5f5, #e1bee7)" : "#f5f5f5" }}
+                        >
+                            <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
+                                <CropFreeIcon sx={{ color: expanded === 4 ? "#6a1b9a" : "#9c27b0", transition: "0.3s" }} />
+                                <Typography fontWeight="bold">How do I choose the right size?</Typography>
+                            </Box>
+                        </AccordionSummary>
+                        <AccordionDetails sx={{ px: 4, py: 2, bgcolor: "#fafafa", boxShadow: "inset 0 2px 8px rgba(0,0,0,0.05)", borderRadius: 2 }}>
+                            <Typography color="text.secondary">
+                                Each product includes a detailed size guide with tips to help you choose the perfect fit.
+                            </Typography>
+                        </AccordionDetails>
+                    </Accordion>
+                </Box>
+            </TabPanel>
+        </Container>
+        
       </TabContext>
     </Box>
     </>    

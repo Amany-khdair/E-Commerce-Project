@@ -171,8 +171,12 @@ export default function Navbar() {
 
                 {/* Drawer Buttons */}
                 <Box sx={{display: "flex", gap:2}}>
-                  <Button variant="outlined" sx={{color: "#DB4444", borderColor: "#DB4444", "&:hover":{backgroundColor: "#DB4444", color: "white", borderColor: "#DB4444", transition: "0.5s"}}} fullWidth onClick={()=> navigate("/cart")}>Go to Cart</Button>
-                  <Button variant="contained" fullWidth onClick={()=> navigate("/checkout")} sx={{backgroundColor: "#DB4444", "&:hover": { backgroundColor: "transparent", color: "#DB4444", transition: "0.5s" }}}>Check Out</Button>
+                  <Button variant="outlined" sx={{color: "#DB4444", borderColor: "#DB4444", "&:hover":{backgroundColor: "#DB4444", color: "white", borderColor: "#DB4444", transition: "0.5s"}}} fullWidth onClick={()=> {toggleCart(); navigate("/cart");}}>
+                    Go to Cart
+                  </Button>
+                  <Button variant="contained" fullWidth onClick={()=> {toggleCart(); navigate("/checkout")}} sx={{backgroundColor: "#DB4444", "&:hover": { backgroundColor: "transparent", color: "#DB4444", transition: "0.5s" }}}>
+                    Check Out
+                  </Button>
                 </Box>
               </Drawer>
 
