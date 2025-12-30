@@ -33,7 +33,7 @@ const [cartItems, setCartItems] = useState([
   return (
     <>
       <Snowfall color='#82C3D9'/>
-      <Container maxWidth="lg" sx={{my:5}}>
+      <Container sx={{my:5, py: 10}}>
         <TableContainer component={Paper} sx={{mb: 3}}>
           <Table>
             <TableHead>

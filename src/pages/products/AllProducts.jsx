@@ -86,7 +86,7 @@ export default function AllProducts() {
   return (
     <>
     <Snowfall color='#82C3D9'/>
-       <Box sx={{px:{xs:2, sm:4, md:6}, py: 4}}>
+       <Box sx={{px:{xs:2, sm:4, md:6}, py: 10}}>
             <Typography component="h1" sx={{fontSize: {xs: "24px", sm: "32px", md: "42px"}}} mb={1}>Explore Our Exclusive Products</Typography>
             <Box sx={{ width: 150, height: 4, bgcolor: "primary.main", mb: 3 }} />
             <Typography variant="body" color="text.secondary">Discover the latest trends and top-quality items hand-picked just for you.</Typography>

@@ -25,7 +25,6 @@ import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import Divider from "@mui/material/Divider";
 import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
-import { useCounterStore } from "../../store/useCounterStore";
 import { Button } from "@mui/material";
 
 
@@ -85,10 +84,9 @@ export default function Navbar() {
     navigate("/auth/login");
   };
 
-  const {counter, userName, increase} = useCounterStore();
   return (
     <>
-      <AppBar position="static" sx={{
+      <AppBar position="fixed" sx={{
           backgroundColor: "white",
           color: "black",
           boxShadow: "none",
@@ -105,7 +103,7 @@ export default function Navbar() {
         {/*================Left Side===================*/}
         <Box sx={{ flex: 1 }}>
           <Typography variant="h6" sx={{ fontWeight: 700 }}>
-            Exclusive - {counter} -{userName}
+            Exclusive
           </Typography>
         </Box>
 
@@ -126,8 +124,7 @@ export default function Navbar() {
           </Link>
           <Link component={RouterLink} color="inherit" underline="none" to='/about'>
             <NavItem>About</NavItem>
-          </Link>    
-          <Button onClick={()=>increase(5)}>Increase</Button>              
+          </Link>                          
           
         </Box>
 
