@@ -1,15 +1,15 @@
-import { useContext, useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { AuthContext } from "../context/AuthContext";
 import { useMutation } from "@tanstack/react-query";
 import axiosInstance from "../api/axiosInstance";
+import useAuthStore from "../store/authStore";
 
 
 export function useSignin(){
     const navigate = useNavigate();
+    const setToken = useAuthStore((state)=>state.setToken);
     const [fieldErrors, setFieldErrors] = useState({email: "", password: ""});
-    const [generalError, setGeneralError] = useState("");
-    const {setToken, setAccessToken} = useContext(AuthContext);
+    const [generalError, setGeneralError] = useState("");    
     
     const loginMutation = useMutation({
     mutationFn: async(values)=>{
@@ -17,7 +17,7 @@ export function useSignin(){
     },
     onSuccess: (response)=>{
         setToken(response.data.accessToken);
-        setAccessToken(response.data.accessToken);
+       // setAccessToken(response.data.accessToken);
         navigate('/home');
     },
     onError: (error)=>{

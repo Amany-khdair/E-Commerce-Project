@@ -25,7 +25,7 @@ export default function Categories() {
         });
     }
   };
-  console.log("DATA =>", data);
+  //console.log("DATA =>", data);
 
  return (
     <Box sx={{ px: { xs: 2, md: 6 }, py: 6 }}>    

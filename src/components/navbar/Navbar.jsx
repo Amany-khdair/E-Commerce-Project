@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import { useState } from "react";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
@@ -20,12 +20,12 @@ import ListItemText from "@mui/material/ListItemText";
 import { styled } from "@mui/material/styles";
 import Link from "@mui/material/Link";
 import { useNavigate, Link as RouterLink} from "react-router-dom";
-import { AuthContext } from "../../context/AuthContext";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import Divider from "@mui/material/Divider";
 import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
 import { Button } from "@mui/material";
+import useAuthStore from "../../store/authStore";
 
 
 // =====================Search box =====================
@@ -66,9 +66,18 @@ const NavItem = styled("span")(() => ({
 }));
 
 export default function Navbar() {
+  const token = useAuthStore(state=>state.token);
+  const logout = useAuthStore(state=>state.logout);
+  
+  const handleLogout = () =>{
+    logout();
+    navigate("/auth/login");
+  };
+  console.log(`token from store : ${token}`);
+  
   const [openDrawer, setOpenDrawer] = useState(false);
-  const navigate = useNavigate();
-  const {token, logout} = useContext(AuthContext);
+  const navigate = useNavigate('');
+
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
 
@@ -79,10 +88,6 @@ export default function Navbar() {
 
   const handleOpenMenu = (event) => setAnchorEl(event.currentTarget);
   const handleCloseMenu = () => setAnchorEl(null);
-  const handleLogout = () =>{
-    logout();
-    navigate("/auth/login");
-  };
 
   return (
     <>
