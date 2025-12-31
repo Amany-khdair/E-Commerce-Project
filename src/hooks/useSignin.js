@@ -3,11 +3,13 @@ import { useNavigate } from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
 import axiosInstance from "../api/axiosInstance";
 import useAuthStore from "../store/authStore";
-
+import { jwtDecode } from 'jwt-decode';
 
 export function useSignin(){
     const navigate = useNavigate();
     const setToken = useAuthStore((state)=>state.setToken);
+    const setUser = useAuthStore((state)=>state.setUser);
+
     const [fieldErrors, setFieldErrors] = useState({email: "", password: ""});
     const [generalError, setGeneralError] = useState("");    
     
@@ -16,8 +18,15 @@ export function useSignin(){
         return await axiosInstance.post(`/Auth/Account/Login`, values);
     },
     onSuccess: (response)=>{
-        setToken(response.data.accessToken);
-       // setAccessToken(response.data.accessToken);
+        const accessToken = response.data.accessToken;
+        const decoded = jwtDecode(accessToken);
+        const user = {
+            name:decoded["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name"],
+            role:decoded["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"]
+        }
+        console.log(decoded);
+        setToken(accessToken);
+        setUser(user);
         navigate('/home');
     },
     onError: (error)=>{

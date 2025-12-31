@@ -68,7 +68,7 @@ const NavItem = styled("span")(() => ({
 export default function Navbar() {
   const token = useAuthStore(state=>state.token);
   const logout = useAuthStore(state=>state.logout);
-  
+
   const handleLogout = () =>{
     logout();
     navigate("/auth/login");
@@ -106,10 +106,11 @@ export default function Navbar() {
         }}>
 
         {/*================Left Side===================*/}
-        <Box sx={{ flex: 1 }}>
+        
+        <Box sx={{ flex: 1 }}>         
           <Typography variant="h6" sx={{ fontWeight: 700 }}>
             Exclusive
-          </Typography>
+          </Typography>                
         </Box>
 
         {/*================Nav Items===================*/}
@@ -147,7 +148,7 @@ export default function Navbar() {
           </SearchWrapper>
 
           {token != null ? (
-            <>
+            <>              
               <IconButton onClick={() => navigate("/wishlist")}>
                 <FavoriteBorderIcon sx={{ color: "black" }} />
               </IconButton>
@@ -263,7 +264,7 @@ export default function Navbar() {
           ) : (
             <>
               <Link component={RouterLink} color="inherit" underline="none" to="/auth/login">Login</Link>
-              <Link component={RouterLink} color="inherit" underline="none" to="/auth/register">Sign Up</Link>
+              <Link component={RouterLink} color="inherit" whiteSpace="nowrap" underline="none" to="/auth/register">Sign Up</Link>
             </>
           )}
 

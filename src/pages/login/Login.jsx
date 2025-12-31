@@ -122,7 +122,7 @@ export default function Login() {
               )}
               <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center"}}>
                 <LoadingButton loading={isSubmitting} loadingIndicator="Processing..." variant="contained" type="submit" sx={{
-                    backgroundColor: "#DB4444", py: "13px", px: "45px", mx: "5px"}} endIcon={<SendIcon />}
+                    backgroundColor: "#DB4444", py: "13px", px: "30px", mx: "5px"}} endIcon={<SendIcon />}
                 >Log in
                 </LoadingButton>
                 <Typography component={RouterLink} to={"/auth/forgetPassword"} variant="span"
