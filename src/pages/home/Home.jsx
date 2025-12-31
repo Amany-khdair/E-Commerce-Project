@@ -100,8 +100,6 @@ export default function Home() {
   </Box>
 )}
 
-
-
         <Box sx={{position: "relative", py: 8, width: "100%", overflow: "hidden"}}>
           {slides.map((slide, i) => (
             <Box key={slide.id} sx={{display: i === currentImg? "flex" : "none", alignItems: "center", backgroundColor: "#000", justifyContent: "space-between", color: "#fff", borderRadius: 2, p: 3}}>
