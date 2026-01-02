@@ -157,7 +157,7 @@ export default function Products() {
                       <FavoriteBorderOutlinedIcon
                         sx={{
                           color: likedProducts.includes(product.id)
-                            ? "primary.main"
+                            ? "#fff"
                             : "black",
                         }}
                       />
