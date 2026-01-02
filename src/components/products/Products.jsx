@@ -74,7 +74,7 @@ export default function Products() {
           </Typography>
         </Box>
 
-        <Typography variant="h6" fontWeight={600}>
+        <Typography variant="h4" fontWeight={600}>
           Explore Our Products
         </Typography>
       </Box>
@@ -115,7 +115,7 @@ export default function Products() {
                   position: "relative",
                   transition: "0.5s",
                   "&:hover .hover-icons": { opacity: 1 },
-                  "&:hover .hover-button": { opacity: 1 },
+                  "&:hover .hover-btn": { opacity: 1 },
                   "&:hover img": { transform: "scale(1.2)" },
                   boxShadow: "0 2px 8px rgba(0,0,0,0.08)",
                 }}
@@ -157,7 +157,7 @@ export default function Products() {
                       <FavoriteBorderOutlinedIcon
                         sx={{
                           color: likedProducts.includes(product.id)
-                            ? "#fff"
+                            ? "primary.main"
                             : "black",
                         }}
                       />
@@ -177,7 +177,7 @@ export default function Products() {
                         },
                         "&:hover svg": {
                             color: "#fff"
-                        },
+                        }
                       }}
                     >
                       <VisibilityOutlinedIcon sx={{color: "black"}}/>
@@ -221,24 +221,26 @@ export default function Products() {
                   />
                 </Box>
 
-                <Box
-                  className="hover-button"
+                <Button
+                  className="hover-btn"
+                  fullWidth
                   sx={{
                     opacity: 0,
+                    transition: "0.3s",
+                    bgcolor: "black",
                     position: "absolute",
                     bottom: 10,
-                    left: "50%",
-                    transform: "translateX(-50%)",
-                    transition: "0.5s",
+                    left: "50%",    
+                    transform: "translateX(-50%)",                              
+                    color: "#fff",
+                    textTransform: "none",
+                    py: "6px",
+                    borderRadius: 1,
+                    "&:hover": { bgcolor: "#222" }
                   }}
                 >
-                  <Button
-                    variant="contained"
-                    sx={{bgcolor: "#333", textTransform: "none", whiteSpace: "nowrap", fontSize: { xs: "0.70rem", sm: "0.8rem" }, padding: { xs: "4px 6px", sm: "6px 10px" }}}
-                  >
-                    Add To Cart
-                  </Button>
-                </Box>
+                  Add To Cart
+                </Button>
               </Card>
             </Box>
           ))}

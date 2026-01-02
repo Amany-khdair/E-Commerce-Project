@@ -38,7 +38,7 @@ export default function Categories() {
             </Typography>
           </Box>
           
-          <Typography variant="h6" sx={{ fontWeight: 600 }}>
+          <Typography variant="h4" sx={{ fontWeight: 600 }}>
             Browse By Category
           </Typography>
         </Box>
