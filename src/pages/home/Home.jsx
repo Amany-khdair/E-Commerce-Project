@@ -11,6 +11,7 @@ import useAuthStore from '../../store/authStore'
 import FlashSales from '../../components/products/FlashSales'
 import Services from '../../components/products/Services'
 import NewArrival from '../../components/products/NewArrival'
+import Experience from '../../components/products/Experience'
 export default function Home() {
   const [currentImg, setCurrentImg] = useState(0);
   const token = useAuthStore(state=>state.token);
@@ -149,6 +150,7 @@ export default function Home() {
       <FlashSales />
       <NewArrival/>
       <Products/>
+      <Experience/>
     </>
   )
 }

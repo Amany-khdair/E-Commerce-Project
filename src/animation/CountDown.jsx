@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Countdown from "react-countdown";
 import { Box, Typography } from "@mui/material";
 
-export default function CountDown() {
+export default function CountDown({ customRenderer }) {
   const [endDate, setEndDate] = useState(null);
 
   useEffect(() => {    
@@ -71,5 +71,5 @@ export default function CountDown() {
   };
 
   if (!endDate) return null;
-  return <Countdown date={endDate} renderer={renderer} />;
+  return <Countdown date={endDate} renderer={customRenderer || renderer} />;
 }

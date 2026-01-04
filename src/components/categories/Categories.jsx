@@ -57,7 +57,7 @@ export default function Categories() {
         {data.map((category) =>        
             <Card key={category.id} elevation={4} onClick={() => navigate(`/products?category=${category.name}`)} sx={{textAlign: "center", display: "flex", justifyContent: "center",alignItems: "center", p: 2, my:3, minWidth: { xs: 150, sm: 140 }, border: "1px solid rgba(0, 0, 0, 0.3)", cursor: "pointer", transition: "0.3s", 
                 "&:hover":{boxShadow: "0px 8px 24px rgba(0, 0, 0, 0.12)", transform: "translateY(-4px)"}}}>
-                  <Typography fontWeight={500}>
+                  <Typography fontWeight={500} color='black'>
                     {category.name}
                   </Typography>
             </Card>
