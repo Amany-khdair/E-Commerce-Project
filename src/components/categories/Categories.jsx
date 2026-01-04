@@ -28,7 +28,7 @@ export default function Categories() {
   //console.log("DATA =>", data);
 
  return (
-    <Box sx={{ px: { xs: 2, md: 6 }, py: 6 }}>    
+    <Box sx={{ px: { xs: 2, md: 6 }, py: 2 }}>    
       <Box sx={{display: "flex", justifyContent: "space-between", alignItems: "center", mb: 4}}>
         <Box sx={{display: "flex", flexDirection: "column", gap: 2}}>
           <Box sx={{display: "flex", gap: 2, alignItems: "center", alignContent:"center"}}>
@@ -56,7 +56,11 @@ export default function Categories() {
       <Box ref={refScroll} sx={{display: "flex", gap: 2, overflowX: "auto", scrollBehavior: "smooth", "&::-webkit-scrollbar": {display: "none"},}}>
         {data.map((category) =>        
             <Card key={category.id} elevation={4} onClick={() => navigate(`/products?category=${category.name}`)} sx={{textAlign: "center", display: "flex", justifyContent: "center",alignItems: "center", p: 2, my:3, minWidth: { xs: 150, sm: 140 }, border: "1px solid rgba(0, 0, 0, 0.3)", cursor: "pointer", transition: "0.3s", 
-                "&:hover":{boxShadow: "0px 8px 24px rgba(0, 0, 0, 0.12)", transform: "translateY(-4px)"},}}><Typography fontWeight={500}>{category.name}</Typography></Card>
+                "&:hover":{boxShadow: "0px 8px 24px rgba(0, 0, 0, 0.12)", transform: "translateY(-4px)"}}}>
+                  <Typography fontWeight={500}>
+                    {category.name}
+                  </Typography>
+            </Card>
         )}
       </Box>
       
