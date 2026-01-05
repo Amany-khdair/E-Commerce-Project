@@ -8,7 +8,7 @@ export default function Services() {
     <Grid container spacing={7} justifyContent="center" sx={{ py: 8 }}>
       {/* first item */}
       <Grid item xs={12} sm={6} md={4}>
-        <Box textAlign="center" sx={{p: 3, borderRadius: 2, "&:hover":{boxShadow: "0px 8px 24px rgba(0, 0, 0, 0.12)", transform: "translateY(-4px)"}}}>
+        <Box textAlign="center" sx={{p: 3, borderRadius: 2, "&:hover":{boxShadow: "0px 8px 24px rgba(0, 0, 0, 0.25)", transform: "translateY(-4px)"}, transition: "all 0.5s"}}>
           <Box sx={{ width: 70, height: 70, borderRadius: "50%", backgroundColor: "#D9D9D9", display: "flex", alignItems: "center", justifyContent: "center", mx: "auto" }}>
             <Box sx={{ width: 48, height: 48, borderRadius: "50%", backgroundColor: "#000", display: "flex", alignItems: "center", justifyContent: "center" }}>
               <LocalShippingOutlinedIcon sx={{ color: "#fff", fontSize: 26 }} />
@@ -26,7 +26,7 @@ export default function Services() {
 
       {/* second item */}
       <Grid item xs={12} sm={6} md={4}>
-        <Box textAlign="center" sx={{p: 3, borderRadius: 2, "&:hover":{boxShadow: "0px 8px 24px rgba(0, 0, 0, 0.12)", transform: "translateY(-4px)"}}}>
+        <Box textAlign="center" sx={{p: 3, borderRadius: 2, "&:hover":{boxShadow: "0px 8px 24px rgba(0, 0, 0, 0.25)", transform: "translateY(-4px)"}, transition: "all 0.5s"}}>
           <Box sx={{ width: 70, height: 70, borderRadius: "50%", backgroundColor: "#D9D9D9", display: "flex", alignItems: "center", justifyContent: "center", mx: "auto"}}>
             <Box sx={{ width: 48, height: 48, borderRadius: "50%", backgroundColor: "#000", display: "flex", alignItems: "center", justifyContent: "center" }}>
               <HeadsetMicOutlinedIcon sx={{ color: "#fff", fontSize: 26 }} />
@@ -44,7 +44,7 @@ export default function Services() {
 
       {/* third item */}
       <Grid item xs={12} sm={6} md={4}>
-        <Box textAlign="center" sx={{p: 3, borderRadius: 2, "&:hover":{boxShadow: "0px 8px 24px rgba(0, 0, 0, 0.12)", transform: "translateY(-4px)"}}}>
+        <Box textAlign="center" sx={{p: 3, borderRadius: 2, "&:hover":{boxShadow: "0px 8px 24px rgba(0, 0, 0, 0.25)", transform: "translateY(-4px)"}, transition: "all 0.5s"}}>
           <Box sx={{ width: 70, height: 70, borderRadius: "50%", backgroundColor: "#D9D9D9", display: "flex", alignItems: "center", justifyContent: "center", mx: "auto" }}>
             <Box sx={{ width: 48, height: 48, borderRadius: "50%", backgroundColor: "#000", display: "flex", alignItems: "center", justifyContent: "center" }}>
               <VerifiedUserOutlinedIcon sx={{ color: "#fff", fontSize: 26 }} />

@@ -29,10 +29,10 @@ export default function MusicBanner() {
             ].map((item, index) => (
             <Box key={index} sx={circleStyle}>
                 <Typography sx={{ fontWeight: 700, fontSize: "16px", lineHeight: 1 }}>
-                {String(item.val).padStart(2, '0')}
+                    {String(item.val).padStart(2, '0')}
                 </Typography>
                 <Typography sx={{ fontSize: "10px", fontWeight: 500 }}>
-                {item.lab}
+                    {item.lab}
                 </Typography>
             </Box>
             ))}
@@ -44,8 +44,8 @@ export default function MusicBanner() {
     <Box sx={{ backgroundColor: "black", borderRadius: 2, p: { xs: 2,  sm: 4, md: 6 }, display: "flex", flexDirection: {xs: "column", sm: "row"}, justifyContent:{xs: "center", md: "space-evenly"}, alignItems: "center", position: "relative", overflow: "hidden", background: {
             xs: "radial-gradient(circle at center, #2e2e2e 0%, black 100%)",
             md: "radial-gradient(circle at 75% 50%, #2e2e2e 0%, black 70%)"}}}>
-        <Grid container spacing={4} alignItems="center">
-            <Grid item xs={6} sx={{ zIndex: 2 }}>
+        <Grid container spacing={4} alignItems="center" sx={{display: "flex", justifyContent:{xs: "center", md: "space-evenly"}}}>
+            <Grid item xs={6} sx={{ zIndex: 2, display: {xs: "flex"}, flexDirection: "column", justifyContent:{xs: "center", md: "space-evenly"} }}>
                 <Typography sx={{ color: "primary.main", fontWeight: 600, fontSize: { xs: "12px", md: "18px", lg: "20px" }, mb: 2, textShadow: "0 2px 6px rgba(255,255,255,0.35), 0 4px 12px rgba(255,255,255,0.25)"}}>
                     Categories
                 </Typography>
@@ -58,7 +58,7 @@ export default function MusicBanner() {
                     <CountDown customRenderer={bannerRenderer} />
                 </Box>
 
-                <Button variant="contained" sx={{ backgroundColor: "primary.main", color: "white", px: { xs: 2, md: 4 }, py: { xs: 1, md: 2 }, fontSize: { xs: "10px", md: "14px", lg: "16px" }, textTransform: "none", fontWeight: 600, boxShadow: "0px 0px 15px #db444427", animation: "pulse 2.5s infinite", '&:hover': { bgcolor: "#009e3fff" } }}>
+                <Button variant="contained" sx={{ backgroundColor: "primary.main", color: "white", px: { xs: 2, md: 4 }, py: { xs: 1, md: 2 }, fontSize: { xs: "10px", md: "14px", lg: "16px" }, textTransform: "none", fontWeight: 600, boxShadow: "0px 0px 15px #db444427", animation: "pulse 2.5s infinite", '&:hover': { bgcolor: "#db44449d" } }}>
                     Buy Now!
                 </Button>
             </Grid>

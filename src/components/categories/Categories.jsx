@@ -29,7 +29,7 @@ export default function Categories() {
 
  return (
     <Box sx={{ px: { xs: 2, md: 6 }, py: 2 }}>    
-      <Box sx={{display: "flex", justifyContent: "space-between", alignItems: "center", mb: 4}}>
+      <Box sx={{display: "flex", justifyContent: {xs: "space-around", sm:"space-between"}, alignItems: "center", mb: 4}}>
         <Box sx={{display: "flex", flexDirection: "column", gap: 2}}>
           <Box sx={{display: "flex", gap: 2, alignItems: "center", alignContent:"center"}}>
             <Box sx={{width:"15px", height: "35px", borderRadius: "4px", backgroundColor: "primary.main", alignItems: "center"}}></Box>
@@ -38,7 +38,7 @@ export default function Categories() {
             </Typography>
           </Box>
           
-          <Typography variant="h4" sx={{ fontWeight: 600 }}>
+          <Typography sx={{ fontWeight: 600, fontSize: {xs: "1.3rem", sm: "2.125rem"}  }}>
             Browse By Category
           </Typography>
         </Box>

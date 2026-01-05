@@ -139,7 +139,7 @@ export default function Products() {
               className="hover-icons"
               sx={{
                 opacity: 0,
-                transition: "0.3s",
+                transition: "all 0.5s",
                 position: "absolute",
                 top: 10,
                 right: 10,
@@ -215,7 +215,7 @@ export default function Products() {
                   width: "100%",
                   height: "100%",
                   objectFit: "contain",
-                  transition: "0.4s"
+                  transition: "0.5s"
                 }}
               />
             </Box>
@@ -250,7 +250,7 @@ export default function Products() {
               fullWidth
               sx={{
                 opacity: 0,
-                transition: "0.3s",
+                transition: "0.5s",
                 bgcolor: "black",
                 position: "absolute",
                 bottom: 10,

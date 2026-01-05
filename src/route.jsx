@@ -17,6 +17,7 @@ import Products from './components/products/Products';
 import AllProducts from './pages/products/AllProducts';
 import Details from './pages/details/Details';
 import ProtectedRouter from '../ProtectedRouter';
+import Account from './pages/account/Account';
 
 const router = createBrowserRouter([
   {
@@ -51,6 +52,13 @@ const router = createBrowserRouter([
           <ProtectedRouter>
             <Cart/>
           </ProtectedRouter>          
+        },
+        {
+          path: 'account',
+          element: 
+          <ProtectedRouter>
+            <Account/>
+          </ProtectedRouter>
         },
         {
           path: 'checkout',
