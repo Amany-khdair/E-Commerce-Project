@@ -92,6 +92,7 @@ export default function Navbar() {
   return (
     <>
       <AppBar position="fixed" sx={{
+          top: 0,         
           backgroundColor: "white",
           color: "black",
           boxShadow: "none",

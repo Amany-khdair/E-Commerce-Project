@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { useDetails } from '../../hooks/useDetails';
-import { Box, Typography, CircularProgress, Grid, Rating, Stack, IconButton, Button, Paper, Tab, Container, Select, MenuItem, Card, Modal, Backdrop, Fade, TextField, AccordionSummary, Accordion, AccordionDetails } from '@mui/material';
+import { Box, Typography, CircularProgress, Grid, Rating, Stack, IconButton, Button, Paper, Tab, Container, Select, MenuItem, Card, Modal, Backdrop, Fade, TextField, AccordionSummary, Accordion, AccordionDetails, Breadcrumbs, Link } from '@mui/material';
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
@@ -48,12 +48,14 @@ export default function Details() {
         const copiedReviews = [...data.reviews];
 
         if (sortReviews === "latest"){
-            return copiedReviews.sort((a, b) => new Date(b.date) - new Date(a.date));
+            return copiedReviews.sort((a, b) => new Date(b?.date || "") - new Date(a?.date || ""));
         }
-        return copiedReviews.sort((a, b) => new Date(a.date) - new Date(b.date));   
-    }, [sortReviews, data?.reviews])
+        return copiedReviews.sort((a, b) => new Date(a?.date || "") - new Date(b?.date || ""));   
+    }, [sortReviews, data?.reviews]);
+
     const [openReviewModal, setOpenReviewModal] = useState(false);
     const [expanded, setExpanded] = useState(false);
+
     useEffect(() => {
         if (data?.images?.length) {
             setSelectedImage(data.images[0]);
@@ -80,10 +82,9 @@ export default function Details() {
     //     );
     // }
 
-
     if(isLoading)
         return(
-            <Box sx={{display: "flex", justifyContent: "center", alignItems: "center", py: 5}}>
+            <Box sx={{display: "flex", justifyContent: "center", alignItems: "center", my: 10}}>
                 <CircularProgress sx={{color: "primary.main"}}/>
             </Box>
         ) 
@@ -94,9 +95,30 @@ export default function Details() {
     <>
     <Snowfall color='#82C3D9' style={{position: 'fixed', zIndex: 10, pointerEvents: 'none'}}/>
     <Box sx={{py: 8}}>
+        <Breadcrumbs aria-label="breadcrumb"  sx={{mt: 4}}>
+            <Link underline="hover" color="inherit" href="/">
+            Home
+            </Link>
+            <Link
+            underline="hover"
+            color="inherit"
+            href="/allproducts"
+            >
+            Products
+            </Link>
+            <Link
+            underline="hover"
+            color="text.primary"
+            href=""
+            aria-current="page"
+            >
+            {`${data.title}`}
+            </Link>
+        </Breadcrumbs>
+
         <Box sx={{width: "100%",  p: {xs: 2, sm: 4},display: "flex", justifyContent: "center"}}>
             <Box sx={{maxWidth: "1200px", width: "100%", border: "1px solid #e0e0e0", borderRadius: "16px", p: 3, mx: "auto"}}>
-                <Grid container spacing={4} sx={{display: {md: "flex"}, flexDirection: {sm: "column", md: "row"} , alignItems: {sm: "center", md: "flex-start"} }}>
+                <Grid container spacing={2} sx={{display: "flex", flexDirection: {sm: "column", md: "row"} , alignItems: {sm: "center", md: "flex-start"} }}>
                     {/* Left side */}
                     <Grid item xs={12} md={6}>
                         <Box sx={{display: "flex", gap: 2}}>
@@ -117,7 +139,7 @@ export default function Details() {
                     {/* Right side */}
                     <Grid item xs={12} md={6} sx={{display: "flex", flexDirection: "column", gap: 2}}>
                                     
-                        <Typography variant="h4" fontWeight="600">{data.title}</Typography>                
+                        <Typography sx={{fontSize: "24px", fontWeight: 600}} >{data.title}</Typography>                
                         <Stack direction="row" spacing={1} alignItems="center">
                             <Rating value={data.rating} precision={0.1} readOnly/>
                             <Typography variant="body2" color="text.secondary">{data.rating}</Typography>                    

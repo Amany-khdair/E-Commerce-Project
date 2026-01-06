@@ -25,10 +25,11 @@ export default function Products() {
 
   let columnsPerPage = Math.floor(containerW / cardW);
   let shift = page * columnsPerPage * cardW;
+  console.log(data);
 
   if (isLoading)
     return (
-        <Box sx={{display: "flex", justifyContent: "center", alignItems: "center", py: 5}}>
+        <Box sx={{display: "flex", justifyContent: "center", alignItems: "center", my: 10}}>
             <CircularProgress sx={{color: "primary.main"}}/>
         </Box>
     );
@@ -57,7 +58,7 @@ export default function Products() {
   };
 
   return (
-    <Box sx={{ px: { xs: 2, md: 6 }, py: 6 }}>
+    <Box sx={{ px: { xs: 2, md: 6 }, py: 6, my: 5 }}>
       {/* Header */}
       <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
         <Box sx={{ display: "flex", gap: 2, alignItems: "center" }}>

@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react'
 import { useProducts } from '../../hooks/useProducts';
-import { Box, Button, Card, CardContent, CardMedia, CircularProgress, FormControl, Grid, IconButton, InputLabel, MenuItem, Pagination, Rating, Select, Slider, Typography } from '@mui/material';
+import { Box, Breadcrumbs, Button, Card, CardContent, CardMedia, CircularProgress, FormControl, Grid, IconButton, InputLabel, Link, MenuItem, Pagination, Rating, Select, Slider, Typography } from '@mui/material';
 import Snowfall from 'react-snowfall';
 import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlined';
 import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
@@ -75,7 +75,7 @@ export default function AllProducts() {
 
     if(isLoading)
         return(
-            <Box sx={{display: "flex", justifyContent: "center", alignItems: "center", py: 5}}>
+            <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", my: 10 }}>
                 <CircularProgress sx={{color: "primary.main"}}/>
             </Box>
         )
@@ -86,7 +86,21 @@ export default function AllProducts() {
   return (
     <>
     <Snowfall color='#82C3D9'/>
-       <Box sx={{px:{xs:2, sm:4, md:6}, py: 10}}>
+       <Box sx={{ px:{xs:2, sm:4, md:6}, py: 10 }}>
+            <Breadcrumbs aria-label="breadcrumb" sx={{my: 4}}>
+                <Link underline="hover" color="inherit" href="/">
+                Home
+                </Link>        
+                <Link
+                underline="hover"
+                color="text.primary"
+                href=""
+                aria-current="page"
+                >
+                Products
+                </Link>
+            </Breadcrumbs>
+
             <Typography component="h1" sx={{fontSize: {xs: "24px", sm: "32px", md: "42px"}}} mb={1}>Explore Our Exclusive Products</Typography>
             <Box sx={{ width: 150, height: 4, bgcolor: "primary.main", mb: 3 }} />
             <Typography variant="body" color="text.secondary">Discover the latest trends and top-quality items hand-picked just for you.</Typography>

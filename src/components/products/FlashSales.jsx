@@ -210,7 +210,7 @@ export default function Products() {
               }}
             >
               <img
-                src={product.thumbnail}
+                src={product.thumbnail} alt={product.title}
                 style={{
                   width: "100%",
                   height: "100%",

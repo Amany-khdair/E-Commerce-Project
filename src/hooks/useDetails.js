@@ -1,4 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
+//import axiosInstance from "../api/axiosInstance";
 import axios from "axios";
 
 export function useDetails(id){
@@ -6,6 +7,7 @@ export function useDetails(id){
         
         const response = await axios.get(`https://dummyjson.com/products/${id}`);        
         return response.data;
+        //const response = await axiosInstance.get(`/products/${id}`);
         //return response.data.response;
     };
     

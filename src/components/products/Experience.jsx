@@ -1,7 +1,7 @@
 import React from 'react';
 import { Box, Typography, Button, Container, Grid } from '@mui/material';
 import CountDown from '../../animation/CountDown';
-import speakerImg from '../../assets/images/Frame 694.png';
+import speakerImg from '../../assets/images/speaker.webp';
 export default function MusicBanner() {
     
     const bannerRenderer = ({ days, hours, minutes, seconds, completed }) => { 
