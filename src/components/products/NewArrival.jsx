@@ -28,7 +28,7 @@ export default function NewArrival() {
         </Box>
 
         {/* Grid Layout */}
-        <Box sx={{ display: "grid", gap: 3, height: { xs: "auto", md: "600px" }, gridTemplateColumns: { xs: "1fr", md: "1fr 1fr" }, 
+        <Box sx={{ display: "grid", gap: 2, height: { xs: "auto", md: "600px" }, gridTemplateColumns: { xs: "1fr", md: "1fr 1fr" }, 
             gridTemplateRows: { xs: "repeat(4, 350px)", md: "1fr 1fr" },
             gridTemplateAreas: {
                 xs: `
