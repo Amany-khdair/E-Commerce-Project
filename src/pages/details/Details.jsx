@@ -16,6 +16,8 @@ import VerifiedUserIcon from '@mui/icons-material/VerifiedUser';
 import DiscountIcon from '@mui/icons-material/Discount';
 import CropFreeIcon from '@mui/icons-material/CropFree';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import {Link as RouterLink} from 'react-router-dom'
+import { bounce, fadeInUp } from '../../animation/Animation';
 export default function Details() {
     const {id} = useParams();
     const {isLoading, isError, data} = useDetails(id);
@@ -56,10 +58,8 @@ export default function Details() {
     const [openReviewModal, setOpenReviewModal] = useState(false);
     const [expanded, setExpanded] = useState(false);
 
-    const images = [
-        data?.response?.image,
-        ...(data?.response?.subImages || [])
-    ];
+    const images = data?.response ? [data.response.image, ...(data.response.subImages || [])] : [];
+
 
 
     useEffect(() => {
@@ -68,25 +68,38 @@ export default function Details() {
         }
     }, [data]);
     
-    // if (!data?.response) {
-    //     return (
-    //     <Box sx={{textAlign: "center", py: 8, display: "flex", flexDirection: "column", alignItems: "center", gap: 2, color: "text.secondary"}}>
-    //     <Box sx={{ width: 80, height: 80, borderRadius: "50%", backgroundColor: "#f5f5f5", display: "flex", alignItems: "center", justifyContent: "center", boxShadow: "0 2px 8px rgba(0,0,0,0.08)"}}>
-    //         <Typography variant="h4" sx={{ fontWeight: "bold" }}>
-    //         !
-    //         </Typography>
-    //     </Box>
+    if (!isLoading && (!data?.response || Object.keys(data.response).length === 0)) {
+        return (
+            <Box sx={{textAlign: "center", py: 10, display: "flex", flexDirection: "column", alignItems: "center", gap: 3, color: "text.secondary"}}>
+                <Box sx={{ width: 80, height: 80, borderRadius: "50%", backgroundColor: "#f5f5f5", display: "flex", alignItems: "center", justifyContent: "center", boxShadow: "0 2px 12px rgba(0,0,0,0.15)", animation: `${bounce} 0.8s ease`}}>
+                    <Typography variant="h4" sx={{ fontWeight: "bold" }}>
+                    !
+                    </Typography>
+                </Box>
 
-    //     <Typography variant="h5" sx={{ fontWeight: 600 }}>
-    //         Product Not Found
-    //     </Typography>
+                <Typography variant="h5" sx={{ fontWeight: 600, animation: `${fadeInUp} 0.6s ease 0.3s forwards`, opacity: 0, }}>
+                    Product Not Found
+                </Typography>
 
-    //     <Typography sx={{ maxWidth: 300, fontSize: 15 }}>
-    //         The product you're looking for doesn't exist or is no longer available.
-    //     </Typography>
-    //     </Box>
-    //     );
-    // }
+                <Typography sx={{ maxWidth: 300, fontSize: 15, animation: `${fadeInUp} 0.6s ease 0.5s forwards`, opacity: 0 }}>
+                    The product you're looking for doesn't exist or is no longer available.
+                </Typography>
+                <Typography sx={{ animation: `${fadeInUp} 0.6s ease 0.7s forwards`, opacity: 0 }}>
+                    Check our latest products{" "}
+                    <Typography component={RouterLink} to="/allproducts" sx={{
+                        color: "#DB4444", fontWeight: 600, textDecoration: "none", display: "inline-block", transition: "transform 0.5s ease",
+                        "&:hover": {
+                        transform: "scale(1.2)",                        
+                        },
+                    }}
+                    >
+                    Here
+                    </Typography>
+                </Typography>
+            </Box>
+        );
+    }
+
 
     if(isLoading)
         return(
@@ -118,7 +131,7 @@ export default function Details() {
             href=""
             aria-current="page"
             >
-            {`${data.response.name}`}
+            {data?.response?.name}
             </Link>
         </Breadcrumbs>
 
