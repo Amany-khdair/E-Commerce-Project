@@ -9,7 +9,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 export default function AllProducts() {
     const navigate = useNavigate();
     const {isLoading, isError, data} = useProducts();
-    const products = data || [];
+    const products = data?.response.data || [];
     const [likedProducts, setLikedProducts] = useState([]);
     const handleLike = (id) => {
         setLikedProducts(prev =>
@@ -21,7 +21,7 @@ export default function AllProducts() {
 
     const [sortOption, setSortOption] = useState("titleAscending");
     
-    const prices = data?.map(productPrice => productPrice.price)||[];
+    const prices = data?.response?.data?.map(productPrice => productPrice.price)||[];
     const minPrice = Math.min(...prices);
     const maxPrice = Math.max(...prices);
     const [priceRange, setPriceRange] = useState([minPrice, maxPrice]);    
@@ -43,10 +43,10 @@ export default function AllProducts() {
         const sortedProducts = [...productFiltered];//store a copy from the array productFiltered, so that we dont change the main data
         switch (sortOption){
             case "titleAscending":
-                sortedProducts.sort((a, b) =>a.title.localeCompare(b.title));
+                sortedProducts.sort((a, b) =>a.name.localeCompare(b.name));
                 break;
             case "titleDescendin":
-                sortedProducts.sort((a, b) =>b.title.localeCompare(a.title));
+                sortedProducts.sort((a, b) =>b.name.localeCompare(a.name));
                 break;
             case "priceAscending":
                 sortedProducts.sort((a, b) =>a.price - b.price);
@@ -65,7 +65,7 @@ export default function AllProducts() {
         (page - 1) * productsPerPage,
         page * productsPerPage
     );
-
+    console.log(currentProducts);
     useEffect(() => {
     if (prices.length) {
         setPriceRange([minPrice, maxPrice]);
@@ -141,13 +141,13 @@ export default function AllProducts() {
                                     </IconButton>
                                 </Box>
 
-                                <img src={product.thumbnail} alt={product.title} style={{width: "100%", height: 180, borderRadius: 2, objectFit: "contain", padding: "10px", transition: "0.5s", "&:hover": {transform: "scale(1.1)" }}}
+                                <img src={product.image} alt={product.name} style={{width: "100%", height: 180, borderRadius: 2, objectFit: "contain", padding: "10px", transition: "0.5s", "&:hover": {transform: "scale(1.1)" }}}
                                 />                                               
                             </Box>
                             <CardContent sx={{flexGrow: 1}}>
-                                <Typography variant="h6">{product.title}</Typography>
+                                <Typography variant="h6">{product.name}</Typography>
                                 <Typography variant="body1" color="primary.main">${product.price}</Typography>
-                                <Rating value={product.rating} precision={0.5} readOnly size="small" sx={{color: "orange"}}/> 
+                                <Rating value={product.rate} precision={0.5} readOnly size="small" sx={{color: "orange"}}/> 
                                 <Box className="hover-button" sx={{opacity: 0, position: "absolute", bottom: 10, left: "50%", transform: "translateX(-50%)", transition: "0.5s", zIndex: 3}}>
                                     <Button variant="contained"  sx={{mt: 2, width: "100%", backgroundColor: "#333", textTransform: "none" }}>
                                         Add To Cart

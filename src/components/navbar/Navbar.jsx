@@ -125,7 +125,10 @@ export default function Navbar() {
 
           <Link component={RouterLink} color="inherit" underline="none" to='/home'>
             <NavItem>Home</NavItem>
-          </Link>          
+          </Link> 
+          <Link component={RouterLink} color="inherit" underline="none" to='/allproducts'>
+            <NavItem>Shop</NavItem>
+          </Link>           
           <Link component={RouterLink} color="inherit" underline="none" to='/contact'>
             <NavItem>Contact</NavItem>
           </Link>
