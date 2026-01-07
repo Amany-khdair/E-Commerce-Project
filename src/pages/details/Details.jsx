@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { useDetails } from '../../hooks/useDetails';
-import { Box, Typography, CircularProgress, Grid, Rating, Stack, IconButton, Button, Paper, Tab, Container, Select, MenuItem, Card, Modal, Backdrop, Fade, TextField, AccordionSummary, Accordion, AccordionDetails, Breadcrumbs, Link } from '@mui/material';
+import { Box, Typography, CircularProgress, Grid, Rating, Stack, IconButton, Button, Paper, Tab, Container, Select, MenuItem, Card, Modal, Backdrop, Fade, TextField, AccordionSummary, Accordion, AccordionDetails, Breadcrumbs, Link, Badge } from '@mui/material';
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
@@ -25,7 +25,7 @@ export default function Details() {
     
     const size = ["XS", "S", "M", "L", "XL"];
     const [sizes, setSizes] = useState(null);
-    console.log(data);
+    const product = data?.response || null;
     const [quantity, setQuantity] = useState(1);
     const [likedProducts, setLikedProducts] = useState([]);
     const handleLike = (id) => {
@@ -58,17 +58,16 @@ export default function Details() {
     const [openReviewModal, setOpenReviewModal] = useState(false);
     const [expanded, setExpanded] = useState(false);
 
-    const images = data?.response ? [data.response.image, ...(data.response.subImages || [])] : [];
-
-
+    const images = product ? [data.response.image, ...(data.response.subImages || [])] : [];
 
     useEffect(() => {
-        if (images.length) {
+        if (product) {
+            const images = [data.response.image, ...(data.response.subImages || [])];
             setSelectedImage(images[0]);
         }
     }, [data]);
-    
-    if (!isLoading && (!data?.response || Object.keys(data.response).length === 0)) {
+
+    if (!isLoading && (!product || Object.keys(data.response).length === 0)) {
         return (
             <Box sx={{textAlign: "center", py: 10, display: "flex", flexDirection: "column", alignItems: "center", gap: 3, color: "text.secondary"}}>
                 <Box sx={{ width: 80, height: 80, borderRadius: "50%", backgroundColor: "#f5f5f5", display: "flex", alignItems: "center", justifyContent: "center", boxShadow: "0 2px 12px rgba(0,0,0,0.15)", animation: `${bounce} 0.8s ease`}}>
@@ -97,9 +96,9 @@ export default function Details() {
                     </Typography>
                 </Typography>
             </Box>
+            
         );
     }
-
 
     if(isLoading)
         return(
@@ -131,40 +130,68 @@ export default function Details() {
             href=""
             aria-current="page"
             >
-            {data?.response?.name}
+            {product?.name}
             </Link>
         </Breadcrumbs>
 
         <Box sx={{width: "100%",  p: {xs: 2, sm: 4},display: "flex", justifyContent: "center"}}>
-            <Box sx={{maxWidth: "1200px", width: "100%", border: "1px solid #e0e0e0", borderRadius: "16px", p: 3, mx: "auto"}}>
-                <Grid container spacing={2} sx={{display: "flex", flexDirection: {sm: "column", md: "row"} , alignItems: {sm: "center", md: "flex-start"} }}>
+            <Box sx={{maxWidth: "1200px", width: "100%", border: "1px solid #e0e0e0", borderRadius: "16px", p: {xs: 1, sm: 3}, mx: "auto"}}>
+                <Grid container spacing={2} sx={{display: "flex", flexDirection: {sm: "column", md: "row"} , alignItems: {sm: "center", md: "flex-start"}, gap: 6 }}>
                     {/* Left side */}
                     <Grid item xs={12} md={6}>
-                        <Box sx={{display: "flex", gap: 2}}>
-                            <Stack spacing={2} sx={{width:{xs: 60, sm: 90} }}>
+                        <Box sx={{display: "flex", gap: {xs: 1, sm: 2}}}>
+                            <Stack spacing={2} sx={{width:{xs: "80px", sm: "90px"} }}>
                                 {images.map((img, i) =>(
                                     <Box key={i} component="img" src={img} onClick={() => setSelectedImage(img)} sx={{
-                                        width: "100%", height: {xs: 60, sm: 90} , objectFit: "contain", borderRadius: "8px", cursor: "pointer", border: selectedImage === img? "2px solid #DB4444" : "1px solid #eee", transition: "0.5s", "&:hover": {border: "2px solid #DB4444"}
+                                        width: {xs: 50, sm: "100%" }, height: {xs: 60, sm: 90} , objectFit: "cover", borderRadius: "8px", cursor: "pointer", border: selectedImage === img? "2px solid #DB4444" : "1px solid #eee", transition: "0.5s", "&:hover": {border: "2px solid #DB4444"}
                                     }}/>                            
                                 ))}
                             </Stack>
                             
-                            <Box sx={{display: "flex", justifyContent: "center", alignItems: "center", flex: 1, p: 4, minHeight: 350, backgroundColor: "#f2f2f2", borderRadius: "12px"}}>
-                                <Box component="img" src={selectedImage} alt={data.response.name} sx={{width: "100%", maxWidth: 400, height: "auto", objectFit: "contain", transition: "0.5s", "&:hover": {transform: "scale(1.1)" }}}/>                       
+                            <Badge badgeContent={`Available: ${product.quantity}`}
+                            sx={{ "& .MuiBadge-badge": {
+                                backgroundColor: "#DB4444",
+                                color: "#fff",              
+                                fontWeight: 600,
+                                pt:2,
+                                fontSize: "0.8rem",
+                                borderRadius: "8px",
+                                padding: "0 8px",
+                                minWidth: "fit-content",
+                                boxShadow: "0 2px 6px rgba(0,0,0,0.2)", 
+                                top: 10,
+                                right: {xs: 60, sm: 50},
+                                },
+                            }}
+                            >
+
+                            <Box sx={{display: "flex", justifyContent: "center", alignItems: "center", flex: 1, p: {xs: 3, sm: 4}, maxHeight: 400, backgroundColor: "#f2f2f2", borderRadius: "12px"}}>
+                                <Box component="img" src={selectedImage} alt={product.name} sx={{width: "100%", maxWidth: {xs: 300, sm: 400}, height: {xs: 250, sm: 350}, objectFit: "contain", transition: "0.5s", "&:hover": {transform: "scale(1.1)" }}}/>                       
                             </Box>
+                            </Badge>
                         </Box>
                     </Grid>
 
                     {/* Right side */}
-                    <Grid item xs={12} md={6} sx={{display: "flex", flexDirection: "column", gap: 2}}>
-                                    
-                        <Typography sx={{fontSize: "24px", fontWeight: 600}} >{data.response.name}</Typography>                
+                    <Grid item xs={12} md={6} sx={{display: "flex", flexDirection: "column", gap: 2}}>                                                             
+                        <Typography sx={{fontSize: "24px", fontWeight: 600}} >
+                            {product.name}
+                        </Typography>                             
+                                     
                         <Stack direction="row" spacing={1} alignItems="center">
-                            <Rating value={data.response.rate} precision={0.1} readOnly/>
-                            <Typography variant="body2" color="text.secondary">{data.response.rate}</Typography>                    
-                        </Stack>                                
-                        <Typography variant="h6" fontWeight="700" mt={1} color="primary">${data.response.price}</Typography>
-                        <Typography variant="body" sx={{ maxWidth: 450, lineHeight: 1.6, overflow: "hidden", textOverflow: "ellipsis", display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical"}}>{data.response.description}</Typography>
+                            <Rating value={product.rate} precision={0.1} readOnly/>
+                            <Typography variant="body2" color="text.secondary">
+                                {product.rate}
+                            </Typography>                    
+                        </Stack> 
+
+                        <Typography variant="h6" fontWeight="700" mt={1} color="primary">
+                            ${product.price}
+                        </Typography>
+
+                        <Typography variant="body" sx={{ maxWidth: 450, lineHeight: 1.6, overflow: "hidden", textOverflow: "ellipsis", display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical"}}>
+                            {product.description}
+                        </Typography>
                         
                         <Box sx={{ borderBottom: "1px solid #ddd", my: 2 }}></Box>
 
@@ -234,7 +261,7 @@ export default function Details() {
                 <TabPanel value="0">
                     <Box sx={{ maxWidth: 900, mx: "auto", py: 3 }}>
                         <Typography sx={{ lineHeight: 1.7 }}>
-                        {data.response.description}
+                        {product.description}
                         </Typography>
                     </Box>
                 </TabPanel>
@@ -244,7 +271,7 @@ export default function Details() {
                     <Stack direction={{xs: "column", sm: "row"}} sx={{display: "flex", justifyContent: "space-between", alignItems: "center", mb: 3, gap: 1}}>
                         <Box sx={{display: "flex", alignItems: "center"}}>                    
                             <Typography sx={{fontSize: "20px", fontWeight: 600, color: "text.secondary"}}>
-                                All Reviews ({data?.response?.reviews?.length || 0})
+                                All Reviews ({product?.reviews?.length || 0})
                             </Typography>
                         </Box>
 

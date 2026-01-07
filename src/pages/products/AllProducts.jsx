@@ -72,7 +72,6 @@ export default function AllProducts() {
     }
     }, [minPrice, maxPrice]);
 
-
     if(isLoading)
         return(
             <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", my: 10 }}>
