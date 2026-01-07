@@ -96,10 +96,7 @@ export default function About() {
         <Typography variant="body1" color="text.secondary" sx={{ py: 2, mx: "auto" }}>
           Meet the people whose passion and expertise drive our company forward.
         </Typography>
-        <Grid container spacing={4} sx={{ py: 8, justifyContent: "center" }}>      
-          <Grid item>
-            
-          </Grid>
+        <Grid container spacing={4} sx={{ py: 8, justifyContent: "center" }}>               
           {team.map((member, index)=>(
             <Grid item xs={12} md={6} key={index}>
               

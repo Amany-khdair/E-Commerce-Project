@@ -1,19 +1,5 @@
-import { useQuery } from "@tanstack/react-query";
-//import axiosInstance from "../api/axiosInstance";
-import axios from "axios";
+import useFetch from "./useFetch";
 
 export function useProducts (){
-    const fetchProducts = async ()=>{
-        const response = await axios.get('https://dummyjson.com/products?limit=180');       
-        //console.log("API RESPONSE:", response.data);
-        return response.data.products;
-        //const response = await axiosInstance.get(`/products`);
-        //return response.data.response.data;
-    }
-    const {isLoading, isError, data} = useQuery({
-        queryKey:['products'],
-        staleTime:5 * 60 * 1000,
-        queryFn:fetchProducts
-    })
-    return {isLoading, isError, data};
+    return useFetch(['products'], '/products');
 }

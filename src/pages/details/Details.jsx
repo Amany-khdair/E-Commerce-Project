@@ -23,7 +23,7 @@ export default function Details() {
     
     const size = ["XS", "S", "M", "L", "XL"];
     const [sizes, setSizes] = useState(null);
-    
+    console.log(data);
     const [quantity, setQuantity] = useState(1);
     const [likedProducts, setLikedProducts] = useState([]);
     const handleLike = (id) => {
@@ -44,21 +44,27 @@ export default function Details() {
     
     const [sortReviews, setSortReviews] = useState("latest");
     const sortedReviews = useMemo(() =>{
-        if (!data?.reviews) return [];
-        const copiedReviews = [...data.reviews];
+        if (!data?.response?.reviews) return [];
+        const copiedReviews = [...data.response.reviews];
 
         if (sortReviews === "latest"){
             return copiedReviews.sort((a, b) => new Date(b?.date || "") - new Date(a?.date || ""));
         }
         return copiedReviews.sort((a, b) => new Date(a?.date || "") - new Date(b?.date || ""));   
-    }, [sortReviews, data?.reviews]);
+    }, [sortReviews, data?.response?.reviews]);
 
     const [openReviewModal, setOpenReviewModal] = useState(false);
     const [expanded, setExpanded] = useState(false);
 
+    const images = [
+        data?.response?.image,
+        ...(data?.response?.subImages || [])
+    ];
+
+
     useEffect(() => {
-        if (data?.images?.length) {
-            setSelectedImage(data.images[0]);
+        if (images.length) {
+            setSelectedImage(images[0]);
         }
     }, [data]);
     
@@ -112,7 +118,7 @@ export default function Details() {
             href=""
             aria-current="page"
             >
-            {`${data.title}`}
+            {`${data.response.name}`}
             </Link>
         </Breadcrumbs>
 
@@ -123,15 +129,15 @@ export default function Details() {
                     <Grid item xs={12} md={6}>
                         <Box sx={{display: "flex", gap: 2}}>
                             <Stack spacing={2} sx={{width:{xs: 60, sm: 90} }}>
-                                {data.images.map((img, i) =>(
+                                {images.map((img, i) =>(
                                     <Box key={i} component="img" src={img} onClick={() => setSelectedImage(img)} sx={{
-                                        width: "100%", height: {xs: 60, sm: 90} , objectFit: "cover", borderRadius: "8px", cursor: "pointer", border: selectedImage === img? "2px solid #DB4444" : "1px solid #eee", transition: "0.5s", "&:hover": {border: "2px solid #DB4444"}
+                                        width: "100%", height: {xs: 60, sm: 90} , objectFit: "contain", borderRadius: "8px", cursor: "pointer", border: selectedImage === img? "2px solid #DB4444" : "1px solid #eee", transition: "0.5s", "&:hover": {border: "2px solid #DB4444"}
                                     }}/>                            
                                 ))}
                             </Stack>
                             
                             <Box sx={{display: "flex", justifyContent: "center", alignItems: "center", flex: 1, p: 4, minHeight: 350, backgroundColor: "#f2f2f2", borderRadius: "12px"}}>
-                                <Box component="img" src={selectedImage} alt={data.title} sx={{width: "100%", maxWidth: 400, height: "auto", objectFit: "contain", transition: "0.5s", "&:hover": {transform: "scale(1.1)" }}}/>                       
+                                <Box component="img" src={selectedImage} alt={data.response.name} sx={{width: "100%", maxWidth: 400, height: "auto", objectFit: "contain", transition: "0.5s", "&:hover": {transform: "scale(1.1)" }}}/>                       
                             </Box>
                         </Box>
                     </Grid>
@@ -139,20 +145,20 @@ export default function Details() {
                     {/* Right side */}
                     <Grid item xs={12} md={6} sx={{display: "flex", flexDirection: "column", gap: 2}}>
                                     
-                        <Typography sx={{fontSize: "24px", fontWeight: 600}} >{data.title}</Typography>                
+                        <Typography sx={{fontSize: "24px", fontWeight: 600}} >{data.response.name}</Typography>                
                         <Stack direction="row" spacing={1} alignItems="center">
-                            <Rating value={data.rating} precision={0.1} readOnly/>
-                            <Typography variant="body2" color="text.secondary">{data.rating}</Typography>                    
+                            <Rating value={data.response.rate} precision={0.1} readOnly/>
+                            <Typography variant="body2" color="text.secondary">{data.response.rate}</Typography>                    
                         </Stack>                                
-                        <Typography variant="h6" fontWeight="700" mt={1} color="primary">${data.price}</Typography>
-                        <Typography variant="body" sx={{ maxWidth: 450, lineHeight: 1.6 }}>{data.description}</Typography>
+                        <Typography variant="h6" fontWeight="700" mt={1} color="primary">${data.response.price}</Typography>
+                        <Typography variant="body" sx={{ maxWidth: 450, lineHeight: 1.6, overflow: "hidden", textOverflow: "ellipsis", display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical"}}>{data.response.description}</Typography>
                         
                         <Box sx={{ borderBottom: "1px solid #ddd", my: 2 }}></Box>
 
                         <Stack my={1} direction="row" spacing={1} sx={{display: "flex", justifyContent: "center"}}>
                             <Typography component= "span" variant="body1" display="flex" fontWeight="600" alignItems="center">Size:</Typography>{size.map(item =>(
                                 <Box key={item} onClick={()=>setSizes(item)} sx={{border: "1px solid #ccc", cursor: "pointer", px: 2, py:1, fontSize: "12px", borderRadius: "5px",
-                                    bgcolor: sizes === item? "primary.main": "transparent", color: sizes === item? "#fff": "black", fontWeight: 600, transition: "0.5s", "&:hover":{borderColor: "primary.main"}}}
+                                    backgroundColor: sizes === item? "primary.main": "transparent", color: sizes === item? "#fff": "black", fontWeight: 600, transition: "0.5s", "&:hover":{borderColor: "primary.main"}}}
                                 > {item}</Box>
                             ))}
                         </Stack>
@@ -172,7 +178,7 @@ export default function Details() {
                                 Buy Now
                             </Button>
 
-                            <IconButton onClick={() => handleLike(data.id)} sx={{border: "1px solid #ccc", borderRadius: "8px", backgroundColor: likedProducts.includes(data.id) ? "primary.main" : "transparent", color: likedProducts.includes(data.id) ? "#fff" : "primary.main", "&:hover":{color: "primary.main", border:  "1px solid #DB4444"}}}>
+                            <IconButton onClick={() => handleLike(data.response.id)} sx={{border: "1px solid #ccc", borderRadius: "8px", backgroundColor: likedProducts.includes(data.response.id) ? "primary.main" : "transparent", color: likedProducts.includes(data.response.id) ? "#fff" : "primary.main", "&:hover":{color: "primary.main", border:  "1px solid #DB4444"}}}>
                                 <FavoriteBorderIcon />
                             </IconButton>
                         </Stack>
@@ -205,19 +211,27 @@ export default function Details() {
         <TabContext value={value}>
             <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
             <TabList onChange={handleChange} centered aria-label="lab API tabs example">
-                <Tab label="Rating & Reviews" sx={{fontSize: {xs: "16px", sm:"18px"}, textTransform: "none", fontWeight: 600}} value="1" />
-                <Tab label="FAQs" sx={{fontSize: {xs: "16px", sm:"18px"}, textTransform: "none", fontWeight: 600}} value="2" />
+                <Tab label="Description" sx={{fontSize: {xs: "14px", sm:"18px"}, textTransform: "none", fontWeight: 600}} value="0" />
+                <Tab label="Rating & Reviews" sx={{fontSize: {xs: "14px", sm:"18px"}, textTransform: "none", fontWeight: 600}} value="1" />
+                <Tab label="FAQs" sx={{fontSize: {xs: "14px", sm:"18px"}, textTransform: "none", fontWeight: 600}} value="2" />
             </TabList>
             </Box>
 
             <Container>
-                {/* First Tap */}
+                <TabPanel value="0">
+                    <Box sx={{ maxWidth: 900, mx: "auto", py: 3 }}>
+                        <Typography sx={{ lineHeight: 1.7 }}>
+                        {data.response.description}
+                        </Typography>
+                    </Box>
+                </TabPanel>
+
                 <TabPanel value="1">
                     {/* Header */}
                     <Stack direction={{xs: "column", sm: "row"}} sx={{display: "flex", justifyContent: "space-between", alignItems: "center", mb: 3, gap: 1}}>
                         <Box sx={{display: "flex", alignItems: "center"}}>                    
                             <Typography sx={{fontSize: "20px", fontWeight: 600, color: "text.secondary"}}>
-                                All Reviews ({data?.reviews?.length || 0})
+                                All Reviews ({data?.response?.reviews?.length || 0})
                             </Typography>
                         </Box>
 
@@ -228,7 +242,7 @@ export default function Details() {
                                 <MenuItem value="oldest" sx={{fontSize: "15px"}}>Oldest</MenuItem>
                             </Select>
 
-                            <Button variant="contained" onClick={() => setOpenReviewModal(true)} sx={{bgcolor: "primary.main", borderRadius: "30px", py: {xs :0, sm: 1}, px: {xs: 1, sm: 3}, fontSize: {xs: "14px", sm: "16px"}, textTransform: "none"}}>
+                            <Button variant="contained" onClick={() => setOpenReviewModal(true)} sx={{backgroundColor: "primary.main", borderRadius: "30px", py: {xs :0, sm: 1}, px: {xs: 1, sm: 3}, fontSize: {xs: "14px", sm: "16px"}, textTransform: "none"}}>
                                 Write a Review
                             </Button>
                         </Box>                

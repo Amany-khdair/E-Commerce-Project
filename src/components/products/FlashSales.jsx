@@ -16,14 +16,13 @@ import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
 import { Link, useNavigate } from 'react-router-dom';
 import CountDown from '../../animation/CountDown';
 
-export default function Products() {
+export default function FlashSales() {
   const navigate = useNavigate();
   const [likedProducts, setLikedProducts] = useState([]);
   const { isLoading, isError, data } = useProducts();
 
-  const products = data?.slice(0, 8);
-  const scrollRef = useRef();
-
+  const products = data?.response?.data?.slice(0, 8) ?? [];  const scrollRef = useRef();
+  console.log(data);
   if (isLoading)
     return (
       <Box sx={{ display: "flex", justifyContent: "center", py: 5 }}>
@@ -210,7 +209,7 @@ export default function Products() {
               }}
             >
               <img
-                src={product.thumbnail} alt={product.title}
+                src={product.image} alt={product.name}
                 style={{
                   width: "100%",
                   height: "100%",
@@ -222,7 +221,7 @@ export default function Products() {
 
             {/* Title */}
             <Typography fontWeight={600} fontSize="0.9rem">
-              {product.title}
+              {product.name}
             </Typography>
 
             {/* Price */}
@@ -238,7 +237,7 @@ export default function Products() {
 
             {/* Rating */}
             <Rating
-              value={product.rating}
+              value={product.rate}
               precision={0.5}
               readOnly
               size="small"

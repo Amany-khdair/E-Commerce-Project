@@ -15,8 +15,7 @@ export default function Products() {
 
   const { isLoading, isError, data } = useProducts();
   
-  const products = data?.slice(0,16)
-  const isXs = useMediaQuery("(max-width:600px)");
+  const products = data?.response?.data?.slice(0, 16) ?? [];  const isXs = useMediaQuery("(max-width:600px)");
   const isSm = useMediaQuery("(min-width:600px) and (max-width:900px)");
   const isMd = useMediaQuery("(min-width:900px) and (max-width:1200px)");
 
@@ -186,8 +185,8 @@ export default function Products() {
                   </Box>
 
                   <img
-                    src={product.thumbnail}
-                    alt={product.title}
+                    src={product.image}
+                    alt={product.name}
                     style={{
                       width: "100%",
                       height: 180,
@@ -199,7 +198,7 @@ export default function Products() {
                 </Box>
 
                 <Typography fontWeight={500} mt={1}>
-                  {product.title}
+                  {product.name}
                 </Typography>
 
                 <Box
@@ -214,7 +213,7 @@ export default function Products() {
                     ${product.price}
                   </Typography>
                   <Rating
-                    value={product.rating}
+                    value={product.rate}
                     precision={0.5}
                     readOnly
                     size="small"
