@@ -18,6 +18,7 @@ import CropFreeIcon from '@mui/icons-material/CropFree';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import {Link as RouterLink} from 'react-router-dom'
 import { bounce, fadeInUp } from '../../animation/Animation';
+import useAddToCart from '../../hooks/useAddToCart';
 export default function Details() {
     const {id} = useParams();
     const {isLoading, isError, data} = useDetails(id);
@@ -26,6 +27,7 @@ export default function Details() {
     const size = ["XS", "S", "M", "L", "XL"];
     const [sizes, setSizes] = useState(null);
     const product = data?.response || null;
+    const {mutate: addToCart, isPending} = useAddToCart();   
     const [quantity, setQuantity] = useState(1);
     const [likedProducts, setLikedProducts] = useState([]);
     const handleLike = (id) => {
@@ -214,7 +216,7 @@ export default function Details() {
                                 </IconButton>
                             </Box>
 
-                            <Button variant="contained" color="primary" sx={{textTransform: "none", px: {xs: 2, sm: 3}, py: {xs: 1, sm: 1}}}>
+                            <Button variant="contained" color="primary"  onClick={()=>addToCart({ProductId:product.id, Count: 1})} disabled={isPending} sx={{textTransform: "none", px: {xs: 2, sm: 3}, py: {xs: 1, sm: 1}}}>
                                 Buy Now
                             </Button>
 

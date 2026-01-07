@@ -5,6 +5,7 @@ import Snowfall from 'react-snowfall';
 import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlined';
 import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
 import { useLocation, useNavigate } from 'react-router-dom';
+import useAddToCart from '../../hooks/useAddToCart';
 
 export default function AllProducts() {
     const navigate = useNavigate();
@@ -20,7 +21,7 @@ export default function AllProducts() {
     };
 
     const [sortOption, setSortOption] = useState("titleAscending");
-    
+    const {mutate: addToCart, isPending} = useAddToCart();   
     const prices = data?.response?.data?.map(productPrice => productPrice.price)||[];
     const minPrice = Math.min(...prices);
     const maxPrice = Math.max(...prices);
@@ -148,7 +149,7 @@ export default function AllProducts() {
                                 <Typography variant="body1" color="primary.main">${product.price}</Typography>
                                 <Rating value={product.rate} precision={0.5} readOnly size="small" sx={{color: "orange"}}/> 
                                 <Box className="hover-button" sx={{opacity: 0, position: "absolute", bottom: 10, left: "50%", transform: "translateX(-50%)", transition: "0.5s", zIndex: 3}}>
-                                    <Button variant="contained"  sx={{mt: 2, width: "100%", backgroundColor: "#333", textTransform: "none" }}>
+                                    <Button variant="contained" onClick={()=>addToCart({ProductId:product.id, Count: 1})} disabled={isPending} sx={{mt: 2, width: "100%", backgroundColor: "#333", textTransform: "none" }}>
                                         Add To Cart
                                     </Button>
                                 </Box>                                

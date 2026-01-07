@@ -7,6 +7,7 @@ import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlin
 import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
 import { Link, useNavigate } from 'react-router-dom';
 import Snowfall from 'react-snowfall';
+import useAddToCart from '../../hooks/useAddToCart';
 
 export default function Products() {
   const navigate = useNavigate();
@@ -16,6 +17,8 @@ export default function Products() {
   const { isLoading, isError, data } = useProducts();
   
   const products = data?.response?.data?.slice(0, 16) ?? [];  const isXs = useMediaQuery("(max-width:600px)");
+  const {mutate: addToCart, isPending} = useAddToCart();   
+
   const isSm = useMediaQuery("(min-width:600px) and (max-width:900px)");
   const isMd = useMediaQuery("(min-width:900px) and (max-width:1200px)");
 
@@ -221,9 +224,7 @@ export default function Products() {
                   />
                 </Box>
 
-                <Button
-                  className="hover-btn"
-                  fullWidth
+                <Button className="hover-btn" fullWidth onClick={()=>addToCart({ProductId:product.id, Count: 1})} disabled={isPending}
                   sx={{
                     opacity: 0,
                     transition: "0.3s",

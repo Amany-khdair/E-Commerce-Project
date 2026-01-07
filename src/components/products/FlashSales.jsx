@@ -15,6 +15,7 @@ import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlin
 import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
 import { Link, useNavigate } from 'react-router-dom';
 import CountDown from '../../animation/CountDown';
+import useAddToCart from '../../hooks/useAddToCart';
 
 export default function FlashSales() {
   const navigate = useNavigate();
@@ -22,6 +23,8 @@ export default function FlashSales() {
   const { isLoading, isError, data } = useProducts();
 
   const products = data?.response?.data?.slice(0, 8) ?? [];  const scrollRef = useRef();
+  const {mutate: addToCart, isPending} = useAddToCart();   
+
   console.log(data);
   if (isLoading)
     return (
@@ -244,9 +247,7 @@ export default function FlashSales() {
               sx={{ mt: 1 }}
             />
 
-            <Button
-              className="hover-btn"
-              fullWidth
+            <Button className="hover-btn" fullWidth onClick={()=>addToCart({ProductId:product.id, Count: 1})} disabled={isPending}
               sx={{
                 opacity: 0,
                 transition: "0.5s",
