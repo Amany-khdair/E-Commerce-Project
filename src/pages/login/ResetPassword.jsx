@@ -36,7 +36,7 @@ export default function ResetPassword() {
         const sendData ={
             email, code, newPassword: data.newPassword,
         };
-        console.log(sendData);
+      
         resetMutation.mutate(sendData);
     }
     

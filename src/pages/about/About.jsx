@@ -3,10 +3,10 @@ import React from 'react';
 import Snowfall from 'react-snowfall';
 import aboutImg from '../../assets/images/about.webp';
 import LocalShippingOutlinedIcon from '@mui/icons-material/LocalShippingOutlined';
-//import StorefrontIcon from '@mui/icons-material/Storefront';
-//import PaidIcon from '@mui/icons-material/Paid';
-//import LocalMallIcon from '@mui/icons-material/LocalMall';
-//import MonetizationOnIcon from '@mui/icons-material/MonetizationOn';
+import StorefrontIcon from '@mui/icons-material/Storefront';
+import PaidIcon from '@mui/icons-material/Paid';
+import LocalMallIcon from '@mui/icons-material/LocalMall';
+import MonetizationOnIcon from '@mui/icons-material/MonetizationOn';
 import tomImg from '../../assets/images/team/tom.webp';
 import emmaImg from '../../assets/images/team/emma.webp';
 import willImg from '../../assets/images/team/will.webp';
@@ -17,10 +17,10 @@ import Services from '../../components/products/Services';
 
 export default function About() {
   const stats = [
-    { icon: <LocalShippingOutlinedIcon />, value: '10.5k', label: 'Sellers active our site' },
-    { icon: <LocalShippingOutlinedIcon />, value: '33k', label: 'Monthly Product Sale' },
-    { icon: <LocalShippingOutlinedIcon />, value: '45.5k', label: 'Customer active in our site' },
-    { icon: <LocalShippingOutlinedIcon />, value: '25k', label: 'Anual gross sale in our site' },
+    { icon: <StorefrontIcon />, value: '10.5k', label: 'Sellers active our site' },
+    { icon: <PaidIcon />, value: '33k', label: 'Monthly Product Sale' },
+    { icon: <LocalMallIcon />, value: '45.5k', label: 'Customer active in our site' },
+    { icon: <MonetizationOnIcon />, value: '25k', label: 'Anual gross sale in our site' },
   ];
 
   const team = [
@@ -79,7 +79,7 @@ export default function About() {
 
               }}>
                 <Box className="icon" sx={{ 
-                  width: 70, height: 70, background: 'linear-gradient(135deg, #e1e1e1, #c4c4c4)', 
+                  width: 80, height: 80, background: 'linear-gradient(135deg, #e1e1e1, #c4c4c4)', 
                   borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', 
                   margin: '0 auto 20px', border: '5px solid rgba(0,0,0,0.5)'
                 }}>

@@ -20,7 +20,6 @@ export function useReset(){
         navigate("/auth/login");
       },
       onError:(err)=>{
-        console.log(err.response?.data || err.message);
             Swal.fire({
               icon: "error",
               title: "Oops 😕",

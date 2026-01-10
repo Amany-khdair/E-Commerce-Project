@@ -9,7 +9,7 @@ export default function Categories() {
   const refScroll = useRef(null);  
   const {isLoading, isError, data} = useCategories();
   const navigate = useNavigate();
-  console.log(data);
+
   if(isLoading)return(
     <Box sx={{display: "flex", justifyContent: "center", alignItems: "center", py: 5}}>
         <CircularProgress sx={{color: "primary.main"}}/>
@@ -26,7 +26,6 @@ export default function Categories() {
         });
     }
   };
-  //console.log("DATA =>", data);
 
  return (
     <Box sx={{ px: { xs: 2, md: 6 }, py: 2 }}>    

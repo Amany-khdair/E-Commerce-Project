@@ -27,7 +27,6 @@ export default function Products() {
 
   let columnsPerPage = Math.floor(containerW / cardW);
   let shift = page * columnsPerPage * cardW;
-  console.log(data);
 
   if (isLoading)
     return (

@@ -66,7 +66,7 @@ export default function AllProducts() {
         (page - 1) * productsPerPage,
         page * productsPerPage
     );
-    console.log(currentProducts);
+   
     useEffect(() => {
     if (prices.length) {
         setPriceRange([minPrice, maxPrice]);

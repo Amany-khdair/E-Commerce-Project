@@ -25,7 +25,6 @@ export default function FlashSales() {
   const products = data?.response?.data?.slice(0, 8) ?? [];  const scrollRef = useRef();
   const {mutate: addToCart, isPending} = useAddToCart();   
 
-  console.log(data);
   if (isLoading)
     return (
       <Box sx={{ display: "flex", justifyContent: "center", py: 5 }}>

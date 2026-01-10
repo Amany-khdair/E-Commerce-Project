@@ -51,7 +51,7 @@ export default function Footer() {
         <Grid container spacing={4} sx={{display: "flex",  justifyContent: {xs: "center", md: "space-evenly"}}}>      
           <Grid item xs={12} sm={5} sx={{textAlign: {xs: "center"}}}>           
             
-            <Typography variant="h3" sx={{fontWeight: 700, textAlign: "center", mb: 4, lineHeight: 1.2, whiteSpace: "nowrap", overflow: "hidden", width: "fit-content",
+            <Typography variant="h3" sx={{fontWeight: 700, mb: 4, lineHeight: 1.2, whiteSpace: "nowrap", overflow: "hidden", width: "fit-content",
                                 animation: ` ${typing} 1.6s steps(12) forwards, ${lift} 3s ease-in-out infinite 1.6s`, background: "linear-gradient(90deg, #fff, #DB4444, #fff)", WebkitBackgroundClip: "text",
                                 color: "transparent", backgroundSize: "200%", animationDelay: "0s, 1.6s", "&:after": { content: '""', animation: `${shine} 2s linear infinite`, position: "absolute", width: "100%", height: "100%", left: 0, top: 0}}}>
                 Exclusive 

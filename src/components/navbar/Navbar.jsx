@@ -26,6 +26,7 @@ import Divider from "@mui/material/Divider";
 import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
 import { Button } from "@mui/material";
 import useAuthStore from "../../store/authStore";
+import CartDrawerContent from "../../pages/cart/CartDrawerContent";
 
 
 // =====================Search box =====================
@@ -73,7 +74,6 @@ export default function Navbar() {
     logout();
     navigate("/auth/login");
   };
-  console.log(`token from store : ${token}`);
   
   const [openDrawer, setOpenDrawer] = useState(false);
   const navigate = useNavigate('');
@@ -173,18 +173,7 @@ export default function Navbar() {
                   </IconButton>
                 </Box>
 
-                {/* Drawer Content */}
-                
-
-                {/* Drawer Buttons */}
-                <Box sx={{display: "flex", gap:2}}>
-                  <Button variant="outlined" sx={{color: "#DB4444", borderColor: "#DB4444", "&:hover":{backgroundColor: "#DB4444", color: "white", borderColor: "#DB4444", transition: "0.5s"}}} fullWidth onClick={()=> {toggleCart(); navigate("/cart");}}>
-                    Go to Cart
-                  </Button>
-                  <Button variant="contained" fullWidth onClick={()=> {toggleCart(); navigate("/checkout")}} sx={{backgroundColor: "#DB4444", "&:hover": { backgroundColor: "transparent", color: "#DB4444", transition: "0.5s" }}}>
-                    Check Out
-                  </Button>
-                </Box>
+                <CartDrawerContent toggleCart={toggleCart}/>
               </Drawer>
 
               <IconButton onClick={handleOpenMenu}  sx={{

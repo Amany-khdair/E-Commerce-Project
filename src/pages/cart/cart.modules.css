@@ -1,0 +1,28 @@
+.swal-confirm-btn {
+  background-color: #DB4444 !important;
+  color: white !important;
+  font-weight: bold;
+  padding: 10px 20px;
+  margin-left: 15px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  transition: 0.3s;
+}
+.swal-confirm-btn:hover {
+  background-color: #c33a3a !important;
+}
+
+.swal-cancel-btn {
+  background-color: #555 !important;
+  color: white !important;
+  font-weight: bold;
+  padding: 10px 20px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  transition: 0.3s;
+}
+.swal-cancel-btn:hover {
+  background-color: #333 !important;
+}

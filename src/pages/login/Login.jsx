@@ -42,7 +42,7 @@ export default function Login() {
 
   const {fieldErrors, setFieldErrors, generalError, loginMutation} = useSignin();
   const loginForm = async (values) => {
-    console.log(values);
+
     setFieldErrors({
       email: "",
       password: "",

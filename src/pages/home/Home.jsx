@@ -16,7 +16,6 @@ export default function Home() {
   const [currentImg, setCurrentImg] = useState(0);
   const token = useAuthStore(state=>state.token);
   const user = useAuthStore(state=>state.user);
-  console.log(user);
 
   const prevSlide = ()=>{
     return setCurrentImg(currentImg === 0? slides.length - 1 : currentImg - 1);
