@@ -300,16 +300,36 @@ export default function Navbar() {
 
       {/*==================Drawer View===========================*/}
       <Drawer anchor="right" open={openDrawer} onClose={() => setOpenDrawer(false)}>
-        <Box sx={{ width: 250, padding: 2, position: "relative" }}>
+        <Box sx= {{
+                width: { sm: "300px" },
+                position: "relative",                
+                padding: "20px",
+                display: "flex",
+                flexDirection: "column",
+                background: "linear-gradient(135deg, #ffffffcc, #f0f0f0cc)",
+                backdropFilter: "blur(10px)",
+                borderRadius: "12px 0 0 12px",
+                boxShadow: "0 10px 30px rgba(0,0,0,0.2)",
+              }}>
           <IconButton
             onClick={() => setOpenDrawer(false)}
             sx={{ position: "absolute", top: 10, right: 10, zIndex: 10,}}>
             <CloseIcon />
           </IconButton>
-          <List>
-            
+          
+          <Box sx={{ mb: 4, textAlign: "center" }}>
+            <Typography variant="h5" sx={{ fontWeight: "bold", color: "#DB4444" }}>
+              Menu
+            </Typography>
+            <Typography variant="body2" sx={{ color: "#555" }}>
+              Explore your options
+            </Typography>
+          </Box>
+
+          <List sx={{ flex: 1, display: "flex", flexDirection: "column", gap: 2 }}>            
             {[
               { text: "Home", path: "/home" },
+              { text: "Shop", path: "/allproducts" },
               { text: "Contact", path: "/contact" },
               { text: "About", path: "/about" },
               ...(!token ? [{ text: "Sign Up", path: "/auth/register" },
@@ -321,16 +341,24 @@ export default function Navbar() {
               { text: "My Orders", path: "/orders" },
               { text: "My Cancellations", path: "/cancellations" },
               { text: "My Reviews", path: "/reviews" },
-              { text: "Logout", onClick: handleLogout } ]: []),
+              { type: "divider", key: "divider-logout" },
+              { text: "Logout", onClick: handleLogout, listItemSx: { border: "1px solid #DB4444", backgroundColor: "rgba(219,68,68,0.1)", borderRadius: "12px", "&:hover": { backgroundColor: "#DB4444", "& .MuiTypography-root": { color: "white" }, transition: "0.3s"}},  textSx: {color: "#DB4444", fontWeight: 700} } ]: []),
              
             ].map((item) => {
               if (item.type === "divider") return <Divider key={item.key} sx={{ my: 1 }} />;
               return(
-                <ListItem
-                button
-                key={item.text}
-                component={item.path ? RouterLink : "button"}
-                to={item.path}
+                <ListItem button key={item.text} component={item.path ? RouterLink : "button"} to={item.path}
+                sx={{
+                  borderRadius: 2,
+                  paddingY: 1.5,
+                  paddingX: 2,
+                  transition: "0.3s",
+                  "&:hover": { 
+                    backgroundColor: "#DB4444",
+                    color: "#fff",
+                    "& .MuiTypography-root": { color: "#fff" }
+                  },...(item.listItemSx || {})
+                }} 
                 onClick={() => {
                   item.onClick?.();
                   setOpenDrawer(false)}}>
@@ -341,11 +369,12 @@ export default function Navbar() {
                     ".MuiTypography-root": {
                       fontSize: "14px",
                       color: "black",
-                      fontWeight: 500,
+                      fontWeight: 600,
                       width: "fit-content",
                       cursor: "pointer",
                       position: "relative",
                       paddingBottom: "3px",
+                      ...(item.textSx || {}),
                       "&:hover::after": {
                         content: "''",
                         position: "absolute",
