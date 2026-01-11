@@ -1,16 +1,16 @@
 import React from 'react'
 import { Outlet } from 'react-router-dom'
 import RegisterNavbar from '../components/navbar/RegisterNavbar'
+import TopBar from '../components/navbar/TopBar'
+import AuthFooter from '../components/footer/AuthFooter'
 
 export default function AuthLayout() {
   return (
     <>
+    <TopBar/>
     <RegisterNavbar/>
     <Outlet/>
-
-    <div className='footer'>
-        this is auth footer2
-    </div>
+    <AuthFooter/>   
     
     </>
   )

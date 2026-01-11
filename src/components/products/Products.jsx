@@ -8,11 +8,13 @@ import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
 import { Link, useNavigate } from 'react-router-dom';
 import Snowfall from 'react-snowfall';
 import useAddToCart from '../../hooks/useAddToCart';
+import { useTranslation } from 'react-i18next';
 
 export default function Products() {
   const navigate = useNavigate();
   const [likedProducts, setLikedProducts] = useState([]);
   const [page, setPage] = useState(0);
+  const { t } = useTranslation();
 
   const { isLoading, isError, data } = useProducts();
   
@@ -38,7 +40,7 @@ export default function Products() {
   if (isError)
     return (
       <Typography sx={{ color: "red", textAlign: "center", py: 6 }}>
-        Something went wrong!
+        {t("Something went wrong")}
       </Typography>
     );
 
@@ -59,7 +61,7 @@ export default function Products() {
   };
 
   return (
-    <Box sx={{ px: { xs: 2, md: 6 }, py: 6, my: 5 }}>
+    <Box sx={{ px: { xs: 2, md: 6 }, py: {xs: 2, md: 6}, my: {xs: 2, md: 5} }}>
       {/* Header */}
       <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
         <Box sx={{ display: "flex", gap: 2, alignItems: "center" }}>
@@ -72,12 +74,12 @@ export default function Products() {
             }}
           />
           <Typography sx={{ color: "primary.main", fontWeight: 600 }}>
-            Our Products
+            {t("OurProducts")}
           </Typography>
         </Box>
 
         <Typography variant="h4" fontWeight={600}>
-          Explore Our Products
+          {t("EOP")}
         </Typography>
       </Box>
 
@@ -239,7 +241,7 @@ export default function Products() {
                     "&:hover": { bgcolor: "#222" }
                   }}
                 >
-                  Add To Cart
+                  {t("ATC")}
                 </Button>
               </Card>
             </Box>
@@ -255,7 +257,7 @@ export default function Products() {
           variant="contained"
           sx={{ p: "10px", px: "25px", textTransform: "none" }}
         >
-          View All Products
+          {t("VAP")}
         </Button>
       </Box>
     </Box>

@@ -27,6 +27,7 @@ import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
 import { Button } from "@mui/material";
 import useAuthStore from "../../store/authStore";
 import CartDrawerContent from "../../pages/cart/CartDrawerContent";
+import { useTranslation } from "react-i18next";
 
 
 // =====================Search box =====================
@@ -69,6 +70,7 @@ const NavItem = styled("span")(() => ({
 export default function Navbar() {
   const token = useAuthStore(state=>state.token);
   const logout = useAuthStore(state=>state.logout);
+  const { t } = useTranslation();
 
   const handleLogout = () =>{
     logout();
@@ -91,7 +93,7 @@ export default function Navbar() {
 
   return (
     <>
-      <AppBar position="fixed" sx={{
+      <AppBar position="sticky" sx={{
           top: 0,         
           backgroundColor: "white",
           color: "black",
@@ -124,16 +126,16 @@ export default function Navbar() {
           }}>
 
           <Link component={RouterLink} color="inherit" underline="none" to='/home'>
-            <NavItem>Home</NavItem>
+            <NavItem>{t("Home")}</NavItem>
           </Link> 
           <Link component={RouterLink} color="inherit" underline="none" to='/allproducts'>
-            <NavItem>Shop</NavItem>
+            <NavItem>{t("Shop")}</NavItem>
           </Link>           
           <Link component={RouterLink} color="inherit" underline="none" to='/contact'>
-            <NavItem>Contact</NavItem>
+            <NavItem>{t("Contact")}</NavItem>
           </Link>
           <Link component={RouterLink} color="inherit" underline="none" to='/about'>
-            <NavItem>About</NavItem>
+            <NavItem>{t("About")}</NavItem>
           </Link>                          
           
         </Box>
@@ -147,7 +149,7 @@ export default function Navbar() {
             gap: "15px",
           }}>
           <SearchWrapper>
-            <SearchInput placeholder="What are you looking for?" />
+            <SearchInput placeholder= {t("WALF")} />
             <SearchIcon sx={{ cursor: "pointer" }} />
           </SearchWrapper>
 
@@ -167,7 +169,7 @@ export default function Navbar() {
                 
                 {/* Cart Header */}
                 <Box sx={{ display: "flex", justifyContent: "space-between" }}>
-                  <Typography variant="h6">Shopping Cart</Typography>                 
+                  <Typography variant="h6">{t("SC")}Shopping Cart</Typography>                 
                   <IconButton onClick={toggleCart}>
                     <CloseIcon />
                   </IconButton>
@@ -227,37 +229,37 @@ export default function Navbar() {
               >
                 <MenuItem>
                   <PersonOutlineIcon />
-                  Manage My Account
+                  {t("MMA")}
                 </MenuItem>
 
                 <MenuItem>
                   <ShoppingCartOutlinedIcon />
-                  My Orders
+                  {t("MO")}
                 </MenuItem>
 
                 <MenuItem>
                   <CancelOutlinedIcon />
-                  My Cancellations
+                  {t("MC")}
                 </MenuItem>
 
                 <MenuItem>
                   <StarOutlineIcon />
-                  My Reviews
+                  {t("MR")}
                 </MenuItem>
 
                 <Divider />
 
                 <MenuItem onClick={handleLogout}>
                   <LogoutIcon />
-                  Logout
+                  {t("Logout")}
                 </MenuItem>
               </Menu>
 
             </>
           ) : (
             <>
-              <Link component={RouterLink} color="inherit" underline="none" to="/auth/login">Login</Link>
-              <Link component={RouterLink} color="inherit" whiteSpace="nowrap" underline="none" to="/auth/register">Sign Up</Link>
+              <Link component={RouterLink} color="inherit" underline="none" to="/auth/login">{t("Login")}</Link>
+              <Link component={RouterLink} color="inherit" whiteSpace="nowrap" underline="none" to="/auth/register">{t("SignUP")}</Link>
             </>
           )}
 
@@ -266,7 +268,7 @@ export default function Navbar() {
         {/*=====================Mobile View==================*/}
         <Box sx={{ display: { xs: "flex", md: "none" }}}>
           <SearchWrapper>
-            <SearchInput placeholder="What are you looking for?" />
+            <SearchInput placeholder={t("WALF")} />
             <SearchIcon sx={{ cursor: "pointer"}} />
           </SearchWrapper>
 
@@ -319,30 +321,30 @@ export default function Navbar() {
           
           <Box sx={{ mb: 4, textAlign: "center" }}>
             <Typography variant="h5" sx={{ fontWeight: "bold", color: "#DB4444" }}>
-              Menu
+              {t("Menu")}
             </Typography>
             <Typography variant="body2" sx={{ color: "#555" }}>
-              Explore your options
+              {t("Explore your options")}
             </Typography>
           </Box>
 
           <List sx={{ flex: 1, display: "flex", flexDirection: "column", gap: 2 }}>            
             {[
-              { text: "Home", path: "/home" },
-              { text: "Shop", path: "/allproducts" },
-              { text: "Contact", path: "/contact" },
-              { text: "About", path: "/about" },
-              ...(!token ? [{ text: "Sign Up", path: "/auth/register" },
-                            {text: "Log In", path: "/auth/login" }] : []),              
+              { text: t("Home"), path: "/home" },
+              { text: t("Shop"), path: "/allproducts" },
+              { text: t("Contact"), path: "/contact" },
+              { text: t("About"), path: "/about" },
+              ...(!token ? [{ text: t("SignUP"), path: "/auth/register" },
+                            {text: t("Login"), path: "/auth/login" }] : []),              
               
                ...(token ? [
               { type: "divider", key: "divider-1" },
-              { text: "Manage My Account", path: "/profile" },
-              { text: "My Orders", path: "/orders" },
-              { text: "My Cancellations", path: "/cancellations" },
-              { text: "My Reviews", path: "/reviews" },
+              { text: t("MMA"), path: "/profile" },
+              { text: t("MO"), path: "/orders" },
+              { text: t("MC"), path: "/cancellations" },
+              { text: t("MR"), path: "/reviews" },
               { type: "divider", key: "divider-logout" },
-              { text: "Logout", onClick: handleLogout, listItemSx: { border: "1px solid #DB4444", backgroundColor: "rgba(219,68,68,0.1)", borderRadius: "12px", "&:hover": { backgroundColor: "#DB4444", "& .MuiTypography-root": { color: "white" }, transition: "0.3s"}},  textSx: {color: "#DB4444", fontWeight: 700} } ]: []),
+              { text: t("Logout"), onClick: handleLogout, listItemSx: { border: "1px solid #DB4444", backgroundColor: "rgba(219,68,68,0.1)", borderRadius: "12px", "&:hover": { backgroundColor: "#DB4444", "& .MuiTypography-root": { color: "white" }, transition: "0.3s"}},  textSx: {color: "#DB4444", fontWeight: 700} } ]: []),
              
             ].map((item) => {
               if (item.type === "divider") return <Divider key={item.key} sx={{ my: 1 }} />;

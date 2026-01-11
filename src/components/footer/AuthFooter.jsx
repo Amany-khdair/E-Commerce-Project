@@ -8,7 +8,7 @@ import { lift, shine, typing } from '../../animation/LogoAnimation';
 import SendIcon from '@mui/icons-material/Send';
 import { useTranslation } from 'react-i18next';
 
-export default function Footer() {
+export default function AuthFooter() {
   const { t } = useTranslation();
   const footerSections = [
     {
@@ -18,16 +18,7 @@ export default function Footer() {
         { name: "exclusive@gmail.com", path: "" }, 
         { name: "+88015-88888-9999", path: "" }
       ],
-    },
-    {
-      title: t("Account"),
-      links: [
-        { name: t("MyAccount"), path: "/account" },
-        { name: t("Cart"), path: "/cart" },
-        { name: t("Wishlist"), path: "/wishlist" },
-        { name: t("Shop"), path: "/allProducts" },
-      ],
-    },
+    },   
     {
       title: t("QuickLink"),
       links: [

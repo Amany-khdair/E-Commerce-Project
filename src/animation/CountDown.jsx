@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Countdown from "react-countdown";
 import { Box, Typography } from "@mui/material";
+import { useTranslation } from "react-i18next";
 
 export default function CountDown({ customRenderer }) {
   const [endDate, setEndDate] = useState(null);
@@ -15,10 +16,11 @@ export default function CountDown({ customRenderer }) {
       localStorage.setItem("countdownEnd", newEnd);
     }
   }, []);
+  const { t } = useTranslation();
 
   const renderer = ({ days, hours, minutes, seconds, completed }) => {
     if (completed) {
-      return <span>Offer Ended</span>;
+      return <span>{t("Offer Ended")}</span>;
     }
 
     const itemStyle = {
@@ -40,21 +42,21 @@ export default function CountDown({ customRenderer }) {
     return (
       <Box sx={{ display: "flex", gap: 1, alignItems: "center" }}>
         <Box sx={itemStyle}>
-           <span style={labelStyle}>Days</span> 
+           <span style={labelStyle}>{t("Days")}</span> 
           <Typography variant="h5" sx={{fontWeight: 700}}>{days}</Typography>         
         </Box>
         
         <Typography variant="h5" sx={{color: "primary.main"}}>:</Typography> 
 
         <Box sx={itemStyle}>
-          <span style={labelStyle}>Hours</span>  
+          <span style={labelStyle}>{t("Hours")}</span>  
           <Typography variant="h5" sx={{fontWeight: 700}}>{hours}</Typography>          
         </Box>
 
         <Typography variant="h5" sx={{color: "primary.main"}}>:</Typography> 
 
         <Box sx={itemStyle}>
-          <span style={labelStyle}>Mins</span>  
+          <span style={labelStyle}>{t("Mins")}</span>  
           <Typography variant="h5" sx={{fontWeight: 700}}>{minutes}</Typography>         
         </Box>
         
@@ -63,7 +65,7 @@ export default function CountDown({ customRenderer }) {
         </Box>         
 
         <Box sx={itemStyle}>
-          <span style={labelStyle}>Secs</span>  
+          <span style={labelStyle}>{t("Secs")}</span>  
           <Typography variant="h5" sx={{fontWeight: 700}}>{seconds}</Typography>         
         </Box>
       </Box>

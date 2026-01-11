@@ -2,10 +2,11 @@ import React from 'react';
 import { Box, Typography, Button, Container, Grid } from '@mui/material';
 import CountDown from '../../animation/CountDown';
 import speakerImg from '../../assets/images/speaker.webp';
+import { useTranslation } from 'react-i18next';
 export default function MusicBanner() {
-    
+    const { t } = useTranslation();
     const bannerRenderer = ({ days, hours, minutes, seconds, completed }) => { 
-    if (completed) return <Typography color="white">Offer Ended, Stay Tuned for More!</Typography>;
+    if (completed) return <Typography color="white">{t("Offer Ended")}</Typography>;
   
     const circleStyle = {
         width: { xs: 38, sm: 42, md: 55, lg: 62 },
@@ -22,10 +23,10 @@ export default function MusicBanner() {
     return (
         <Box sx={{ display: "flex", gap: { xs: 1, sm: 2, md: 3 } }}>
             {[
-            { val: days, lab: "Days" },
-            { val: hours, lab: "Hours" },
-            { val: minutes, lab: "Min" },
-            { val: seconds, lab: "Sec" }
+            { val: days, lab: t("Days") },
+            { val: hours, lab: t("Hours") },
+            { val: minutes, lab: t("Min") },
+            { val: seconds, lab: t("Sec") }
             ].map((item, index) => (
             <Box key={index} sx={circleStyle}>
                 <Typography sx={{ fontWeight: 700, fontSize: "16px", lineHeight: 1 }}>
@@ -45,13 +46,13 @@ export default function MusicBanner() {
             xs: "radial-gradient(circle at center, #2e2e2e 0%, black 100%)",
             md: "radial-gradient(circle at 75% 50%, #2e2e2e 0%, black 70%)"}}}>
         <Grid container spacing={4} alignItems="center" sx={{display: "flex", justifyContent:{xs: "center", md: "space-evenly"}}}>
-            <Grid item xs={6} sx={{ zIndex: 2, display: {xs: "flex"}, flexDirection: "column", justifyContent:{xs: "center", md: "space-evenly"} }}>
+            <Grid item xs={6} sx={{ zIndex: 2, flexDirection: "column", justifyContent:{xs: "center", md: "space-evenly"} }}>
                 <Typography sx={{ color: "primary.main", fontWeight: 600, fontSize: { xs: "12px", md: "18px", lg: "20px" }, mb: 2, textShadow: "0 2px 6px rgba(255,255,255,0.35), 0 4px 12px rgba(255,255,255,0.25)"}}>
-                    Categories
+                    {t("Categories")}
                 </Typography>
                 
-                <Typography variant="h2" sx={{ color: "white", fontWeight: 600,  mb: 4, fontSize: { xs: "1rem", sm: "1.4rem", md: "2rem", lg: "3rem" }, lineHeight: 1.2 }}>
-                    Enhance Your <br /> Music Experience
+                <Typography variant="h2" sx={{ color: "white", fontWeight: 600,  mb: 4, fontSize: { xs: "1rem", sm: "1.4rem", md: "2rem", lg: "3rem" }, lineHeight: 1.2, whiteSpace: "normal", wordWrap: "break-word",  textAlign: { xs: "center", md: "left" }}}>
+                    {t("EYME")}
                 </Typography>
 
                 <Box sx={{ mb: 5 }}>
@@ -59,7 +60,7 @@ export default function MusicBanner() {
                 </Box>
 
                 <Button variant="contained" sx={{ backgroundColor: "primary.main", color: "white", px: { xs: 2, md: 4 }, py: { xs: 1, md: 2 }, fontSize: { xs: "10px", md: "14px", lg: "16px" }, textTransform: "none", fontWeight: 600, boxShadow: "0px 0px 15px #db444427", animation: "pulse 2.5s infinite", '&:hover': { bgcolor: "#db44449d" } }}>
-                    Buy Now!
+                    {t("BN")}
                 </Button>
             </Grid>
 

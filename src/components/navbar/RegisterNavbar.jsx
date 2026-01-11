@@ -17,6 +17,7 @@ import ListItemText from "@mui/material/ListItemText";
 import { styled } from "@mui/material/styles";
 import Link from "@mui/material/Link";
 import { Link as RouterLink} from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 
 // =====================Search box =====================
@@ -57,6 +58,8 @@ const NavItem = styled("span")(() => ({
 
 export default function RegisterNavbar() {
   const [openDrawer, setOpenDrawer] = useState(false);  
+  const { t } = useTranslation();
+
   return (
     <>
       <AppBar
@@ -92,16 +95,16 @@ export default function RegisterNavbar() {
             gap: "30px",
           }}>
           <Link component={RouterLink} color="inherit" underline="none" to='/home'>
-            <NavItem>Home</NavItem>
+            <NavItem>{t("Home")}</NavItem>
           </Link>
           <Link component={RouterLink} color="inherit" underline="none" to='/contact'>
-            <NavItem>Contact</NavItem>
+            <NavItem>{t("Contact")}</NavItem>
           </Link>
           <Link component={RouterLink} color="inherit" underline="none" to='/about'>
-            <NavItem>About</NavItem>
+            <NavItem>{t("About")}</NavItem>
           </Link>
           <Link component={RouterLink} color="inherit" underline="none" to='/auth/register'>
-            <NavItem>Sign Up</NavItem>
+            <NavItem>{t("SignUP")}</NavItem>
           </Link>
         </Box>
 
@@ -115,7 +118,7 @@ export default function RegisterNavbar() {
             gap: "15px",
           }}>
           <SearchWrapper>
-            <SearchInput placeholder="What are you looking for?" />
+            <SearchInput placeholder={t("WALF")} />
             <SearchIcon sx={{ cursor: "pointer" }} />
           </SearchWrapper>
         </Box>
@@ -141,10 +144,10 @@ export default function RegisterNavbar() {
           </IconButton>
             <List>
                 {[
-                    { text: "Home", path: "/home" },
-                    { text: "Contact", path: "/contact" },
-                    { text: "About", path: "/about" },
-                    { text: "Sign Up", path: "/auth/register" },
+                    { text: t("Home"), path: "/home" },
+                    { text: t("Contact"), path: "/contact" },
+                    { text: t("About"), path: "/about" },
+                    { text: t("SignUP"), path: "/auth/register" },
                 ].map((item) => (
                     <ListItem
                     button

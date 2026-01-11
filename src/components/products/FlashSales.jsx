@@ -16,6 +16,7 @@ import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
 import { Link, useNavigate } from 'react-router-dom';
 import CountDown from '../../animation/CountDown';
 import useAddToCart from '../../hooks/useAddToCart';
+import { useTranslation } from 'react-i18next';
 
 export default function FlashSales() {
   const navigate = useNavigate();
@@ -24,6 +25,7 @@ export default function FlashSales() {
 
   const products = data?.response?.data?.slice(0, 8) ?? [];  const scrollRef = useRef();
   const {mutate: addToCart, isPending} = useAddToCart();   
+  const { t } = useTranslation();
 
   if (isLoading)
     return (
@@ -35,7 +37,7 @@ export default function FlashSales() {
   if (isError)
     return (
       <Typography sx={{ color: "red", textAlign: "center", py: 6 }}>
-        Something went wrong!
+        {t("Something went wrong")}
       </Typography>
     );
 
@@ -62,13 +64,13 @@ export default function FlashSales() {
         <Box sx={{ display: "flex", gap: 2, alignItems: "center" }}>
           <Box sx={{ width: 15, height: 35, bgcolor: "primary.main", borderRadius: 1 }} />
           <Typography sx={{ color: "primary.main", fontWeight: 600 }}>
-            Today's
+            {t("Today's")}
           </Typography>
         </Box>
 
         <Box sx={{display: "flex", gap: {xs: 1, sm: 3}, alignItems: {sm: "flex-start", md: "center"},  flexDirection:{xs: "column", sm: "column", md: "row"}}}>
           <Typography variant="h4" fontWeight={600}>
-          Flash Sales
+            {t("FlashSales")}
           </Typography>
           <Box sx={{ mt: 2 }}>
             <CountDown />
@@ -262,7 +264,7 @@ export default function FlashSales() {
                 "&:hover": { bgcolor: "#222" }
               }}
             >
-              Add To Cart
+              {t("ATC")}
             </Button>
           </Card>
         ))}
@@ -276,7 +278,7 @@ export default function FlashSales() {
           variant="contained"
           sx={{ px: "30px", py: "10px", textTransform: "none" }}
         >
-          View All Products
+          {t("VAP")}
         </Button>
       </Box>
     </Box>

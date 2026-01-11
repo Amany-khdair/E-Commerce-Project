@@ -2,8 +2,11 @@ import { Box, Grid, Typography } from '@mui/material'
 import LocalShippingOutlinedIcon from '@mui/icons-material/LocalShippingOutlined';
 import HeadsetMicOutlinedIcon from '@mui/icons-material/HeadsetMicOutlined';
 import VerifiedUserOutlinedIcon from '@mui/icons-material/VerifiedUserOutlined';
+import { useTranslation } from 'react-i18next';
 
 export default function Services() {
+  const { t } = useTranslation();
+
   return (
     <Grid container spacing={7} justifyContent="center" sx={{ py: 8 }}>
       {/* first item */}
@@ -16,10 +19,10 @@ export default function Services() {
           </Box>
 
           <Typography variant="h6" sx={{ fontWeight: 700, mt: 2 }}>
-              FREE AND FAST DELIVERY
+              {t("FAFD")}
           </Typography>
           <Typography sx={{ fontWeight: 500, fontSize: 14 }}>
-              Free delivery for all orders over $140
+              {t("FDFAO")}
           </Typography>
         </Box>
       </Grid>
@@ -34,10 +37,10 @@ export default function Services() {
           </Box>
 
           <Typography variant="h6" sx={{ fontWeight: 700, mt: 2 }}>
-              24/7 CUSTOMER SERVICE
+              {t("24/7CS")}
           </Typography>
           <Typography sx={{ fontWeight: 500, fontSize: 14 }}>
-              Friendly 24/7 customer support
+              {t("F24/7CS")}
           </Typography>
         </Box>
       </Grid>
@@ -52,10 +55,10 @@ export default function Services() {
           </Box>
 
           <Typography variant="h6" sx={{ fontWeight: 700, mt: 2 }}>
-            MONEY BACK GUARANTEE
+            {t("MBG")}
           </Typography>
           <Typography sx={{ fontWeight: 500, fontSize: 14 }}>
-            We return money within 30 days
+            {t("WRM")}
           </Typography>
         </Box>
       </Grid>

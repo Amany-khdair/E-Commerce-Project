@@ -12,10 +12,12 @@ import FlashSales from '../../components/products/FlashSales'
 import Services from '../../components/products/Services'
 import NewArrival from '../../components/products/NewArrival'
 import Experience from '../../components/products/Experience'
+import { useTranslation } from 'react-i18next'
 export default function Home() {
   const [currentImg, setCurrentImg] = useState(0);
   const token = useAuthStore(state=>state.token);
   const user = useAuthStore(state=>state.user);
+  const { t } = useTranslation();
 
   const prevSlide = ()=>{
     return setCurrentImg(currentImg === 0? slides.length - 1 : currentImg - 1);
@@ -39,7 +41,7 @@ export default function Home() {
         <Box
           sx={{
             position: "absolute",
-            top: { xs: 50, sm: 65, md: 70 },
+            top: { xs: 108, sm: 115, md: 120 },
             left: "50%",
             transform: "translateX(-50%)",
             backdropFilter: "blur(12px)",
@@ -58,7 +60,7 @@ export default function Home() {
             whiteSpace: { xs: "normal", sm: "nowrap" }
           }}
         >
-          ⚜️ Welcome {user?.name} ⚜️
+          ⚜️ {t("WLC")} {user?.name} ⚜️
 
           <Box
             component="div"
@@ -72,7 +74,7 @@ export default function Home() {
               animation: "typing 3s steps(37) forwards 1.2s, blink .7s step-end infinite alternate"
             }}
           >
-            Ready to explore our latest products?
+            {t("RTELP")}
           </Box>
 
           <style>
@@ -103,7 +105,7 @@ export default function Home() {
       )}
 
       {/* Carosel */}
-      <Box sx={{position: "relative", py: 8, width: "100%", overflow: "hidden"}}>
+      <Box sx={{position: "relative", width: "100%", overflow: "hidden"}}>
         {slides.map((slide, i) => (
           <Box key={slide.id} sx={{display: i === currentImg? "flex" : "none", alignItems: "center", backgroundColor: "#000", justifyContent: "space-between", color: "#fff", borderRadius: 2, p: 3}}>
             <Box sx={{mx: "auto", px: 3, pt: {xs: 5, sm: 6}}}>
@@ -112,15 +114,15 @@ export default function Home() {
                   <Box component="img" src={slide.logo} alt="logo" sx={{ width: {xs: 24, sm: 28, lg: 32}, height: {xs: 24, sm: 28, lg: 32} }}/>
                 )}
                 <Typography variant="h6" sx={{fontSize: { xs: '14px', sm: '16px', md: '18px', lg: '20px' }}}>
-                  {slide.title}
+                  {t(slide.title)}
                 </Typography>
               </Box>
               
               <Typography variant="h4" sx={{my: 1, fontWeight: "bold", fontSize: { xs: '18px', sm: '20px', md: '28px', lg: '32px' }}}>
-                {slide.subtitle}
+                {t(slide.subtitle)}
               </Typography>
               <Typography component={Link} to="/AllProducts" sx={{display: "inline-block", mt: 2, color: "#fff", textDecoration: "underline", fontSize: { xs: '10px', sm: '14px', md: '16px', lg: '18px' }}}>
-                Shop Now &rarr;
+                {t("SN")} &rarr;
               </Typography>
             </Box>
             <Box component="img" src={slide.img} alt={slide.title} sx={{height: {xs: 150, sm: 250, md: 350, lg: 500}}}></Box>

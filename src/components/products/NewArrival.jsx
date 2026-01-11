@@ -5,8 +5,12 @@ import womanHat from '../../assets/images/arrivals/womanWearingHat.webp';
 import speakers from '../../assets/images/arrivals/speakers.webp';
 import perfume from '../../assets/images/arrivals/perfume.webp';
 import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
+
 
 export default function NewArrival() {
+  const { t } = useTranslation(); 
+
   return (
     <>    
         <Box sx={{ px: { xs: 2, md: 6 }, py: 3 }}>
@@ -15,13 +19,13 @@ export default function NewArrival() {
                 <Box sx={{ display: "flex", gap: 2, alignItems: "center" }}>
                     <Box sx={{ width: 15, height: 35, backgroundColor: "primary.main", borderRadius: 1 }} />
                     <Typography sx={{ color: "primary.main", fontWeight: 600 }}>
-                        Featured
+                        {t("Featured")}
                     </Typography>
                 </Box>
         
                 <Box sx={{display: "flex", gap: {xs: 1, sm: 3}, alignItems: {sm: "flex-start", md: "center"},  flexDirection:{xs: "column", sm: "column", md: "row"}}}>
                     <Typography variant="h4" fontWeight={600}>
-                        New Arrival
+                        {t("NewArrival")}
                     </Typography>                    
                 </Box>                       
             </Box>
@@ -47,14 +51,14 @@ export default function NewArrival() {
         {/* PlayStation */}
             <Box sx={{ gridArea: "main", position: "relative", overflow: "hidden", display: "flex", alignItems: "flex-end", backgroundColor: "black", borderRadius: 1 }}>
                 <Box component="img" src={playstation} alt="playstation" sx={{ width: "100%", height: "100%", position: "absolute", objectFit: "contain", bottom: 0}}/>
-                <ContentOverlay title="PlayStation 5" description="Black and White version of the PS5 coming out on sale." />
+                <ContentOverlay title= {t("PlayStation5")} description= {t("PlayStationDes")} t={t}/>
             </Box>
 
             {/* Women */}
             <Box
                 sx={{ gridArea: "women", position: "relative", overflow: "hidden", backgroundColor: "#0D0D0D", borderRadius: 1}}>
                 <Box component="img" src={womanHat} alt="Womens Collections" sx={{ width: "auto", height: "100%", position: "absolute", objectFit: "cover", right: 0}}/>
-                <ContentOverlay title="Women's Collections" description="Featured woman collections that give you another vibe." />
+                <ContentOverlay title={t("Women'sCollections")} description={t("Women'sCollectionsDes")} t={t}/>
             </Box>
 
             {/* Speakers and Perfume */}
@@ -62,20 +66,20 @@ export default function NewArrival() {
                 {/* Speakers */}
                 <Box sx={{ position: "relative", backgroundColor: "black", borderRadius: 1, overflow: "hidden", display: "flex", justifyContent: "center", alignItems: "center" }}>
                     <Box component="img" src={speakers} sx={{ width: "80%", opacity: 0.8 }} />
-                    <ContentOverlay title="Speakers" description="Amazon wireless speakers" small />
+                    <ContentOverlay title= {t("Speakers")} description={t("SpeakersDes")} t={t} small />
                 </Box>
 
                 {/* Perfume */}
                 <Box sx={{ position: "relative", backgroundColor: "black", borderRadius: 1, overflow: "hidden", display: "flex", justifyContent: "center", alignItems: "center" }}>
                     <Box component="img" src={perfume} sx={{ width: "80%", opacity: 0.8 }} />
-                    <ContentOverlay title="Perfume" description="GUCCI INTENSE OUD EDP" small />
+                    <ContentOverlay title= {t("Perfume")} description={t("PerfumeDes")} t={t} small />
                 </Box>
             </Box>
         </Box>
     </>
   );
 }
-const ContentOverlay = ({ title, description, small = false }) => (
+const ContentOverlay = ({ title, description, small = false, t }) => (
     <Box sx={{ position: "absolute", bottom: small ? 15 : 25, left: small ? 15 : 25, color: "#fff", zIndex: 2, maxWidth: "250px" }}>
         <Typography variant={small ? "h6" : "h5"} fontWeight="bold" sx={{ mb: 1 }}>
             {title}
@@ -84,7 +88,7 @@ const ContentOverlay = ({ title, description, small = false }) => (
             {description}
         </Typography>
         <Typography component={Link} variant="body1" to="/allProducts" sx={{color: "#fff", fontWeight: 500, textDecoration: "underline", cursor: "pointer", "&:hover": { color: "#ccc" } }}>
-            Shop Now
+            {t("SN")}
         </Typography>
     </Box>
 );
