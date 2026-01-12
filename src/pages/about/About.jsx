@@ -14,41 +14,42 @@ import TwitterIcon from '@mui/icons-material/Twitter';
 import FacebookIcon from '@mui/icons-material/Facebook';
 import InstagramIcon from '@mui/icons-material/Instagram';
 import Services from '../../components/products/Services';
+import { useTranslation } from 'react-i18next';
 
 export default function About() {
+  const { t } = useTranslation();
   const stats = [
-    { icon: <StorefrontIcon />, value: '10.5k', label: 'Sellers active our site' },
-    { icon: <PaidIcon />, value: '33k', label: 'Monthly Product Sale' },
-    { icon: <LocalMallIcon />, value: '45.5k', label: 'Customer active in our site' },
-    { icon: <MonetizationOnIcon />, value: '25k', label: 'Anual gross sale in our site' },
+    { icon: <StorefrontIcon />, value: '10.5k', label: t("SellersActiveOurSite") },
+    { icon: <PaidIcon />, value: '33k', label: t("MonthlyProductSale") },
+    { icon: <LocalMallIcon />, value: '45.5k', label: t("CustomerActiveOurSite") },
+    { icon: <MonetizationOnIcon />, value: '25k', label: t("AnnualGrossSaleOurSite") },
   ];
 
   const team = [
-    { name: 'Tom Cruise', role: 'Founder & Chairman', img: tomImg },
-    { name: 'Emma Watson', role: 'Managing Director', img: emmaImg },
-    { name: 'Will Smith', role: 'Product Designer', img: willImg },
+    { name: t("Tom"), role: t("FounderChairman"), img: tomImg },
+    { name: t("Emma"), role: t("ManagingDirector"), img: emmaImg },
+    { name: t("Will"), role: t("ProductDesigner"), img: willImg },
   ];
 
   return (
-    <Box sx={{my: 10, py: 2}}>
+    <Box sx={{my: 5, py: 2}}>
       <Snowfall color='#82C3D9'/>
       
       <Breadcrumbs aria-label="breadcrumb"  sx={{mb: 4}}>
         <Link underline="hover" color="inherit" href="/">
-          Home
+          {t("Home")}
         </Link>        
         <Link underline="hover" color="text.primary" href="/about" aria-current="page">
-          About
+          {t("About")}
         </Link>
       </Breadcrumbs>
 
       <Box>
         <Grid container spacing={2} sx={{ flexDirection: {xs: "column", md: "row"}, justifyContent: "space-evenly", alignItems: "center"}}>
           <Grid item xs={12} md={6} sx={{ width: "100%", maxWidth: 500 }}>
-            <Typography variant="h3" fontWeight={700} mb={4}>Our Story</Typography>
+            <Typography variant="h3" fontWeight={700} mb={4}>{t("OurStory")}</Typography>
             <Typography variant="body1">
-              Launced in 2015, Exclusive is South Asia’s premier online shopping makterplace with an active presense in Bangladesh. Supported by wide range of tailored marketing, data and service solutions, Exclusive has 10,500 sallers and 300 brands and serves 3 millioons customers across the region. 
-              Exclusive has more than 1 Million products to offer, growing at a very fast. Exclusive offers a diverse assotment in categories ranging  from consumer.
+              {t("StoryParagraph")}
             </Typography>
           </Grid>
 
@@ -92,9 +93,9 @@ export default function About() {
           ))}
         </Grid>
         
-        <Typography variant="h4" fontWeight={700} sx={{ mb: 1 }}>Our Team</Typography>
+        <Typography variant="h4" fontWeight={700} sx={{ mb: 1 }}> {t("OurTeam")} </Typography>
         <Typography variant="body1" color="text.secondary" sx={{ py: 2, mx: "auto" }}>
-          Meet the people whose passion and expertise drive our company forward.
+          {t("TeamIntro")}
         </Typography>
         <Grid container spacing={4} sx={{ py: 8, justifyContent: "center" }}>               
           {team.map((member, index)=>(
@@ -125,10 +126,10 @@ export default function About() {
         </Grid>
                 
         <Typography variant="h4" fontWeight={700} mt={4}>
-          Our Services
+          {t("OurServices")}
         </Typography>
         <Typography variant="body1" color="text.secondary" sx={{ py: 2, mx: "auto" }}>
-          We offer high-quality solutions designed to meet the needs of our customers.
+          {t("ServicesIntro")}
         </Typography>
         <Services/>
       </Box>

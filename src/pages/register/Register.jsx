@@ -18,8 +18,10 @@ import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import { useRegister } from "../../hooks/useRegister";
 import Snowfall from "react-snowfall";
+import { useTranslation } from "react-i18next";
 
 export default function Register() {
+  const { t, i18n } = useTranslation();
   const { register, handleSubmit, setValue, formState: { errors, isSubmitting }} = useForm({
     resolver: yupResolver(registerSchema),
     mode: "onBlur",
@@ -94,10 +96,10 @@ export default function Register() {
 
               <Box sx={{ width: "100%", maxWidth: 400 }}>
                 <Typography variant="h4" sx={{ fontWeight: 400, marginBottom: 3 }}>
-                  Create an account
+                  {t("CreateAccount")}
                 </Typography>
                 <Typography variant="h6" sx={{ fontWeight: 300 }}>
-                  Enter your details below
+                  {t("EnterYourDetails")}
                 </Typography>
                 {/* {errorMsg.length > 0 && (
                   <Box sx={{ mb: 2 }}>
@@ -120,10 +122,17 @@ export default function Register() {
                     flexDirection: "column",
                     gap: 3,
                   }}>
-                  <TextField id="standard-basic" label="User Name" {...register("userName")} variant="standard"
+                  <TextField id="standard-basic" label={t("UserName")} {...register("userName")} variant="standard"
                     onChange={(e) => {
                       setValue("userName", e.target.value);
                     }} error={errors.userName} helperText={errors.userName?.message}
+                    InputLabelProps={{
+                          sx: {
+                            textAlign: i18n.language === "ar" ? "right" : "left",
+                            left: i18n.language === "ar" ? "auto" : undefined, 
+                            right: i18n.language === "ar" ? 0 : undefined,
+                          }
+                    }}
                   />
                   {fieldErrors.userName && (
                     <Typography sx={{ color: "red", fontSize: "14px" }}>
@@ -131,10 +140,17 @@ export default function Register() {
                     </Typography>
                   )}
 
-                  <TextField id="standard-basic" label="Full Name" {...register("fullName")} variant="standard" 
+                  <TextField id="standard-basic" label={t("FullName")} {...register("fullName")} variant="standard" 
                     onChange={(e) => {
                       setValue("fullName", e.target.value);
                     }} error={errors.fullName} helperText={errors.fullName?.message}
+                  InputLabelProps={{
+                          sx: {
+                            textAlign: i18n.language === "ar" ? "right" : "left",
+                            left: i18n.language === "ar" ? "auto" : undefined, 
+                            right: i18n.language === "ar" ? 0 : undefined,
+                          }
+                    }}
                   />
                   {fieldErrors.fullName && (
                     <Typography sx={{ color: "red", fontSize: "14px" }}>
@@ -142,10 +158,17 @@ export default function Register() {
                     </Typography>
                   )}
 
-                  <TextField id="standard-basic" label="User Email" {...register("email")} type="email" variant="standard"
+                  <TextField id="standard-basic" label={t("UserEmail")} {...register("email")} type="email" variant="standard"
                     onChange={(e) => {
                       setValue("email", e.target.value);
                     }} error={errors.email} helperText={errors.email?.message}
+                  InputLabelProps={{
+                          sx: {
+                            textAlign: i18n.language === "ar" ? "right" : "left",
+                            left: i18n.language === "ar" ? "auto" : undefined, 
+                            right: i18n.language === "ar" ? 0 : undefined,
+                          }
+                    }}
                   />
                   {fieldErrors.email && (
                     <Typography sx={{ color: "red", fontSize: "14px" }}>
@@ -153,7 +176,7 @@ export default function Register() {
                     </Typography>
                   )}
 
-                  <TextField id="standard-basic" label="Password" {...register("password")} type={showPassword ? "text" : "password"} variant="standard"
+                  <TextField id="standard-basic" label={t("Password")} {...register("password")} type={showPassword ? "text" : "password"} variant="standard"
                     onChange={(e) => {
                       setValue("password", e.target.value);
                     }} error={errors.password} helperText={errors.password?.message}
@@ -171,6 +194,13 @@ export default function Register() {
                         </InputAdornment>
                       ),
                     }}
+                  InputLabelProps={{
+                          sx: {
+                            textAlign: i18n.language === "ar" ? "right" : "left",
+                            left: i18n.language === "ar" ? "auto" : undefined, 
+                            right: i18n.language === "ar" ? 0 : undefined,
+                          }
+                    }}
                   />
                   {fieldErrors.password && (
                     <Typography sx={{ color: "red", fontSize: "14px" }}>
@@ -178,10 +208,17 @@ export default function Register() {
                     </Typography>
                   )}
 
-                  <TextField id="standard-basic" label="Phone Number" {...register("phoneNumber")} variant="standard"
+                  <TextField id="standard-basic" label={t("PhoneNumber")} {...register("phoneNumber")} variant="standard"
                     onChange={(e) => {
                       setValue("phoneNumber", e.target.value);
                     }} error={errors.phoneNumber} helperText={errors.phoneNumber?.message}
+                  InputLabelProps={{
+                          sx: {
+                            textAlign: i18n.language === "ar" ? "right" : "left",
+                            left: i18n.language === "ar" ? "auto" : undefined, 
+                            right: i18n.language === "ar" ? 0 : undefined,
+                          }
+                    }}
                   />
                   {fieldErrors.phoneNumber && (
                     <Typography sx={{ color: "red", fontSize: "14px" }}>
@@ -201,7 +238,7 @@ export default function Register() {
                     }}
                     endIcon={<SendIcon />}
                   >
-                    Create Account
+                    {t("CreateAccount")}
                   </LoadingButton>
                   <Button variant="contained" sx={{
                       backgroundColor: "#fff",
@@ -210,16 +247,16 @@ export default function Register() {
                       py: "16px",
                       border: "2px solid #ccc",
                     }} endIcon={<GoogleIcon />}>
-                    Sign up with Google
+                    {t("SignUpWithGoogle")}
                   </Button>
                   <Typography variant="body2" color="textSecondary" align="center" sx={{ mt: 2 }}>
-                    Already have account?{" "}
+                    {t("AlreadyHaveAccount")}{" "}
                     <Box component={RouterLink} to={"/auth/Login"} color="textSecondary" variant="span" sx={{
                         textDecoration: "underline",
                         cursor: "pointer",
                         color: "#4c4b4bff",
                       }}>
-                      Log in
+                      {t("LogIn")}
                     </Box>
                   </Typography>
                 </Box>

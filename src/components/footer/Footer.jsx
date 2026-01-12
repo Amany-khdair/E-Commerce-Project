@@ -9,7 +9,7 @@ import SendIcon from '@mui/icons-material/Send';
 import { useTranslation } from 'react-i18next';
 
 export default function Footer() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const footerSections = [
     {
       title: t("Support"),
@@ -63,7 +63,7 @@ export default function Footer() {
                 Exclusive 
             </Typography>
 
-            <Box sx={{textAlign: {xs: "center", md: "left"}}}>
+            <Box sx={{textAlign: {xs: "center", md: i18n.language === "ar" ? "center" : "left"}}}>
               <Typography variant="h4" fontWeight={600} sx={{ my: 2, paddingLeft: {xs: 1, md: 5} }}>
                 {t("Subscribe")}
               </Typography>
@@ -72,7 +72,7 @@ export default function Footer() {
                 {t("GYFO")}
               </Typography>
 
-              <TextField variant="outlined" placeholder={t("Enter Your Email")} fullWidth
+              <TextField variant="outlined" placeholder={t("EYE")} fullWidth
                 sx={{ maxWidth: "400px", color: 'white', borderColor: 'rgba(255,255,255,0.3)', textTransform: 'none', px: 4, py: 1.5, borderRadius: '8px', fontSize: '16px', 
                   '& .MuiOutlinedInput-root': {
                     color: 'white',                 

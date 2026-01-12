@@ -4,28 +4,37 @@ import { typing, shine, lift } from "../../animation/LogoAnimation";
 import { LoadingButton } from '@mui/lab';
 import { useForget } from '../../hooks/useForget';
 import Snowfall from 'react-snowfall';
+import { useTranslation } from 'react-i18next';
 
 export default function ForgetPassword() {
   const {register, handleSubmit, formState: {isSubmitting}} = useForm();
+  const { t, i18n } = useTranslation();
   const forgetMutation = useForget(); 
   const sendCode = async (data) =>{
-    forgetMutation.mutate(data);
+    return forgetMutation.mutateAsync(data);
   };
 
    return (
-    <Box sx={{ maxWidth: {xs: "90%", sm: 400}, mx: "auto", mt:{xs: 6,sm: 10} , px:{xs: 2, sm:0}, textAlign: "center" }}>
+    <Box sx={{ maxWidth: {xs: "90%", sm: 450}, mx: "auto", mt:{xs: 6,sm: 10} , px:{xs: 2, sm:0}, textAlign: "center" }}>
         <Snowfall color='#82C3D9'/>
         <Typography variant="h3" sx={{fontWeight: 700, textAlign: "center", mb: 3, whiteSpace: "nowrap", overflow: "hidden", width: "fit-content",
                         animation: ` ${typing} 1.6s steps(12) forwards, ${lift} 3s ease-in-out infinite 1.6s`, background: "linear-gradient(90deg, #000, #DB4444, #000)", WebkitBackgroundClip: "text",
                         color: "transparent", backgroundSize: "200%", animationDelay: "0s, 1.6s", "&:after": { content: '""', animation: `${shine} 2s linear infinite`, position: "absolute", width: "100%", height: "100%", left: 0, top: 0}}}>
-         Forget Password</Typography>
+         {t("ForgetPasswordHead")}</Typography>
          
         <Box component={'form'} onSubmit={handleSubmit(sendCode)} sx={{ mt: 5, display: "flex", flexDirection: "column", gap: 3 }}>
-            <TextField id="standard-basic" label="User Email" type="email" fullWidth variant="standard" {...register('email', {required: true})}/>                         
+            <TextField id="standard-basic" label={t("UserEmail")} type="email" fullWidth variant="standard" {...register('email', {required: true})}
+            InputLabelProps={{
+                  sx: {
+                    textAlign: i18n.language === "ar" ? "right" : "left",
+                    left: i18n.language === "ar" ? "auto" : undefined, 
+                    right: i18n.language === "ar" ? 0 : undefined,
+                  }
+            }}/>                         
             
-            <LoadingButton fullWidth loading={isSubmitting} loadingIndicator="Processing..." variant="contained" type="submit" 
+            <LoadingButton fullWidth loading={isSubmitting} loadingIndicator={t("Processing")} variant="contained" type="submit" 
                         sx={{backgroundColor: "#DB4444", py: "13px", px: "45px", mx: "5px", fontSize: "16px"}}
-            > Send Code </LoadingButton>
+            > {t("SendCode")}</LoadingButton>
         </Box>
     </Box>
   )

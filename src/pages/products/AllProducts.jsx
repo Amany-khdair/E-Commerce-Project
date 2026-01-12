@@ -6,10 +6,13 @@ import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlin
 import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
 import { useLocation, useNavigate } from 'react-router-dom';
 import useAddToCart from '../../hooks/useAddToCart';
+import { useTranslation } from 'react-i18next';
 
 export default function AllProducts() {
     const navigate = useNavigate();
     const {isLoading, isError, data} = useProducts();
+    const { t } = useTranslation();
+
     const products = data?.response.data || [];
     const [likedProducts, setLikedProducts] = useState([]);
     const handleLike = (id) => {
@@ -80,34 +83,29 @@ export default function AllProducts() {
             </Box>
         )
   
-    if(isError)return <Typography sx={{color: "red", textAlign: "center", py: 6 }}>Something went wrong!</Typography>        
+    if(isError)return <Typography sx={{color: "red", textAlign: "center", py: 6 }}>{t("LoadingErrorCart")}</Typography>        
     
     
   return (
     <>
     <Snowfall color='#82C3D9'/>
-       <Box sx={{ px:{xs:2, sm:4, md:6}, py: 10 }}>
+       <Box sx={{ px:{xs:2, sm:4, md:6}, py: 4 }}>
             <Breadcrumbs aria-label="breadcrumb" sx={{my: 4}}>
                 <Link underline="hover" color="inherit" href="/">
-                Home
+                    {t("Home")}
                 </Link>        
-                <Link
-                underline="hover"
-                color="text.primary"
-                href=""
-                aria-current="page"
-                >
-                Products
+                <Link underline="hover" color="text.primary" href="" aria-current="page">
+                    {t("Products")}
                 </Link>
             </Breadcrumbs>
 
-            <Typography component="h1" sx={{fontSize: {xs: "24px", sm: "32px", md: "42px"}}} mb={1}>Explore Our Exclusive Products</Typography>
+            <Typography component="h1" sx={{fontSize: {xs: "24px", sm: "32px", md: "42px"}}} mb={1}>{t("Explore")}</Typography>
             <Box sx={{ width: 150, height: 4, bgcolor: "primary.main", mb: 3 }} />
-            <Typography variant="body" color="text.secondary">Discover the latest trends and top-quality items hand-picked just for you.</Typography>
+            <Typography variant="body" color="text.secondary">{t("Discover")}</Typography>
             {/* Filtered area */}
             <Box sx={{display: "flex", flexDirection:{xs: "column", sm: "row"}, justifyContent: "space-between", alignItems: "center", gap: 2, my: 3}}>                
                 <FormControl sx={{minWidth: 200}}>
-                    <InputLabel sx={{fontSize: "14px", fontWeight: 500}}>Sort By</InputLabel>
+                    <InputLabel sx={{fontSize: "14px", fontWeight: 500}}>{t("SortBy")}</InputLabel>
                     <Select value={sortOption} label="Sort By" onChange={(e) => setSortOption(e.target.value)}>
                         <MenuItem value="titleAscending">Title (A-Z)</MenuItem>
                         <MenuItem value="titleDescendin">Title (Z-A)</MenuItem>
@@ -117,7 +115,7 @@ export default function AllProducts() {
                 </FormControl>
 
                 <Box sx={{width: {xs: "70%", sm:200}}}>
-                    <Typography sx={{fontSize: "14px", fontWeight: 500}}>Price Range</Typography>
+                    <Typography sx={{fontSize: "14px", fontWeight: 500}}>{t("PriceRange")}</Typography>
                     <Slider value={priceRange} onChange={(event, newValue) => setPriceRange(newValue)} valueLabelDisplay="auto" min={minPrice} max={maxPrice} step={1}/>
                 </Box>
             </Box>   
@@ -150,7 +148,7 @@ export default function AllProducts() {
                                 <Rating value={product.rate} precision={0.5} readOnly size="small" sx={{color: "orange"}}/> 
                                 <Box className="hover-button" sx={{opacity: 0, position: "absolute", bottom: 10, left: "50%", transform: "translateX(-50%)", transition: "0.5s", zIndex: 3}}>
                                     <Button variant="contained" onClick={()=>addToCart({ProductId:product.id, Count: 1})} disabled={isPending} sx={{mt: 2, width: "100%", backgroundColor: "#333", textTransform: "none" }}>
-                                        Add To Cart
+                                        {t("ATC")}
                                     </Button>
                                 </Box>                                
                             </CardContent>

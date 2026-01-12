@@ -15,8 +15,10 @@ import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import { useSignin } from "../../hooks/useSignin";
 import Snowfall from "react-snowfall";
+import { useTranslation } from "react-i18next";
 
 export default function Login() {
+  const { t, i18n } = useTranslation();
   const {register, handleSubmit, formState: { errors, isSubmitting }} = useForm({
     resolver: yupResolver(loginSchema),
     mode: "onBlur",
@@ -82,21 +84,28 @@ export default function Login() {
 
           <Box sx={{ width: "100%", maxWidth: 400 }}>
             <Typography variant="h4" sx={{ fontWeight: 400, marginBottom: 3 }}>
-              Log in to Exclusive
+              {t("LogInToExclusive")}
             </Typography>
             <Typography variant="h6" sx={{ fontWeight: 300 }}>
-              Enter your details below
+              {t("EnterYourDetails")}
             </Typography>
             
             {generalError && (
               <Typography sx={{ color: "red", fontWeight: 600 }}>
-              {generalError}
+                {generalError}
               </Typography>
             )}
 
             <Box onSubmit={handleSubmit(loginForm)} component={"form"} sx={{ mt: 5, display: "flex", flexDirection: "column", gap: 3 }}>
-              <TextField id="standard-basic" label="User Email" {...register("email")} type="email"
+              <TextField id="standard-basic" label={t("UserEmail")} {...register("email")} type="email" sx={{textAlign: i18n.language === "ar" ? "right" : "left"}}
                 variant="standard" error={!!errors.email} helperText={errors.email?.message}
+                InputLabelProps={{
+                  sx: {
+                    textAlign: i18n.language === "ar" ? "right" : "left",
+                    left: i18n.language === "ar" ? "auto" : undefined, 
+                    right: i18n.language === "ar" ? 0 : undefined,
+                  }
+                }}
               />
               {fieldErrors.email && (
                 <Typography sx={{ color: "red", fontSize: "14px" }}>
@@ -104,8 +113,14 @@ export default function Login() {
                 </Typography>
               )}
 
-              <TextField id="standard-basic" label="Password" {...register("password")} type={showPassword ? "text" : "password"} variant="standard"
+              <TextField id="standard-basic" label={t("Password")} {...register("password")} type={showPassword ? "text" : "password"} variant="standard"
                 error={!!errors.password} helperText={errors.password?.message}
+                InputLabelProps={{
+                  sx: {
+                    textAlign: i18n.language === "ar" ? "right" : "left",
+                    left: i18n.language === "ar" ? "auto" : undefined, 
+                    right: i18n.language === "ar" ? 0 : undefined,                  }
+                }}
                 InputProps={{ endAdornment: (
                     <InputAdornment position="end">
                       <IconButton onClick={handleClickShowPassword} onMouseDown={handleMouseDownPassword} onMouseUp={handleMouseUpPassword} edge="end" >
@@ -121,21 +136,21 @@ export default function Login() {
                 </Typography>
               )}
               <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center"}}>
-                <LoadingButton loading={isSubmitting} loadingIndicator="Processing..." variant="contained" type="submit" sx={{
+                <LoadingButton loading={isSubmitting} loadingIndicator={t("Processing")} variant="contained" type="submit" sx={{
                     backgroundColor: "#DB4444", py: "13px", px: "30px", mx: "5px"}} endIcon={<SendIcon />}
-                >Log in
+                >{t("LogIn")}
                 </LoadingButton>
                 <Typography component={RouterLink} to={"/auth/forgetPassword"} variant="span"
                   sx={{ color: "#DB4444", fontWeight: 300, fontSize: "16px", textDecoration: "none"}}>
-                  Forget Password?
+                  {t("ForgetPassword")}
                 </Typography>
               </Box>
 
               <Typography variant="body2" color="textSecondary" align="center" sx={{ mt: 2 }} >
-                Dont have account?{" "}
+                {t("DontHaveAccount")}{" "}
                 <Box component={RouterLink} to={"/auth/register"} color="textSecondary" variant="span"
                   sx={{ textDecoration: "underline", cursor: "pointer", color: "#4c4b4bff"}}>
-                  Sign Up
+                  {t("SignUp")}
                 </Box>
               </Typography>
             </Box>

@@ -19,11 +19,13 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import {Link as RouterLink} from 'react-router-dom'
 import { bounce, fadeInUp } from '../../animation/Animation';
 import useAddToCart from '../../hooks/useAddToCart';
+import { useTranslation } from 'react-i18next';
 export default function Details() {
     const {id} = useParams();
     const {isLoading, isError, data} = useDetails(id);
     const [selectedImage, setSelectedImage] = useState(null);
-    
+    const { t, i18n } = useTranslation();
+
     const size = ["XS", "S", "M", "L", "XL"];
     const [sizes, setSizes] = useState(null);
     const product = data?.response || null;
@@ -46,12 +48,12 @@ export default function Details() {
         setValue(newValue);
     };
     
-    const [sortReviews, setSortReviews] = useState("latest");
+    const [sortReviews, setSortReviews] = useState(t("Latest"));
     const sortedReviews = useMemo(() =>{
         if (!data?.response?.reviews) return [];
         const copiedReviews = [...data.response.reviews];
 
-        if (sortReviews === "latest"){
+        if (sortReviews === t("Latest")){
             return copiedReviews.sort((a, b) => new Date(b?.date || "") - new Date(a?.date || ""));
         }
         return copiedReviews.sort((a, b) => new Date(a?.date || "") - new Date(b?.date || ""));   
@@ -74,19 +76,19 @@ export default function Details() {
             <Box sx={{textAlign: "center", py: 10, display: "flex", flexDirection: "column", alignItems: "center", gap: 3, color: "text.secondary"}}>
                 <Box sx={{ width: 80, height: 80, borderRadius: "50%", backgroundColor: "#f5f5f5", display: "flex", alignItems: "center", justifyContent: "center", boxShadow: "0 2px 12px rgba(0,0,0,0.15)", animation: `${bounce} 0.8s ease`}}>
                     <Typography variant="h4" sx={{ fontWeight: "bold" }}>
-                    !
+                        !
                     </Typography>
                 </Box>
 
                 <Typography variant="h5" sx={{ fontWeight: 600, animation: `${fadeInUp} 0.6s ease 0.3s forwards`, opacity: 0, }}>
-                    Product Not Found
+                    {t("ProductNotFound")}
                 </Typography>
 
                 <Typography sx={{ maxWidth: 300, fontSize: 15, animation: `${fadeInUp} 0.6s ease 0.5s forwards`, opacity: 0 }}>
-                    The product you're looking for doesn't exist or is no longer available.
+                    {t("productNotAvailable")}
                 </Typography>
                 <Typography sx={{ animation: `${fadeInUp} 0.6s ease 0.7s forwards`, opacity: 0 }}>
-                    Check our latest products{" "}
+                    {t("CheckOurLatestProducts")}{" "}
                     <Typography component={RouterLink} to="/allproducts" sx={{
                         color: "#DB4444", fontWeight: 600, textDecoration: "none", display: "inline-block", transition: "transform 0.5s ease",
                         "&:hover": {
@@ -94,7 +96,7 @@ export default function Details() {
                         },
                     }}
                     >
-                    Here
+                    {t("Here")}
                     </Typography>
                 </Typography>
             </Box>
@@ -108,23 +110,23 @@ export default function Details() {
                 <CircularProgress sx={{color: "primary.main"}}/>
             </Box>
         ) 
-    if(isError)return <Typography sx={{color: "red", textAlign: "center", py: 6 }}>Something went wrong while loading products!</Typography>        
+    if(isError)return <Typography sx={{color: "red", textAlign: "center", py: 6 }}>{t("LoadingErrorCart")}</Typography>        
     if (!data) return null;
 
   return (
     <>
     <Snowfall color='#82C3D9' style={{position: 'fixed', zIndex: 10, pointerEvents: 'none'}}/>
-    <Box sx={{py: 8}}>
+    <Box sx={{py: 5}}>
         <Breadcrumbs aria-label="breadcrumb"  sx={{mt: 4}}>
             <Link underline="hover" color="inherit" href="/">
-            Home
+                {t("Home")}
             </Link>
             <Link
             underline="hover"
             color="inherit"
             href="/allproducts"
             >
-            Products
+                {t("Products")}
             </Link>
             <Link
             underline="hover"
@@ -132,7 +134,7 @@ export default function Details() {
             href=""
             aria-current="page"
             >
-            {product?.name}
+                {product?.name}
             </Link>
         </Breadcrumbs>
 
@@ -150,7 +152,7 @@ export default function Details() {
                                 ))}
                             </Stack>
                             
-                            <Badge badgeContent={`Available: ${product.quantity}`}
+                            <Badge badgeContent={`${t("Available")}: ${product.quantity}`}
                             sx={{ "& .MuiBadge-badge": {
                                 backgroundColor: "#DB4444",
                                 color: "#fff",              
@@ -195,18 +197,18 @@ export default function Details() {
                             {product.description}
                         </Typography>
                         
-                        <Box sx={{ borderBottom: "1px solid #ddd", my: 2 }}></Box>
+                        <Box sx={{ borderBottom: "1px solid #ddd", my: 2 }}/>
 
-                        <Stack my={1} direction="row" spacing={1} sx={{display: "flex", justifyContent: "center"}}>
-                            <Typography component= "span" variant="body1" display="flex" fontWeight="600" alignItems="center">Size:</Typography>{size.map(item =>(
+                        <Stack my={1} direction="row" spacing={1} sx={{display: "flex", justifyContent: "center" }}>
+                            <Typography component= "span" variant="body1" display="flex" fontWeight="600" alignItems="center">{t("Size")}</Typography>{size.map(item =>(
                                 <Box key={item} onClick={()=>setSizes(item)} sx={{border: "1px solid #ccc", cursor: "pointer", px: 2, py:1, fontSize: "12px", borderRadius: "5px",
                                     backgroundColor: sizes === item? "primary.main": "transparent", color: sizes === item? "#fff": "black", fontWeight: 600, transition: "0.5s", "&:hover":{borderColor: "primary.main"}}}
                                 > {item}</Box>
                             ))}
                         </Stack>
 
-                        <Stack direction="row" spacing={2} mt={2} justifyContent="center" alignItems="center">
-                            <Box display="flex" alignItems="center" border="1px solid #ccc" borderRadius={1}>
+                        <Stack direction={i18n.language === "ar" ? "row-reverse" : "row"} spacing={2} mt={2} justifyContent="center" alignItems="center" >
+                            <Box display="flex" alignItems="center" border="1px solid #ccc" borderRadius={1} sx={{ flexDirection: i18n.language === "ar" ? "row-reverse" : "row" }}>
                                 <IconButton onClick={handleDecrease}>
                                     <RemoveIcon />
                                 </IconButton>
@@ -216,8 +218,8 @@ export default function Details() {
                                 </IconButton>
                             </Box>
 
-                            <Button variant="contained" color="primary"  onClick={()=>addToCart({ProductId:product.id, Count: 1})} disabled={isPending} sx={{textTransform: "none", px: {xs: 2, sm: 3}, py: {xs: 1, sm: 1}}}>
-                                Buy Now
+                            <Button variant="contained" color="primary"  onClick={()=>addToCart({ProductId:product.id, Count: 1})} disabled={isPending} sx={{textTransform: "none", px: {xs: 2, sm: 3}, py: {xs: 1, sm: 1}, textAlign: i18n.language === "ar" ? "right" : "left" }}>
+                                {t("BuyNow")}
                             </Button>
 
                             <IconButton onClick={() => handleLike(data.response.id)} sx={{border: "1px solid #ccc", borderRadius: "8px", backgroundColor: likedProducts.includes(data.response.id) ? "primary.main" : "transparent", color: likedProducts.includes(data.response.id) ? "#fff" : "primary.main", "&:hover":{color: "primary.main", border:  "1px solid #DB4444"}}}>
@@ -229,16 +231,16 @@ export default function Details() {
                             <Paper elevation={5} sx={{display: "flex", p: 2, alignItems: "center", borderRadius: 3}}>
                                 <LocalShippingIcon sx={{ mr: 2, fontSize: 40, color: "primary.main" }} />
                                 <Box>
-                                    <Typography variant="subtitle1" fontWeight="bold">Free Delivery</Typography>
-                                    <Typography variant="body2"color="text.secondary">Get your order delivered for free within 5-7 business days.</Typography>
+                                    <Typography variant="subtitle1" fontWeight="bold">{t("FreeDelivery")}</Typography>
+                                    <Typography variant="body2"color="text.secondary">{t("orderDelivered")}</Typography>
                                 </Box>
                             </Paper>
 
                             <Paper elevation={5} sx={{display: "flex", p:2, alignItems: "center", borderRadius: 3}}>
                             <AssignmentReturnIcon sx={{ mr: 2, fontSize: 40, color: "primary.main" }} />
                             <Box>
-                                <Typography variant="subtitle1" fontWeight="bold">Return Delivery</Typography>
-                                <Typography variant="body2" color="text.secondary">You can return the product within 30 days for a full refund.</Typography>
+                                <Typography variant="subtitle1" fontWeight="bold">{t("ReturnDelivery")}</Typography>
+                                <Typography variant="body2" color="text.secondary">{t("returnProducts")}</Typography>
                             </Box> 
                             </Paper>
                         </Stack>
@@ -253,9 +255,9 @@ export default function Details() {
         <TabContext value={value}>
             <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
             <TabList onChange={handleChange} centered aria-label="lab API tabs example">
-                <Tab label="Description" sx={{fontSize: {xs: "14px", sm:"18px"}, textTransform: "none", fontWeight: 600}} value="0" />
-                <Tab label="Rating & Reviews" sx={{fontSize: {xs: "14px", sm:"18px"}, textTransform: "none", fontWeight: 600}} value="1" />
-                <Tab label="FAQs" sx={{fontSize: {xs: "14px", sm:"18px"}, textTransform: "none", fontWeight: 600}} value="2" />
+                <Tab label={t("Description")} sx={{fontSize: {xs: "14px", sm:"18px"}, textTransform: "none", fontWeight: 600}} value="0" />
+                <Tab label={t("Rating&Reviews")} sx={{fontSize: {xs: "14px", sm:"18px"}, textTransform: "none", fontWeight: 600}} value="1" />
+                <Tab label={t("FAQs")} sx={{fontSize: {xs: "14px", sm:"18px"}, textTransform: "none", fontWeight: 600}} value="2" />
             </TabList>
             </Box>
 
@@ -263,7 +265,7 @@ export default function Details() {
                 <TabPanel value="0">
                     <Box sx={{ maxWidth: 900, mx: "auto", py: 3 }}>
                         <Typography sx={{ lineHeight: 1.7 }}>
-                        {product.description}
+                            {product.description}
                         </Typography>
                     </Box>
                 </TabPanel>
@@ -273,19 +275,19 @@ export default function Details() {
                     <Stack direction={{xs: "column", sm: "row"}} sx={{display: "flex", justifyContent: "space-between", alignItems: "center", mb: 3, gap: 1}}>
                         <Box sx={{display: "flex", alignItems: "center"}}>                    
                             <Typography sx={{fontSize: "20px", fontWeight: 600, color: "text.secondary"}}>
-                                All Reviews ({product?.reviews?.length || 0})
+                                {t("AllReviews")} ({product?.reviews?.length || 0})
                             </Typography>
                         </Box>
 
                         <Box display="flex" gap={2} sx={{fontSize: "16px"}}>
                             <Select value={sortReviews} onChange={(e) => setSortReviews(e.target.value)} sx={{width: 150, borderRadius: "12px",backgroundColor: "#f5f5f5",
                                 "& .MuiOutlinedInput-notchedOutline": {borderColor: "#ccc"}, "&:hover .MuiOutlinedInput-notchedOutline": {borderColor: "primary.main"}, "& .MuiSelect-select": {py: 1, fontSize: "15px", fontWeight: 600} }}>
-                                <MenuItem value="latest" sx={{fontSize: "15px"}}>Latest</MenuItem>
-                                <MenuItem value="oldest" sx={{fontSize: "15px"}}>Oldest</MenuItem>
+                                <MenuItem value={t("Latest")} sx={{fontSize: "15px"}}>{t("Latest")}</MenuItem>
+                                <MenuItem value={t("Oldest")} sx={{fontSize: "15px"}}>{t("Oldest")}</MenuItem>
                             </Select>
 
                             <Button variant="contained" onClick={() => setOpenReviewModal(true)} sx={{backgroundColor: "primary.main", borderRadius: "30px", py: {xs :0, sm: 1}, px: {xs: 1, sm: 3}, fontSize: {xs: "14px", sm: "16px"}, textTransform: "none"}}>
-                                Write a Review
+                                {t("WriteReview")}
                             </Button>
                         </Box>                
                     </Stack>
@@ -326,20 +328,20 @@ export default function Details() {
                                 outline: "none",
                             }}>
                                 <Typography variant="h5" sx={{ mb: 2, fontWeight: 700 }}>
-                                    Write a Review
+                                    {t("WriteReview")}
                                 </Typography>
 
                                 <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
-                                    <TextField fullWidth label="Your Name" variant="outlined"/>
+                                    <TextField fullWidth label={t("YourName")} variant="outlined"/>
                                     <Box>
                                         <Typography sx={{ fontSize: "16px", fontWeight: 600, mb: 1 }}>
-                                            Rating
+                                            {t("Rating")}
                                         </Typography>
                                         <Rating size="large" />
                                     </Box>
-                                    <TextField fullWidth label="Your Review" multiline rows={4} variant="outlined" />
+                                    <TextField fullWidth label={t("YourReview")} multiline rows={4} variant="outlined" />
                                     <Button variant="contained" fullWidth sx={{ py: 1.2, fontSize: "16px", borderRadius: "10px" }}>
-                                        Submit Review
+                                        {t("SubmitReview")}
                                     </Button>
                                 </Box>
                             </Box>
@@ -359,12 +361,12 @@ export default function Details() {
                             >
                                 <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
                                     <LocalShippingIcon sx={{ color: expanded === 0 ? "#00796b" : "#4caf50", transition: "0.3s" }} />
-                                    <Typography fontWeight="bold">How are products delivered?</Typography>
+                                    <Typography fontWeight="bold">{t("productsDelivered")}</Typography>
                                 </Box>
                             </AccordionSummary>
                             <AccordionDetails sx={{ px: 4, py: 2, bgcolor: "#fafafa", boxShadow: "inset 0 2px 8px rgba(0,0,0,0.05)", borderRadius: 2 }}>
                                 <Typography color="text.secondary">
-                                    All our products are delivered within 3–7 business days, with tracking available directly on our website.
+                                    {t("productsDeliveredWithin")}
                                 </Typography>
                             </AccordionDetails>
                         </Accordion>
@@ -378,12 +380,12 @@ export default function Details() {
                             >
                                 <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
                                     <ReplayIcon sx={{ color: expanded === 1 ? "#ef6c00" : "#ff9800", transition: "0.3s" }} />
-                                    <Typography fontWeight="bold">Can I return a product?</Typography>
+                                    <Typography fontWeight="bold">{t("returnProduct")}</Typography>
                                 </Box>
                             </AccordionSummary>
                             <AccordionDetails sx={{ px: 4, py: 2, bgcolor: "#fafafa", boxShadow: "inset 0 2px 8px rgba(0,0,0,0.05)", borderRadius: 2 }}>
                                 <Typography color="text.secondary">
-                                    Absolutely! You can return any product within 30 days for a full refund.
+                                    {t("Absolutely")}
                                 </Typography>
                             </AccordionDetails>
                         </Accordion>
@@ -397,12 +399,12 @@ export default function Details() {
                             >
                                 <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
                                     <VerifiedUserIcon sx={{ color: expanded === 2 ? "#1565c0" : "#2196f3", transition: "0.3s" }} />
-                                    <Typography fontWeight="bold">Are the products authentic?</Typography>
+                                    <Typography fontWeight="bold">{t("productsAuthentic")}</Typography>
                                 </Box>
                             </AccordionSummary>
                             <AccordionDetails sx={{ px: 4, py: 2, bgcolor: "#fafafa", boxShadow: "inset 0 2px 8px rgba(0,0,0,0.05)", borderRadius: 2 }}>
                                 <Typography color="text.secondary">
-                                    Yes, all products are guaranteed authentic and tested for quality standards.
+                                    {t("productsGuaranteed")}
                                 </Typography>
                             </AccordionDetails>
                         </Accordion>
@@ -416,12 +418,12 @@ export default function Details() {
                             >
                                 <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
                                     <DiscountIcon sx={{ color: expanded === 3 ? "#c2185b" : "#f50057", transition: "0.3s" }} />
-                                    <Typography fontWeight="bold">How can I get discounts and offers?</Typography>
+                                    <Typography fontWeight="bold">{t("discounts")}</Typography>
                                 </Box>
                             </AccordionSummary>
                             <AccordionDetails sx={{ px: 4, py: 2, bgcolor: "#fafafa", boxShadow: "inset 0 2px 8px rgba(0,0,0,0.05)", borderRadius: 2 }}>
                                 <Typography color="text.secondary">
-                                    Subscribe to our newsletter for exclusive deals or follow us on social media.
+                                    {t("SubscribeToNewsletter")}
                                 </Typography>
                             </AccordionDetails>
                         </Accordion>
@@ -435,12 +437,12 @@ export default function Details() {
                             >
                                 <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
                                     <CropFreeIcon sx={{ color: expanded === 4 ? "#6a1b9a" : "#9c27b0", transition: "0.3s" }} />
-                                    <Typography fontWeight="bold">How do I choose the right size?</Typography>
+                                    <Typography fontWeight="bold">{t("rightSize")}</Typography>
                                 </Box>
                             </AccordionSummary>
                             <AccordionDetails sx={{ px: 4, py: 2, bgcolor: "#fafafa", boxShadow: "inset 0 2px 8px rgba(0,0,0,0.05)", borderRadius: 2 }}>
                                 <Typography color="text.secondary">
-                                    Each product includes a detailed size guide with tips to help you choose the perfect fit.
+                                    {t("detailedSize")}
                                 </Typography>
                             </AccordionDetails>
                         </Accordion>

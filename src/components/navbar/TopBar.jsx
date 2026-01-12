@@ -27,7 +27,7 @@ export default function TopBar() {
         fontWeight: 500,
         position: 'relative',
         top: 0,
-        zIndex: 9999,
+        zIndex: 10,
       }}
     >
       <Typography 

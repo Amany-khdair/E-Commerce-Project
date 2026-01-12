@@ -2,9 +2,12 @@ import { useMutation } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import axiosInstance from "../api/axiosInstance";
+import { useTranslation } from "react-i18next";
 
 export function useForget(){
     const navigate = useNavigate();
+    const { t } = useTranslation();
+
     const forgetMutation = useMutation({
         mutationFn: async(data)=>{
             const result = await axiosInstance.post(`/Auth/Account/SendCode`, data);
@@ -14,7 +17,7 @@ export function useForget(){
             localStorage.setItem("resetEmail", variables.email);
             await Swal.fire({
                 icon: "success",
-                title: "Check Your Email!",
+                title: t("CheckYourEmail"),
                 text: data.message,
                 confirmButtonColor: "#DB4444",
             });
@@ -23,10 +26,10 @@ export function useForget(){
         onError: (error)=>{     
             Swal.fire({
                 icon: "error",
-                title: "Oops 😕",
+                title: t("Oops"),
                 text:
                 error.response?.data?.message ||
-                "Something went wrong, please try again",
+                t("SomethingWentWrong"),
                 confirmButtonColor: "#DB4444",
             });    
         }

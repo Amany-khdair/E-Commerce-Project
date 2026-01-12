@@ -169,7 +169,7 @@ export default function Navbar() {
                 
                 {/* Cart Header */}
                 <Box sx={{ display: "flex", justifyContent: "space-between" }}>
-                  <Typography variant="h6">{t("SC")}Shopping Cart</Typography>                 
+                  <Typography variant="h6">{t("SC")}</Typography>                 
                   <IconButton onClick={toggleCart}>
                     <CloseIcon />
                   </IconButton>

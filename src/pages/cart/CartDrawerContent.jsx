@@ -1,16 +1,18 @@
 import { useNavigate } from 'react-router-dom';
 import useCart from '../../hooks/useCart';
 import { List, ListItem, ListItemText, Typography, Box, Divider, Button } from "@mui/material";
+import { useTranslation } from 'react-i18next';
 
 function CartDrawerContent({ toggleCart }) {
   const { data } = useCart();
   const navigate = useNavigate();
+  const { t, i18n } = useTranslation();
 
   if (!data || !data.items || data.items.length === 0) {
     return (
       <Box sx={{ display: "flex", alignItems: "center", justifyContent: "center", height: "100%"}}>
         <Typography variant="body1" sx={{ textAlign: "center", color: "#888" }}>
-          Your cart is empty 🛒
+          {t("CartEmpty")}
         </Typography>
       </Box>
     );
@@ -34,6 +36,7 @@ function CartDrawerContent({ toggleCart }) {
               px: 2,
               py: 1,
               cursor: "pointer",
+              textAlign: i18n.language === "ar" ? "right" : "left",
               "&:hover": { backgroundColor: "#f5f5f53c", boxShadow: "0px 8px 24px rgba(0, 0, 0, 0.12)", transform: "translateY(-2px)" },
             }}
           >
@@ -45,7 +48,7 @@ function CartDrawerContent({ toggleCart }) {
               }
               secondary={
                 <Typography variant="body2" sx={{ color: "#555" }}>
-                  Quantity: {item.count}
+                  {t("Quantity")} {item.count}
                 </Typography>
               }
             />
@@ -55,7 +58,7 @@ function CartDrawerContent({ toggleCart }) {
       </List>
       
       <Box sx={{ display: 'flex', justifyContent: 'space-between', p: 2, border: "2px solid #ccc" }}>
-        <Typography>Total:</Typography>
+        <Typography>{t("Total")}</Typography>
         <Typography>${data.cartTotal}</Typography>
       </Box>
       <Divider sx={{ my: 1 }} />
@@ -74,7 +77,7 @@ function CartDrawerContent({ toggleCart }) {
             navigate("/cart");
           }}
         >
-          Go to Cart
+          {t("GoToCart")}
         </Button>
         <Button
           variant="contained"
@@ -88,7 +91,7 @@ function CartDrawerContent({ toggleCart }) {
             navigate("/checkout");
           }}
         >
-          Check Out
+          {t("CheckOut")}
         </Button>
       </Box>
     </Box>

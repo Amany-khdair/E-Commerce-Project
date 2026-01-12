@@ -6,10 +6,13 @@ import Swal from "sweetalert2";
 import { useForm } from "react-hook-form";
 import { LoadingButton } from "@mui/lab";
 import Snowfall from "react-snowfall";
+import { useTranslation } from "react-i18next";
 
 export default function VerifyCode() {
   const [code, setCode] = useState(["", "", "", ""]);
   const input = useRef([]);
+  const { t } = useTranslation();
+
   const navigate = useNavigate();
   const {formState: {isSubmitting}} = useForm();
   const handleChange = (value, index) => {
@@ -37,8 +40,8 @@ export default function VerifyCode() {
     if (submitCode.length !== 4) {
       Swal.fire({
         icon: "warning",
-        title: "Incomplete code",
-        text: "Please enter the 4-digit code",
+        title: t("IncompleteCode"),
+        text: t("IncompleteCodeText"),
         confirmButtonColor: "#DB4444",
       });
       return;
@@ -47,8 +50,8 @@ export default function VerifyCode() {
 
     await Swal.fire({
       icon: "success",
-      title: "Code received ✔",
-      text: "You can know set your new password!",
+      title: t("CodeReceived"),
+      text: t("CodeReceivedText"),
       confirmButtonColor: "#DB4444",
     });
 
@@ -61,11 +64,11 @@ export default function VerifyCode() {
       <Typography variant="h3" sx={{fontWeight: 700, textAlign: "center", mb: 3, whiteSpace: "nowrap", overflow: "hidden", width: "fit-content",
                       animation: ` ${typing} 1.6s steps(12) forwards, ${lift} 3s ease-in-out infinite 1.6s`, background: "linear-gradient(90deg, #000, #DB4444, #000)", WebkitBackgroundClip: "text",
                       color: "transparent", backgroundSize: "200%", animationDelay: "0s, 1.6s", "&:after": { content: '""', animation: `${shine} 2s linear infinite`, position: "absolute", width: "100%", height: "100%", left: 0, top: 0}}}>
-      Verify Code </Typography>
+      {t("VerifyCodeHead")} </Typography>
 
-      <Typography>Enter The 4-Digit Sent to Your Email</Typography>
+      <Typography>{t("EnterCodeDesc")}</Typography>
 
-      <Box sx={{ display: "flex", justifyContent: "center", mt: 4,gap: 2 }}>
+      <Box sx={{ display: "flex", justifyContent: "center", mt: 4,gap: 2}}>
         {code.map((digit, index) => (
             <TextField key={index} inputRef={(el) => (input.current[index] = el)} value={digit} 
             onChange={(e) => handleChange(e.target.value, index)} inputProps={{
@@ -77,9 +80,9 @@ export default function VerifyCode() {
         ))}
       </Box>
 
-      <LoadingButton onClick={handleSubmit} fullWidth loading={isSubmitting} loadingIndicator="Processing..." variant="contained" type="submit" 
+      <LoadingButton onClick={handleSubmit} fullWidth loading={isSubmitting} loadingIndicator={t("Processing")} variant="contained" type="submit" 
             sx={{backgroundColor: "#DB4444", py: "14px", px: "45px", my: "15px", fontSize: "16px"}}
-            > Verify </LoadingButton>
+            > {t("Verify")} </LoadingButton>
     </Box>
   );
 }
