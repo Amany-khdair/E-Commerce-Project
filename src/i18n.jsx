@@ -196,6 +196,19 @@ i18n
             "AccessRestricted": "Access Restricted",
             "NeedToLogedIn": "You need to be logged in to view this page. Please login to continue.",
             "LoginNow": "Login Now",
+            "Checkout": "Checkout",
+            "BillingDetails": "Billing Details",
+            "FirstName": "First Name",
+            "CompanyName": "Company Name",
+            "StreetAddress": "Street Address",
+            "ApartmentFloorOptional": "Apartment, floor (optional)",
+            "TownCity": "Town/City",
+            "EmailAddress": "Email Address",
+            "SaveInfoForNextTime": "Save this information for faster check-out next time",
+            "Visa": "Visa",
+            "CashOnDelivery": "Cash on delivery",
+            "PayNow": "Pay Now!",
+
 
         }
       },
@@ -390,6 +403,18 @@ i18n
             "AccessRestricted": "تم تقييد الوصول",
             "NeedToLogedIn": "يجب تسجيل الدخول لعرض هذه الصفحة. يُرجى تسجيل الدخول للمتابعة.",
             "LoginNow": "تسجيل الدخول الآن",
+            "Checkout": "الدفع",
+            "BillingDetails": "تفاصيل الفاتورة",
+            "FirstName": "الاسم الأول",
+            "CompanyName": "اسم الشركة",
+            "StreetAddress": "عنوان الشارع",
+            "ApartmentFloorOptional": "الشقة، الطابق (اختياري)",
+            "TownCity": "المدينة/البلدة",
+            "EmailAddress": "البريد الإلكتروني",
+            "SaveInfoForNextTime": "احفظ هذه المعلومات لتسريع عملية الدفع في المرات القادمة",
+            "Visa": "فيزا",
+            "CashOnDelivery": "الدفع عند الاستلام",
+            "PayNow": "ادفع الآن !",
 
 
 

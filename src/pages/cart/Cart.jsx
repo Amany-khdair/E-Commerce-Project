@@ -98,7 +98,7 @@ export default function Cart() {
 
             <TableBody>
               {data.items.map((item) =>(
-                <TableRow key={item.id}>
+                <TableRow key={item.productId}>
                   <TableCell sx={{ textAlign: i18n.language === "ar" ? "right" : "left" }}>
                     <Box sx={{display: "flex", alignItems: "center", gap: 2}}>
                       <IconButton size="small" onClick={()=>removeItem(item.productId)} disabled={removeItemPending} 
@@ -197,7 +197,7 @@ export default function Cart() {
               </Box>
   
               <Box sx={{ textAlign: 'center' }}>
-                <Button 
+                <Button onClick={()=>navigate('/checkout')}
                   variant="contained" 
                   sx={{ bgcolor: '#DB4444', '&:hover': { bgcolor: '#c33a3a' }, px: 5, py: 1.5 }}
                 >
