@@ -34,6 +34,7 @@ export default function Cart() {
       buttonsStyling: false,
       customClass: {
       confirmButton: "swal-confirm-btn",
+      confirmButtonColor: "#DB4444",
       cancelButton: "swal-cancel-btn"
     }
     }).then((result) => {
@@ -198,7 +199,7 @@ export default function Cart() {
   
               <Box sx={{ textAlign: 'center' }}>
                 <Button onClick={()=>navigate('/checkout')}
-                  variant="contained" 
+                  variant="contained" disabled={!data.items || data.items.length === 0 || clearingPending}
                   sx={{ bgcolor: '#DB4444', '&:hover': { bgcolor: '#c33a3a' }, px: 5, py: 1.5 }}
                 >
                   {t("ProceedToCheckout")}

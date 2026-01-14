@@ -3,10 +3,12 @@ import React from 'react'
 import axiosAuthInstance from '../api/axiosAuthInstance';
 import Swal from 'sweetalert2';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 export default function useCheckout() {
     const queryClient = useQueryClient();
     const navigate = useNavigate();
+    const { t } = useTranslation();
 
     return useMutation({
         mutationFn:async({paymentMethod})=>{
@@ -18,13 +20,13 @@ export default function useCheckout() {
             location.href = response.data.url;
            }
            const message = response?.message ||
-                   "Your order is on the way! Expect a call from us shortly.";
+                t("OrderOnTheWay");
            
                  Swal.fire({
-                   title: "Order Placed 🎉",
+                   title: t("OrderPlaced"),
                    text: message,
                    icon: "success",
-                   confirmButtonText: "Continue Shopping",
+                   confirmButtonText: t("ContinueShopping"),
                    confirmButtonColor: "#DB4444",
                  }).then(() => {
                    navigate("/allproducts");
@@ -33,8 +35,8 @@ export default function useCheckout() {
         },
         onError: () => {
             Swal.fire({
-            title: "Error",
-            text: "Something went wrong, please try again.",
+            title: t("Error"),
+            text: t("SomethingWentWrongCheckOut"),
             icon: "error",
             confirmButtonColor: "#DB4444",
             });

@@ -9,7 +9,7 @@ import { lift, shine, typing } from '../../animation/LogoAnimation';
 
 export default function CheckOut() {
   const { data, isLoading, isError } = useCart();
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [paymentMethod, setPaymentMethod] = useState("");  
   const [firstName, setFirstName] = useState("");
   const [company, setCompany] = useState("");
@@ -63,6 +63,8 @@ export default function CheckOut() {
       setPhone(saved.phone || "");
       setEmail(saved.email || "");
       setSaveInfo(true);
+    }else {
+      setSaveInfo(false);
     }
   }, []);
 
@@ -83,113 +85,124 @@ export default function CheckOut() {
   return (
     <>
       <Snowfall color="#82C3D9" />
+      <Box dir={i18n.language === "ar" ? "rtl" : "ltr"} sx={{ textAlign: i18n.language === "ar" ? "right" : "left" }}>
+        <Container sx={{ my: 5 }}>
+          <Grid container spacing={6}>
 
-      <Container sx={{ my: 5 }}>
-        <Grid container spacing={6}>
+            {/* Billing Details */}
+            <Grid item xs={12} md={6}>            
+              <Typography variant="h3"
+                sx={{fontWeight: 700, textAlign: "center", mb: 3, whiteSpace: "nowrap", overflow: "hidden", width: "fit-content",
+                  animation: ` ${typing} 1.6s steps(12) forwards, ${lift} 3s ease-in-out infinite 1.6s`, background: "linear-gradient(90deg, #000, #DB4444, #000)", WebkitBackgroundClip: "text",
+                  color: "transparent", backgroundSize: "200%", animationDelay: "0s, 1.6s", "&:after": { content: '""', animation: `${shine} 2s linear infinite`, position: "absolute", width: "100%", height: "100%", left: 0, top: 0}}}>
+                  {t("BillingDetails")}
+              </Typography>
 
-          {/* Billing Details */}
-          <Grid item xs={12} md={6}>            
-            <Typography variant="h3"
-              sx={{fontWeight: 700, textAlign: "center", mb: 3, whiteSpace: "nowrap", overflow: "hidden", width: "fit-content",
-                animation: ` ${typing} 1.6s steps(12) forwards, ${lift} 3s ease-in-out infinite 1.6s`, background: "linear-gradient(90deg, #000, #DB4444, #000)", WebkitBackgroundClip: "text",
-                color: "transparent", backgroundSize: "200%", animationDelay: "0s, 1.6s", "&:after": { content: '""', animation: `${shine} 2s linear infinite`, position: "absolute", width: "100%", height: "100%", left: 0, top: 0}}}>
-                {t("BillingDetails")}
-            </Typography>
-            
-            <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
-              <TextField label={t("FirstName")} fullWidth required size="small" 
-              value={firstName} onChange={(e) => setFirstName(e.target.value)} />
-              
-              <TextField label={t("CompanyName")} fullWidth size="small" 
-              value={company} onChange={(e) => setCompany(e.target.value)}/>
-              
-              <TextField label={t("StreetAddress")} fullWidth required size="small"
-              value={address} onChange={(e) => setAddress(e.target.value)}/>
-              
-              <TextField label={t("ApartmentFloorOptional")} fullWidth size="small"
-              value={apartment} onChange={(e) => setApartment(e.target.value)}/>
-              
-              <TextField label={t("TownCity")} fullWidth required size="small"
-              value={city} onChange={(e) => setCity(e.target.value)}/>
-              
-              <TextField label={t("PhoneNumber")} fullWidth required size="small"
-              value={phone} onChange={(e) => setPhone(e.target.value)}/>
-              
-              <TextField label={t("EmailAddress")} fullWidth required size="small"
-              value={email} onChange={(e) => setEmail(e.target.value)}/>
+              <Box sx={{ display: "flex", flexDirection: "column", gap: 2,
+                    "& .MuiInputLabel-root": { left: i18n.language === "ar"  ? "inherit" : 0, right: i18n.language === "ar"  ? 28 : "inherit", transformOrigin: i18n.language === "ar"  ? "right" : "left" },
+                    "& legend": { textAlign: i18n.language === "ar"  ? "right" : "left" }
+                  }}>
 
-              <Box sx={{ display: "flex", alignItems: "center", mt: 1 }}>
-                <input type="checkbox" checked={saveInfo} onChange={() => setSaveInfo(!saveInfo)} />
-                <Typography sx={{ ml: 1, fontSize: 14 }}>
-                  {t("SaveInfoForNextTime")}
-                </Typography>
-              </Box>
-            </Box>
-          </Grid>
+                <TextField label={t("FirstName")} fullWidth required size="small" 
+                value={firstName} onChange={(e) => setFirstName(e.target.value)} />
+                
+                <TextField label={t("CompanyName")} fullWidth size="small" 
+                value={company} onChange={(e) => setCompany(e.target.value)}/>
+                
+                <TextField label={t("StreetAddress")} fullWidth required size="small"
+                value={address} onChange={(e) => setAddress(e.target.value)}/>
+                
+                <TextField label={t("ApartmentFloorOptional")} fullWidth size="small"
+                value={apartment} onChange={(e) => setApartment(e.target.value)}/>
+                
+                <TextField label={t("TownCity")} fullWidth required size="small"
+                value={city} onChange={(e) => setCity(e.target.value)}/>
+                
+                <TextField label={t("PhoneNumber")} fullWidth required size="small"
+                value={phone} onChange={(e) => setPhone(e.target.value)}/>
+                
+                <TextField label={t("EmailAddress")} fullWidth required size="small"
+                value={email} onChange={(e) => setEmail(e.target.value)}/>
 
-          {/* Order summary */}
-          <Grid item xs={12} md={5} sx={{ ml: "auto" }}>
-            <Box sx={{ mb: 3 }}>
-
-              {data.items.map((item) => (
-                <Box key={item.productId} sx={{ display: "flex", justifyContent: "space-between", mb: 2 }}>
-                  <Typography>{item.productName}</Typography>
-                  <Typography>${item.totalPrice}</Typography>
+                <Box sx={{ display: "flex", alignItems: "center", mt: 1 }}>
+                  <input type="checkbox" checked={saveInfo} onChange={() => {
+                    if (saveInfo) {
+                      localStorage.removeItem("checkoutInfo");                     
+                    }
+                    setSaveInfo(!saveInfo);
+                  }} />
+                  <Typography sx={{ ml: 1, fontSize: 14 }}>
+                    {t("SaveInfoForNextTime")}
+                  </Typography>
                 </Box>
-              ))}
+              </Box>
+            </Grid>
 
-              <hr />
+            {/* Order summary */}
+            <Grid item xs={12} md={5} sx={{ [i18n.language === "ar"  ? "mr" : "ml"]: "auto"}}>
+              <Box sx={{ mb: 3 }}>
 
-              <Box sx={{ display: "flex", justifyContent: "space-between", mt: 2 }}>
-                <Typography>{t("Subtotal")}</Typography>
-                <Typography>${data.cartTotal}</Typography>
+                {data.items.map((item) => (
+                  <Box key={item.productId} sx={{ display: "flex", justifyContent: "space-between", mb: 2 }}>
+                    <Typography>{item.productName}</Typography>
+                    <Typography>${item.totalPrice}</Typography>
+                  </Box>
+                ))}
+
+                <hr />
+
+                <Box sx={{ display: "flex", justifyContent: "space-between", mt: 2 }}>
+                  <Typography>{t("Subtotal")}</Typography>
+                  <Typography>${data.cartTotal}</Typography>
+                </Box>
+
+                <Box sx={{ display: "flex", justifyContent: "space-between", mt: 1 }}>
+                  <Typography>{t("Shipping")}</Typography>
+                  <Typography>{t("Free")}</Typography>
+                </Box>
+
+                <hr />
+
+                <Box sx={{ display: "flex", justifyContent: "space-between", mt: 2 }}>
+                  <Typography sx={{ fontWeight: 700 }}>{t("Total")}</Typography>
+                  <Typography sx={{ fontWeight: 700 }}>${data.cartTotal}</Typography>
+                </Box>
               </Box>
 
-              <Box sx={{ display: "flex", justifyContent: "space-between", mt: 1 }}>
-                <Typography>{t("Shipping")}</Typography>
-                <Typography>{t("Free")}</Typography>
+              {/* Payment Method */}
+              <RadioGroup
+                value={paymentMethod}
+                onChange={(e) => setPaymentMethod(e.target.value)}
+              >
+                <FormControlLabel value="visa" control={<Radio />} label={t("Visa")} />
+                <FormControlLabel value="cash" control={<Radio />} label={t("CashOnDelivery")} />
+              </RadioGroup>
+
+              <Box sx={{ display: "flex", gap: 2, my: 3 }}>
+                <TextField placeholder={t("CouponCode")} size="small" fullWidth />
+                <Button sx={{ bgcolor: "#DB4444", color: "white", px: 4, whiteSpace: "nowrap" }}>
+                  {t("ApplyCoupon")}
+                </Button>
               </Box>
 
-              <hr />
-
-              <Box sx={{ display: "flex", justifyContent: "space-between", mt: 2 }}>
-                <Typography sx={{ fontWeight: 700 }}>{t("Total")}</Typography>
-                <Typography sx={{ fontWeight: 700 }}>${data.cartTotal}</Typography>
-              </Box>
-            </Box>
-
-            {/* Payment Method */}
-            <RadioGroup
-              value={paymentMethod}
-              onChange={(e) => setPaymentMethod(e.target.value)}
-            >
-              <FormControlLabel value="visa" control={<Radio />} label={t("Visa")} />
-              <FormControlLabel value="cash" control={<Radio />} label={t("CashOnDelivery")} />
-            </RadioGroup>
-
-            <Box sx={{ display: "flex", gap: 2, my: 3 }}>
-              <TextField placeholder={t("CouponCode")} size="small" fullWidth />
-              <Button sx={{ bgcolor: "#DB4444", color: "white", px: 3 }}>
-                {t("ApplyCoupon")}
+              <Button variant="contained"
+                onClick={handleCheckout}                
+                disabled={!data.items || data.items.length === 0 || isCheckoutPending}
+                sx={{
+                  bgcolor: "#DB4444",
+                  color: "white",
+                  width: "100%",
+                  py: 1.4,
+                  "&:hover": { bgcolor: "#c33a3a" }
+                }}
+              >
+                {isCheckoutPending ? t("Processing") : t("PayNow")}
               </Button>
-            </Box>
-
-            <Button
-              onClick={handleCheckout}
-              disabled={isCheckoutPending}
-              sx={{
-                bgcolor: "#DB4444",
-                color: "white",
-                width: "100%",
-                py: 1.4,
-                "&:hover": { bgcolor: "#c33a3a" }
-              }}
-            >
-              {isCheckoutPending ? t("Processing") : t("PayNow")}
-            </Button>
+            </Grid>
           </Grid>
-        </Grid>
-      </Container>
+        </Container>
+      </Box>
+      
     </>
   );
 }

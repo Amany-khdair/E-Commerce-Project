@@ -207,7 +207,14 @@ i18n
             "SaveInfoForNextTime": "Save this information for faster check-out next time",
             "Visa": "Visa",
             "CashOnDelivery": "Cash on delivery",
-            "PayNow": "Pay Now!",
+            "PayNow": "Pay Now !",
+            "OrderOnTheWay": "Your order is on the way! Expect a call from us shortly.",
+            "OrderPlaced": "Order Placed 🎉",
+            "ContinueShopping": "Continue Shopping",
+            "Error": "Error",
+            "SomethingWentWrongCheckOut": "Something went wrong, please try again or refresh this page."
+
+
 
 
         }
@@ -415,6 +422,12 @@ i18n
             "Visa": "فيزا",
             "CashOnDelivery": "الدفع عند الاستلام",
             "PayNow": "ادفع الآن !",
+            "OrderOnTheWay": "طلبك في الطريق! توقع أن نتواصل معك قريبًا.",
+            "OrderPlaced": "تم تأكيد الطلب 🎉",
+            "ContinueShopping": "متابعة التسوق",
+            "Error": "خطأ",
+            "SomethingWentWrongCheckOut": "حدث خطأ ما، يرجى المحاولة مرة أخرى أو إعادة تحميل الصفحة."
+
 
 
 
