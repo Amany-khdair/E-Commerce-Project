@@ -10,7 +10,7 @@ export default function Categories() {
   const refScroll = useRef(null);  
   const {isLoading, isError, data} = useCategories();
   const navigate = useNavigate();
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
 
   if(isLoading)return(
     <Box sx={{display: "flex", justifyContent: "center", alignItems: "center", py: 5}}>
@@ -43,14 +43,21 @@ export default function Categories() {
           <Typography sx={{ fontWeight: 600, fontSize: {xs: "1.3rem", sm: "2.125rem"}  }}>
             {t("BrowseByCategory")}
           </Typography>
-        </Box>
+        </Box>        
 
-        <Box>
-          <IconButton onClick={()=>xScroll("left")}>
-            <ArrowBackIosNewIcon fontSize="small" />
+        <Box sx={{ display: 'flex', gap: 1 }}>
+          <IconButton onClick={() => xScroll(i18n.language === "ar" ? "right" : "left")}>
+            <ArrowBackIosNewIcon 
+              fontSize="small" 
+              sx={{ transform: i18n.language === "ar" ? "rotate(180deg)" : "none" }} 
+            />
           </IconButton>
-          <IconButton onClick={()=>xScroll("right")}>
-            <ArrowForwardIosIcon fontSize="small" />
+
+          <IconButton onClick={() => xScroll(i18n.language === "ar" ? "left" : "right")}>
+            <ArrowForwardIosIcon 
+              fontSize="small" 
+              sx={{ transform: i18n.language === "ar" ? "rotate(180deg)" : "none" }} 
+            />
           </IconButton>
         </Box>
       </Box>

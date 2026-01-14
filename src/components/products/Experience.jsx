@@ -4,7 +4,7 @@ import CountDown from '../../animation/CountDown';
 import speakerImg from '../../assets/images/speaker.webp';
 import { useTranslation } from 'react-i18next';
 export default function MusicBanner() {
-    const { t } = useTranslation();
+    const { t, i18n } = useTranslation();
     const bannerRenderer = ({ days, hours, minutes, seconds, completed }) => { 
     if (completed) return <Typography color="white">{t("Offer Ended")}</Typography>;
   
@@ -25,8 +25,8 @@ export default function MusicBanner() {
             {[
             { val: days, lab: t("Days") },
             { val: hours, lab: t("Hours") },
-            { val: minutes, lab: t("Min") },
-            { val: seconds, lab: t("Sec") }
+            { val: minutes, lab: t("Mins") },
+            { val: seconds, lab: t("Secs") }
             ].map((item, index) => (
             <Box key={index} sx={circleStyle}>
                 <Typography sx={{ fontWeight: 700, fontSize: {xs: "14px", sm: "16px"}, lineHeight: 1 }}>
@@ -51,7 +51,7 @@ export default function MusicBanner() {
                     {t("Categories")}
                 </Typography>
                 
-                <Typography variant="h2" sx={{ color: "white", fontWeight: 600,  mb: 4, fontSize: { xs: "1rem", sm: "1.4rem", md: "2rem", lg: "3rem" }, lineHeight: 1.2, whiteSpace: "normal", wordWrap: "break-word",  textAlign: "left", overflowWrap: "break-word", maxWidth: { xs: "100%", sm: "90%", md: "80%" } }}>
+                <Typography variant="h2" sx={{ color: "white", fontWeight: 600,  mb: 4, fontSize: { xs: "1rem", sm: "1.4rem", md: "2rem", lg: "3rem" }, lineHeight: 1.2, whiteSpace: "normal", wordWrap: "break-word",  textAlign: i18n.language === "ar"? "right" : "left", overflowWrap: "break-word", maxWidth: { xs: "100%", sm: "90%", md: "80%" } }}>
                     {t("EYME")}
                 </Typography>
 

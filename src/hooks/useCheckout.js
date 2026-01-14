@@ -15,12 +15,13 @@ export default function useCheckout() {
             return await axiosAuthInstance.post('/checkouts', {paymentMethod})
         },
         onSuccess:(response)=>{
-            queryClient.invalidateQueries({queryKey:['carts']});
+            queryClient.invalidateQueries({querykey:['carts']});          
+
            if(response.data.url){
             location.href = response.data.url;
            }
-           const message = response?.message ||
-                t("OrderOnTheWay");
+
+           const message = response?.message || t("OrderOnTheWay");
            
                  Swal.fire({
                    title: t("OrderPlaced"),

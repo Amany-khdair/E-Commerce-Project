@@ -51,14 +51,14 @@ export default function TopBar() {
         size="small"
         sx={{
           textTransform: 'none',
-          background: 'linear-gradient(90deg, #FF7A18, #AF002D)',
+          background: 'linear-gradient(90deg, #DB4444, #7A0010)',
           color: '#fff',
           fontWeight: 600,
           borderRadius: 2,
           px: 2,
           py: 0.7,
           "&:hover": { 
-            background: 'linear-gradient(90deg, #AF002D, #FF7A18)',
+            background: 'linear-gradient(90deg, #7A0010, #DB4444)',
             transform: 'scale(1.05)',
             transition: 'all 0.3s ease'
           },

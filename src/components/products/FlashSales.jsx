@@ -25,7 +25,7 @@ export default function FlashSales() {
 
   const products = data?.response?.data?.slice(0, 8) ?? [];  const scrollRef = useRef();
   const {mutate: addToCart, isPending} = useAddToCart();   
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
 
   if (isLoading)
     return (
@@ -79,14 +79,20 @@ export default function FlashSales() {
       </Box>
             
       
-      {/* Arrows */}
-      <Box sx={{ display: "flex", justifyContent: "flex-end", gap: 1, mt: 1 }}>
-        <IconButton onClick={() => xScroll("left")}>
-          <ArrowBackIosNewIcon fontSize="small" />
+      {/* Arrows */}    
+      <Box sx={{display: "flex", justifyContent: "flex-end", gap: 1, mt: 1  }}>
+        <IconButton onClick={() => xScroll(i18n.language === "ar" ? "right" : "left")}>
+          <ArrowBackIosNewIcon 
+            fontSize="small" 
+            sx={{ transform: i18n.language === "ar" ? "rotate(180deg)" : "none" }} 
+          />
         </IconButton>
 
-        <IconButton onClick={() => xScroll("right")}>
-          <ArrowForwardIosIcon fontSize="small" />
+        <IconButton onClick={() => xScroll(i18n.language === "ar" ? "left" : "right")}>
+          <ArrowForwardIosIcon 
+            fontSize="small" 
+            sx={{ transform: i18n.language === "ar" ? "rotate(180deg)" : "none" }} 
+          />
         </IconButton>
       </Box>
 

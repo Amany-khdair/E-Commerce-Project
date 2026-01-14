@@ -14,7 +14,7 @@ export default function Products() {
   const navigate = useNavigate();
   const [likedProducts, setLikedProducts] = useState([]);
   const [page, setPage] = useState(0);
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
 
   const { isLoading, isError, data } = useProducts();
   
@@ -63,36 +63,41 @@ export default function Products() {
   return (
     <Box sx={{ px: { xs: 2, md: 6 }, py: {xs: 2, md: 6}, my: {xs: 2, md: 5} }}>
       {/* Header */}
-      <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
-        <Box sx={{ display: "flex", gap: 2, alignItems: "center" }}>
-          <Box
-            sx={{
-              width: 15,
-              height: 35,
-              borderRadius: 1,
-              bgcolor: "primary.main",
-            }}
-          />
-          <Typography sx={{ color: "primary.main", fontWeight: 600 }}>
-            {t("OurProducts")}
+      <Box sx={{display: "flex", justifyContent: "space-between"}}>
+        <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
+          <Box sx={{ display: "flex", gap: 2, alignItems: "center" }}>
+            <Box
+              sx={{
+                width: 15,
+                height: 35,
+                borderRadius: 1,
+                bgcolor: "primary.main",
+              }}
+            />
+            <Typography sx={{ color: "primary.main", fontWeight: 600 }}>
+              {t("OurProducts")}
+            </Typography>
+          </Box>
+
+          <Typography variant="h4" fontWeight={600}>
+            {t("EOP")}
           </Typography>
         </Box>
 
-        <Typography variant="h4" fontWeight={600}>
-          {t("EOP")}
-        </Typography>
-      </Box>
+        {/* Arrows */}
+        <Box sx={{ display: "flex", justifyContent: i18n.language === "ar" ? "flex-start" : "flex-end", gap: 1, mt: 1 }}>
+          <IconButton disabled={page === 0} onClick={handlePrev}>
+            <ArrowBackIosNewIcon fontSize="small" sx={{ transform: i18n.language === "ar" ? "rotate(180deg)" : "none" }} />
+          </IconButton>
 
-      {/* Arrows */}
-      <Box sx={{ display: "flex", justifyContent: "flex-end", gap: 1, mt: 1 }}>
-        <IconButton disabled={page === 0} onClick={handlePrev}>
-          <ArrowBackIosNewIcon fontSize="small" />
-        </IconButton>
-
-        <IconButton disabled={page === 1} onClick={handleNext}>
-          <ArrowForwardIosIcon fontSize="small" />
-        </IconButton>
+          <IconButton disabled={page === 1} onClick={handleNext}>
+            <ArrowForwardIosIcon fontSize="small" sx={{ transform: i18n.language === "ar" ? "rotate(180deg)" : "none" }} />
+          </IconButton>
+        </Box>
       </Box>
+      
+
+      
 
       {/* Slider Wrapper */}
       <Box sx={{maxWidth: { xs: "100%", sm: 500, md: 700, lg: 1000 }, width: "100%", overflow: "hidden", mt: 3 , mx:"auto", py: 2}}>
