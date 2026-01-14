@@ -1,13 +1,14 @@
 import { useNavigate } from 'react-router-dom';
 import useCart from '../../hooks/useCart';
-import { List, ListItem, ListItemText, Typography, Box, Divider, Button } from "@mui/material";
+import { List, ListItem, ListItemText, Typography, Box, Divider, Button, useTheme } from "@mui/material";
 import { useTranslation } from 'react-i18next';
 
 function CartDrawerContent({ toggleCart }) {
   const { data } = useCart();
   const navigate = useNavigate();
   const { t, i18n } = useTranslation();
-
+  const theme = useTheme();
+  
   if (!data || !data.items || data.items.length === 0) {
     return (
       <Box sx={{ display: "flex", alignItems: "center", justifyContent: "center", height: "100%"}}>
@@ -47,7 +48,7 @@ function CartDrawerContent({ toggleCart }) {
                 </Typography>
               }
               secondary={
-                <Typography variant="body2" sx={{ color: "#555" }}>
+                <Typography variant="body2" sx={{ color: theme.palette.mode === "dark" ? "#ccc" : "#555" }}>
                   {t("Quantity")} {item.count}
                 </Typography>
               }

@@ -5,7 +5,7 @@ import { Box, Button, CircularProgress, Container, Grid, TextField, Typography, 
 import Snowfall from 'react-snowfall';
 import useCheckout from '../../hooks/useCheckout';
 import Swal from "sweetalert2";
-import { lift, shine, typing } from '../../animation/LogoAnimation';
+import GradientText from '../../functions/GradientText';
 
 export default function CheckOut() {
   const { data, isLoading, isError } = useCart();
@@ -19,7 +19,6 @@ export default function CheckOut() {
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
   const [saveInfo, setSaveInfo] = useState(false);
-
 
   const {mutate: checkout, isPending: isCheckoutPending} = useCheckout(); 
 
@@ -90,13 +89,10 @@ export default function CheckOut() {
           <Grid container spacing={6}>
 
             {/* Billing Details */}
-            <Grid item xs={12} md={6}>            
-              <Typography variant="h3"
-                sx={{fontWeight: 700, textAlign: "center", mb: 3, whiteSpace: "nowrap", overflow: "hidden", width: "fit-content",
-                  animation: ` ${typing} 1.6s steps(12) forwards, ${lift} 3s ease-in-out infinite 1.6s`, background: "linear-gradient(90deg, #000, #DB4444, #000)", WebkitBackgroundClip: "text",
-                  color: "transparent", backgroundSize: "200%", animationDelay: "0s, 1.6s", "&:after": { content: '""', animation: `${shine} 2s linear infinite`, position: "absolute", width: "100%", height: "100%", left: 0, top: 0}}}>
+            <Grid item xs={12} md={6}>                          
+              <GradientText>
                   {t("BillingDetails")}
-              </Typography>
+              </GradientText>
 
               <Box sx={{ display: "flex", flexDirection: "column", gap: 2,
                     "& .MuiInputLabel-root": { left: i18n.language === "ar"  ? "inherit" : 0, right: i18n.language === "ar"  ? 28 : "inherit", transformOrigin: i18n.language === "ar"  ? "right" : "left" },
@@ -139,7 +135,7 @@ export default function CheckOut() {
             </Grid>
 
             {/* Order summary */}
-            <Grid item xs={12} md={5} sx={{ [i18n.language === "ar"  ? "mr" : "ml"]: "auto"}}>
+            <Grid item xs={12} md={5} sx={{ my: 2, [i18n.language === "ar"  ? "mr" : "ml"]: "auto"}}>
               <Box sx={{ mb: 3 }}>
 
                 {data.items.map((item) => (

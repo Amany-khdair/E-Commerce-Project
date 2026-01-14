@@ -7,16 +7,10 @@ import '@fontsource/roboto/700.css';
 import './index.css'
 import './i18n';
 import "@fontsource/inter";
-import { CssBaseline, ThemeProvider } from '@mui/material';
-import MainTheme from './theme/MainTheme.jsx';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
     <>
-        <ThemeProvider theme={MainTheme}>
-            <CssBaseline />
-            <App />
-        </ThemeProvider>
-
+        <App />       
     </>
     
 )

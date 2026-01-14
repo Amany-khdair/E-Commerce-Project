@@ -14,28 +14,10 @@ import Drawer from "@mui/material/Drawer";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
-import { styled } from "@mui/material/styles";
+import { styled, useTheme } from "@mui/material/styles";
 import Link from "@mui/material/Link";
 import { Link as RouterLink} from "react-router-dom";
 import { useTranslation } from "react-i18next";
-
-
-// =====================Search box =====================
-const SearchWrapper = styled("div")(() => ({
-  position: "relative",
-  backgroundColor: "#F5F5F5",
-  borderRadius: "4px",
-  width: "250px",
-  height: "40px",
-  display: "flex",
-  alignItems: "center",
-  paddingLeft: "10px",
-}));
-
-const SearchInput = styled(InputBase)(() => ({
-  width: "100%",
-  "& input": { fontSize: "14px" },
-}));
 
 // ===================== Nav link =====================
 const NavItem = styled("span")(() => ({
@@ -59,78 +41,67 @@ const NavItem = styled("span")(() => ({
 export default function RegisterNavbar() {
   const [openDrawer, setOpenDrawer] = useState(false);  
   const { t } = useTranslation();
-
+  const theme = useTheme();
   return (
     <>
       <AppBar
         position="static"
         sx={{
-          backgroundColor: "white",
-          color: "black",
+          backgroundColor:
+            theme.palette.mode === "dark" ? "#1A1A1A" : "white",
+          color: theme.palette.mode === "dark" ? "white" : "black",
           boxShadow: "none",
-          borderBottom: "1px solid #E0E0E0",
+          borderBottom:
+            theme.palette.mode === "dark"
+              ? "1px solid #333"
+              : "1px solid #E0E0E0",              
         }}>
-      <Toolbar
-        sx={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          px: { xs: 1, md: 4 },
-        }}>
-
-        {/*================Left Side===================*/}
-        <Box sx={{ flex: 1 }}>
-          <Typography variant="h6" sx={{ fontWeight: 700 }}>
-            Exclusive
-          </Typography>
-        </Box>
-
-        {/*================Nav Items===================*/}
-        <Box
+        <Toolbar
           sx={{
-            flex: 1,
-            display: { xs: "none", md: "flex" },
-            justifyContent: "center",
+            display: "flex",
+            justifyContent: "space-between",
             alignItems: "center",
-            gap: "30px",
+            px: { xs: 1, md: 4 },
           }}>
-          <Link component={RouterLink} color="inherit" underline="none" to='/home'>
-            <NavItem>{t("Home")}</NavItem>
-          </Link>
-          <Link component={RouterLink} color="inherit" underline="none" to='/contact'>
-            <NavItem>{t("Contact")}</NavItem>
-          </Link>
-          <Link component={RouterLink} color="inherit" underline="none" to='/about'>
-            <NavItem>{t("About")}</NavItem>
-          </Link>
-          <Link component={RouterLink} color="inherit" underline="none" to='/auth/register'>
-            <NavItem>{t("SignUP")}</NavItem>
-          </Link>
-        </Box>
 
-        {/* =============Right Side================ */}
-        <Box
-          sx={{
-            flex: 1,
-            display: { xs: "none", md: "flex" },
-            justifyContent: "flex-end",
-            alignItems: "center",
-            gap: "15px",
-          }}>
-          <SearchWrapper>
-            <SearchInput placeholder={t("WALF")} />
-            <SearchIcon sx={{ cursor: "pointer" }} />
-          </SearchWrapper>
-        </Box>
+          {/*================Left Side===================*/}
+          <Box sx={{ flex: 1 }}>
+            <Typography variant="h6" sx={{ fontWeight: 700 }}>
+              Exclusive
+            </Typography>
+          </Box>
 
-        {/*=====================Mobile View==================*/}
-        <Box sx={{ display: { xs: "flex", md: "none" }, gap: "10px" }}>          
-          <IconButton onClick={() => setOpenDrawer(true)}>
-            <MenuIcon sx={{ color: "black" }} />
-          </IconButton>
-        </Box>
+          {/*================Nav Items===================*/}
+          <Box
+            sx={{
+              flex: 1,
+              display: { xs: "none", sm: "flex" },
+              justifyContent: "center",
+              alignItems: "center",
+              gap: "30px",
+            }}>
+            <Link component={RouterLink} color="inherit" underline="none" to='/home'>
+              <NavItem>{t("Home")}</NavItem>
+            </Link>
+            <Link component={RouterLink} color="inherit" underline="none" to='/contact'>
+              <NavItem>{t("Contact")}</NavItem>
+            </Link>
+            <Link component={RouterLink} color="inherit" underline="none" to='/about'>
+              <NavItem>{t("About")}</NavItem>
+            </Link>
+            <Link component={RouterLink} color="inherit" underline="none" to='/auth/register'>
+              <NavItem>{t("SignUP")}</NavItem>
+            </Link>
+          </Box>
 
-      </Toolbar>
+          {/*=====================Mobile View==================*/}
+          <Box sx={{ display: { xs: "flex", sm: "none" }, gap: "10px" }}>          
+            <IconButton onClick={() => setOpenDrawer(true)}>
+              <MenuIcon sx={{ color: theme.palette.text.primary }} />
+            </IconButton>
+          </Box>
+
+        </Toolbar>
 
       </AppBar>
 
@@ -161,7 +132,7 @@ export default function RegisterNavbar() {
                         sx={{
                             ".MuiTypography-root": {
                             fontSize: "14px",
-                            color: "black",
+                            color: theme.palette.text.primary,
                             fontWeight: 500,
                             width: "fit-content",
                             cursor: "pointer",
@@ -174,7 +145,7 @@ export default function RegisterNavbar() {
                                 bottom: 0,
                                 width: "100%",
                                 height: "2px",
-                                backgroundColor: "black",
+                                backgroundColor: theme.palette.text.primary,
                             },
                             },
                         }}                    

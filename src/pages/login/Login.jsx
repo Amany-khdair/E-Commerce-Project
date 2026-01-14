@@ -10,12 +10,12 @@ import React, {useEffect, useState } from "react";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { loginSchema } from "../../validations/loginSchema";
 import LoadingButton from "@mui/lab/LoadingButton";
-import { typing, shine, lift } from "../../animation/LogoAnimation";
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import { useSignin } from "../../hooks/useSignin";
 import Snowfall from "react-snowfall";
 import { useTranslation } from "react-i18next";
+import GradientText from "../../functions/GradientText";
 
 export default function Login() {
   const { t, i18n } = useTranslation();
@@ -73,13 +73,10 @@ export default function Login() {
         sx={{display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", margin: "auto"}}>
         <Grid item xs={12} md={6} sx={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", margin: "auto", p: 4}}>
           
-          {isSmallScreen && (
-            <Typography variant="h3"
-              sx={{fontWeight: 700, textAlign: "center", mb: 3, whiteSpace: "nowrap", overflow: "hidden", width: "fit-content",
-                animation: ` ${typing} 1.6s steps(12) forwards, ${lift} 3s ease-in-out infinite 1.6s`, background: "linear-gradient(90deg, #000, #DB4444, #000)", WebkitBackgroundClip: "text",
-                color: "transparent", backgroundSize: "200%", animationDelay: "0s, 1.6s", "&:after": { content: '""', animation: `${shine} 2s linear infinite`, position: "absolute", width: "100%", height: "100%", left: 0, top: 0}}}>
+          {isSmallScreen && (                      
+            <GradientText>
               Exclusive
-            </Typography>
+            </GradientText>
           )}
 
           <Box sx={{ width: "100%", maxWidth: 400 }}>

@@ -1,5 +1,4 @@
 import { Box, IconButton, InputAdornment, TextField, Typography } from '@mui/material'
-import { typing, shine, lift } from "../../animation/LogoAnimation";
 import { useForm } from 'react-hook-form';
 import { yupResolver } from "@hookform/resolvers/yup";
 import { resetPasswordSchema } from "../../validations/resetPasswordSchema";
@@ -10,6 +9,7 @@ import { LoadingButton } from '@mui/lab';
 import { useReset } from '../../hooks/useReset';
 import Snowfall from 'react-snowfall';
 import { useTranslation } from 'react-i18next';
+import GradientText from '../../functions/GradientText';
 
 export default function ResetPassword() {
     const { t, i18n } = useTranslation();
@@ -44,11 +44,10 @@ export default function ResetPassword() {
     
   return (
     <Box sx={{ maxWidth: {xs: "90%", sm: 400}, mx: "auto", mt:{xs: 6,sm: 10} , px:{xs: 2, sm:0}, textAlign: "center" }}>
-        <Snowfall color='#82C3D9'/>
-        <Typography variant="h3" sx={{fontWeight: 700, textAlign: "center", mb: 3, whiteSpace: "nowrap", overflow: "hidden", width: "fit-content",
-                        animation: ` ${typing} 1.6s steps(12) forwards, ${lift} 3s ease-in-out infinite 1.6s`, background: "linear-gradient(90deg, #000, #DB4444, #000)", WebkitBackgroundClip: "text",
-                        color: "transparent", backgroundSize: "200%", animationDelay: "0s, 1.6s", "&:after": { content: '""', animation: `${shine} 2s linear infinite`, position: "absolute", width: "100%", height: "100%", left: 0, top: 0}}}>
-         {t("ResetPasswordHead")} </Typography>
+        <Snowfall color='#82C3D9'/>        
+         <GradientText>
+            {t("ResetPasswordHead")}
+         </GradientText>
               
         <Box component={"form"} onSubmit={handleSubmit(onSubmit)}>
             <TextField variant ="standard" fullWidth label ={t("UserEmail")} value ={email} type= "email" sx={{my: 2}} disabled 

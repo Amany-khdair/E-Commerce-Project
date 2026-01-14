@@ -17,7 +17,7 @@ import Drawer from "@mui/material/Drawer";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
-import { styled } from "@mui/material/styles";
+import { styled, useTheme } from "@mui/material/styles";
 import Link from "@mui/material/Link";
 import { useNavigate, Link as RouterLink} from "react-router-dom";
 import Menu from "@mui/material/Menu";
@@ -71,6 +71,7 @@ export default function Navbar() {
   const token = useAuthStore(state=>state.token);
   const logout = useAuthStore(state=>state.logout);
   const { t } = useTranslation();
+  const theme = useTheme();
 
   const handleLogout = () =>{
     logout();
@@ -95,10 +96,14 @@ export default function Navbar() {
     <>
       <AppBar position="sticky" sx={{
           top: 0,         
-          backgroundColor: "white",
-          color: "black",
+          backgroundColor:
+            theme.palette.mode === "dark" ? "#1A1A1A" : "white",
+          color: theme.palette.mode === "dark" ? "white" : "black",
           boxShadow: "none",
-          borderBottom: "1px solid #E0E0E0",
+          borderBottom:
+            theme.palette.mode === "dark"
+              ? "1px solid #333"
+              : "1px solid #E0E0E0",        
         }}>
       <Toolbar
         sx={{
@@ -156,22 +161,22 @@ export default function Navbar() {
           {token != null ? (
             <>              
               <IconButton onClick={() => navigate("/wishlist")}>
-                <FavoriteBorderIcon sx={{ color: "black" }} />
+                <FavoriteBorderIcon sx={{ color: theme.palette.text.primary }} />
               </IconButton>
               
               <IconButton onClick={toggleCart}>
-                <ShoppingCartOutlinedIcon sx={{ color: "black" }} />
+                <ShoppingCartOutlinedIcon sx={{ color: theme.palette.text.primary }} />
               </IconButton>
 
               <Drawer anchor="right" open={openCart} onClose={toggleCart} slotProps={{
-                paper:{sx:{width: { xs: "85%", sm: "400px" }, padding: "20px", display: "flex", flexDirection: "column", justifyContent: "space-between"}}
+                paper:{sx:{width: { xs: "85%", sm: "400px" }, padding: "20px", display: "flex", flexDirection: "column", justifyContent: "space-between", backgroundColor: theme.palette.background.default, color: theme.palette.text.primary}}
               }}>
                 
                 {/* Cart Header */}
                 <Box sx={{ display: "flex", justifyContent: "space-between" }}>
                   <Typography variant="h6">{t("SC")}</Typography>                 
                   <IconButton onClick={toggleCart}>
-                    <CloseIcon />
+                    <CloseIcon sx={{ color: theme.palette.text.primary }}/>
                   </IconButton>
                 </Box>
 
@@ -179,9 +184,9 @@ export default function Navbar() {
               </Drawer>
 
               <IconButton onClick={handleOpenMenu}  sx={{
-                  borderRadius: "50%", backgroundColor: open ? "#DB4444" : "transparent", transition: "0.5s",                  
+                  borderRadius: "50%", backgroundColor: open ? theme.palette.primary.main : "transparent", transition: "0.5s",                  
                 }}>
-                <PersonOutlineIcon sx={{ color: open ? "white" : "black" }} />
+                <PersonOutlineIcon sx={{ color: open ? "#fff" : theme.palette.text.primary, }} />
               </IconButton>
 
 
@@ -275,21 +280,21 @@ export default function Navbar() {
           {token != null ?
           <>
             <IconButton component={RouterLink} to='/wishlist'>
-              <FavoriteBorderIcon sx={{ color: "black" }} />
+              <FavoriteBorderIcon sx={{ color: theme.palette.text.primary }} />
             </IconButton>
 
             <IconButton component={RouterLink} to='/cart'> 
-              <ShoppingCartOutlinedIcon sx={{ color: "black" }} />
+              <ShoppingCartOutlinedIcon sx={{ color: theme.palette.text.primary }} />
             </IconButton>
 
             <IconButton onClick={() => setOpenDrawer(true)}>
-              <MenuIcon sx={{ color: "black" }} />
+              <MenuIcon sx={{ color: theme.palette.text.primary }} />
             </IconButton>
           </>
           :
           <>
             <IconButton onClick={() => setOpenDrawer(true)}>
-              <MenuIcon sx={{ color: "black" }} />
+              <MenuIcon sx={{ color: theme.palette.text.primary }} />
             </IconButton>
           </>
           }

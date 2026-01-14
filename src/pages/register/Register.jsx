@@ -13,12 +13,12 @@ import { registerSchema } from "../../validations/registerSchema";
 import LoadingButton from "@mui/lab/LoadingButton";
 import Fade from "@mui/material/Fade";
 import Slide from "@mui/material/Slide";
-import { typing, shine, lift } from "../../animation/LogoAnimation";
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import { useRegister } from "../../hooks/useRegister";
 import Snowfall from "react-snowfall";
 import { useTranslation } from "react-i18next";
+import GradientText from "../../functions/GradientText";
 
 export default function Register() {
   const { t, i18n } = useTranslation();
@@ -87,11 +87,9 @@ export default function Register() {
               }}>
 
               {isSmallScreen && (
-                <Typography variant="h3" sx={{fontWeight: 700, textAlign: "center", mb: 3, whiteSpace: "nowrap", overflow: "hidden", width: "fit-content",
-                                animation: ` ${typing} 1.6s steps(12) forwards, ${lift} 3s ease-in-out infinite 1.6s`, background: "linear-gradient(90deg, #000, #DB4444, #000)", WebkitBackgroundClip: "text",
-                                color: "transparent", backgroundSize: "200%", animationDelay: "0s, 1.6s", "&:after": { content: '""', animation: `${shine} 2s linear infinite`, position: "absolute", width: "100%", height: "100%", left: 0, top: 0}}}>              
-                  Exclusive
-                </Typography>
+                <GradientText>
+                    Exclusive
+                </GradientText>
               )}
 
               <Box sx={{ width: "100%", maxWidth: 400 }}>

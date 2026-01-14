@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { useDetails } from '../../hooks/useDetails';
-import { Box, Typography, CircularProgress, Grid, Rating, Stack, IconButton, Button, Paper, Tab, Container, Select, MenuItem, Card, Modal, Backdrop, Fade, TextField, AccordionSummary, Accordion, AccordionDetails, Breadcrumbs, Link, Badge } from '@mui/material';
+import { Box, Typography, CircularProgress, Grid, Rating, Stack, IconButton, Button, Paper, Tab, Container, Select, MenuItem, Card, Modal, Backdrop, Fade, TextField, AccordionSummary, Accordion, AccordionDetails, Breadcrumbs, Link, Badge, useTheme } from '@mui/material';
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
@@ -25,7 +25,8 @@ export default function Details() {
     const {isLoading, isError, data} = useDetails(id);
     const [selectedImage, setSelectedImage] = useState(null);
     const { t, i18n } = useTranslation();
-
+    const theme = useTheme();
+    
     const size = ["XS", "S", "M", "L", "XL"];
     const [sizes, setSizes] = useState(null);
     const product = data?.response || null;
@@ -74,7 +75,7 @@ export default function Details() {
     if (!isLoading && (!product || Object.keys(data.response).length === 0)) {
         return (
             <Box sx={{textAlign: "center", py: 10, display: "flex", flexDirection: "column", alignItems: "center", gap: 3, color: "text.secondary"}}>
-                <Box sx={{ width: 80, height: 80, borderRadius: "50%", backgroundColor: "#f5f5f5", display: "flex", alignItems: "center", justifyContent: "center", boxShadow: "0 2px 12px rgba(0,0,0,0.15)", animation: `${bounce} 0.8s ease`}}>
+                <Box sx={{ width: 80, height: 80, borderRadius: "50%", backgroundColor: theme.palette.background.default, display: "flex", alignItems: "center", justifyContent: "center", boxShadow: "0 2px 12px rgba(0,0,0,0.15)", animation: `${bounce} 0.8s ease`}}>
                     <Typography variant="h4" sx={{ fontWeight: "bold" }}>
                         !
                     </Typography>
@@ -110,7 +111,7 @@ export default function Details() {
                 <CircularProgress sx={{color: "primary.main"}}/>
             </Box>
         ) 
-    if(isError)return <Typography sx={{color: "red", textAlign: "center", py: 6 }}>{t("LoadingErrorCart")}</Typography>        
+    if(isError)return <Typography sx={{color: "error", textAlign: "center", py: 6 }}>{t("LoadingErrorCart")}</Typography>        
     if (!data) return null;
 
   return (
@@ -155,7 +156,7 @@ export default function Details() {
                             <Badge badgeContent={`${t("Available")}: ${product.quantity}`}
                             sx={{ "& .MuiBadge-badge": {
                                 backgroundColor: "#DB4444",
-                                color: "#fff",              
+                                color: theme.palette.text.primary,             
                                 fontWeight: 600,
                                 pt:2,
                                 fontSize: "0.8rem",
@@ -169,7 +170,7 @@ export default function Details() {
                             }}
                             >
 
-                            <Box sx={{display: "flex", justifyContent: "center", alignItems: "center", flex: 1, p: {xs: 3, sm: 4}, maxHeight: 400, backgroundColor: "#f2f2f2", borderRadius: "12px"}}>
+                            <Box sx={{display: "flex", justifyContent: "center", alignItems: "center", flex: 1, p: {xs: 3, sm: 4}, maxHeight: 400, backgroundColor: "#fff", borderRadius: "12px"}}>
                                 <Box component="img" src={selectedImage} alt={product.name} sx={{width: "100%", maxWidth: {xs: 300, sm: 400}, height: {xs: 250, sm: 350}, objectFit: "contain", transition: "0.5s", "&:hover": {transform: "scale(1.1)" }}}/>                       
                             </Box>
                             </Badge>
@@ -202,7 +203,7 @@ export default function Details() {
                         <Stack my={1} direction="row" spacing={1} sx={{display: "flex", justifyContent: "center" }}>
                             <Typography component= "span" variant="body1" display="flex" fontWeight="600" alignItems="center">{t("Size")}</Typography>{size.map(item =>(
                                 <Box key={item} onClick={()=>setSizes(item)} sx={{border: "1px solid #ccc", cursor: "pointer", px: 2, py:1, fontSize: "12px", borderRadius: "5px",
-                                    backgroundColor: sizes === item? "primary.main": "transparent", color: sizes === item? "#fff": "black", fontWeight: 600, transition: "0.5s", "&:hover":{borderColor: "primary.main"}}}
+                                    backgroundColor: sizes === item? theme.palette.primary.main: "transparent", color: sizes === item? theme.palette.primary.contrastText : theme.palette.text.primary, fontWeight: 600, transition: "0.5s", "&:hover":{borderColor: "primary.main"}}}
                                 > {item}</Box>
                             ))}
                         </Stack>
@@ -250,207 +251,241 @@ export default function Details() {
         </Box>
 
         {/* Reviews Section */}
-        <Box sx={{ width: '100%', typography: 'body1' }}>
-        {/* <Box container sx={{ borderBottom: "1px solid #ddd", my: 2 }}></Box> */}
-        <TabContext value={value}>
-            <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-            <TabList onChange={handleChange} centered aria-label="lab API tabs example">
-                <Tab label={t("Description")} sx={{fontSize: {xs: "14px", sm:"18px"}, textTransform: "none", fontWeight: 600}} value="0" />
-                <Tab label={t("Rating&Reviews")} sx={{fontSize: {xs: "14px", sm:"18px"}, textTransform: "none", fontWeight: 600}} value="1" />
-                <Tab label={t("FAQs")} sx={{fontSize: {xs: "14px", sm:"18px"}, textTransform: "none", fontWeight: 600}} value="2" />
-            </TabList>
-            </Box>
+        <Box sx={{ width: '100%', typography: 'body1' }}>      
+            <TabContext value={value}>
+                <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+                <TabList onChange={handleChange} centered aria-label="lab API tabs example">
+                    <Tab label={t("Description")} sx={{fontSize: {xs: "14px", sm:"18px"}, textTransform: "none", fontWeight: 600}} value="0" />
+                    <Tab label={t("Rating&Reviews")} sx={{fontSize: {xs: "14px", sm:"18px"}, textTransform: "none", fontWeight: 600}} value="1" />
+                    <Tab label={t("FAQs")} sx={{fontSize: {xs: "14px", sm:"18px"}, textTransform: "none", fontWeight: 600}} value="2" />
+                </TabList>
+                </Box>
 
-            <Container>
-                <TabPanel value="0">
-                    <Box sx={{ maxWidth: 900, mx: "auto", py: 3 }}>
-                        <Typography sx={{ lineHeight: 1.7 }}>
-                            {product.description}
-                        </Typography>
-                    </Box>
-                </TabPanel>
-
-                <TabPanel value="1">
-                    {/* Header */}
-                    <Stack direction={{xs: "column", sm: "row"}} sx={{display: "flex", justifyContent: "space-between", alignItems: "center", mb: 3, gap: 1}}>
-                        <Box sx={{display: "flex", alignItems: "center"}}>                    
-                            <Typography sx={{fontSize: "20px", fontWeight: 600, color: "text.secondary"}}>
-                                {t("AllReviews")} ({product?.reviews?.length || 0})
+                <Container>
+                    {/* First Tab */}
+                    <TabPanel value="0">
+                        <Box sx={{ maxWidth: 900, mx: "auto", py: 3 }}>
+                            <Typography sx={{ lineHeight: 1.7 }}>
+                                {product.description}
                             </Typography>
                         </Box>
+                    </TabPanel>
 
-                        <Box display="flex" gap={2} sx={{fontSize: "16px"}}>
-                            <Select value={sortReviews} onChange={(e) => setSortReviews(e.target.value)} sx={{width: 150, borderRadius: "12px",backgroundColor: "#f5f5f5",
-                                "& .MuiOutlinedInput-notchedOutline": {borderColor: "#ccc"}, "&:hover .MuiOutlinedInput-notchedOutline": {borderColor: "primary.main"}, "& .MuiSelect-select": {py: 1, fontSize: "15px", fontWeight: 600} }}>
-                                <MenuItem value={t("Latest")} sx={{fontSize: "15px"}}>{t("Latest")}</MenuItem>
-                                <MenuItem value={t("Oldest")} sx={{fontSize: "15px"}}>{t("Oldest")}</MenuItem>
-                            </Select>
-
-                            <Button variant="contained" onClick={() => setOpenReviewModal(true)} sx={{backgroundColor: "primary.main", borderRadius: "30px", py: {xs :0, sm: 1}, px: {xs: 1, sm: 3}, fontSize: {xs: "14px", sm: "16px"}, textTransform: "none"}}>
-                                {t("WriteReview")}
-                            </Button>
-                        </Box>                
-                    </Stack>
-
-                    {/* Content */}
-                    <Grid container spacing={3}>
-                        {sortedReviews.map((review, i) =>(
-                            <Grid item xs={12} sm={6} md={6} key={i} sx={{mx: {sm: "auto"}}}>
-                                <Card elevation={2} sx={{width: {xs: "100%", sm: 500}, borderRadius: "14px", border: "1px solid #ddd", p: 3}}>
-                                    <Rating value={review.rating} precision={0.5} sx={{ color: "orange" }} readOnly/>
-                                    <Typography sx={{mt: 1, fontWeight: 600}}>{review.reviewerName}</Typography>
-                                    <Typography sx={{mt: 1, fontWeight: 500, color: "text."}}>{review.comment}</Typography>
-                                    <Typography color="text.secondary" fontSize="12px">Posted on {new Date(review.date).toLocaleDateString()}</Typography>
-                                </Card>
-                            </Grid>
-                        ))}
-                    </Grid>
-                    {/* Review Modal */}
-                    <Modal 
-                        open={openReviewModal} onClose={() => setOpenReviewModal(false)} closeAfterTransition 
-                        slots={{backdrop: Backdrop}} slotProps={{
-                            backdrop: {
-                            timeout: 300,
-                            },
-                        }}
-                        >
-                        <Fade in={openReviewModal}>
-                            <Box sx={{
-                                position: 'absolute',
-                                top: '50%',
-                                left: '50%',
-                                transform: 'translate(-50%, -50%) scale(1)',
-                                width: { xs: "90%", sm: 450 },
-                                bgcolor: 'background.paper',
-                                borderRadius: "16px",
-                                boxShadow: 24,
-                                p: 4,
-                                outline: "none",
-                            }}>
-                                <Typography variant="h5" sx={{ mb: 2, fontWeight: 700 }}>
-                                    {t("WriteReview")}
+                    {/* Second Tab */}
+                    <TabPanel value="1">
+                        {/* Header */}
+                        <Stack direction={{xs: "column", sm: "row"}} sx={{display: "flex", justifyContent: "space-between", alignItems: "center", mb: 3, gap: 1}}>
+                            <Box sx={{display: "flex", alignItems: "center"}}>                    
+                                <Typography sx={{fontSize: "20px", fontWeight: 600, color: "text.secondary"}}>
+                                    {t("AllReviews")} ({product?.reviews?.length || 0})
                                 </Typography>
-
-                                <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
-                                    <TextField fullWidth label={t("YourName")} variant="outlined"/>
-                                    <Box>
-                                        <Typography sx={{ fontSize: "16px", fontWeight: 600, mb: 1 }}>
-                                            {t("Rating")}
-                                        </Typography>
-                                        <Rating size="large" />
-                                    </Box>
-                                    <TextField fullWidth label={t("YourReview")} multiline rows={4} variant="outlined" />
-                                    <Button variant="contained" fullWidth sx={{ py: 1.2, fontSize: "16px", borderRadius: "10px" }}>
-                                        {t("SubmitReview")}
-                                    </Button>
-                                </Box>
                             </Box>
-                        </Fade>
-                    </Modal>
 
-                </TabPanel>
-                {/* Second Tap */}
-                <TabPanel value="2">
-                    <Box sx={{ maxWidth: 900, mx: "auto", py: 6 }}>
-                        <Accordion expanded={expanded === 0} defaultExpanded onChange={() => setExpanded(expanded === 0 ? false : 0)}
-                            sx={{ mb: 2, borderRadius: 3, boxShadow: "0 6px 20px rgba(0,0,0,0.5)", transition: "0.3s" }}
-                        >
-                            <AccordionSummary
-                            expandIcon={<ExpandMoreIcon />}
-                            sx={{ px: 3, py: 1, bgcolor: expanded === 0 ? "linear-gradient(90deg, #e0f7fa, #b2ebf2)" : "#f5f5f5" }}
+                            <Box display="flex" gap={2} sx={{fontSize: "16px"}}>
+                                <Select value={sortReviews} onChange={(e) => setSortReviews(e.target.value)} sx={{width: 150, borderRadius: "12px",backgroundColor: theme.palette.background.default,
+                                    "& .MuiOutlinedInput-notchedOutline": {borderColor: "#ccc"}, "&:hover .MuiOutlinedInput-notchedOutline": {borderColor: "primary.main"}, "& .MuiSelect-select": {py: 1, fontSize: "15px", fontWeight: 600} }}>
+                                    <MenuItem value={t("Latest")} sx={{fontSize: "15px"}}>{t("Latest")}</MenuItem>
+                                    <MenuItem value={t("Oldest")} sx={{fontSize: "15px"}}>{t("Oldest")}</MenuItem>
+                                </Select>
+
+                                <Button variant="contained" onClick={() => setOpenReviewModal(true)} sx={{backgroundColor: "primary.main", borderRadius: "30px", py: {xs :0, sm: 1}, px: {xs: 1, sm: 3}, fontSize: {xs: "14px", sm: "16px"}, textTransform: "none"}}>
+                                    {t("WriteReview")}
+                                </Button>
+                            </Box>                
+                        </Stack>
+
+                        {/* Content */}
+                        <Grid container spacing={3}>
+                            {sortedReviews.map((review, i) =>(
+                                <Grid item xs={12} sm={6} md={6} key={i} sx={{mx: {sm: "auto"}}}>
+                                    <Card elevation={2} sx={{width: {xs: "100%", sm: 500}, borderRadius: "14px", border: "1px solid #ddd", p: 3}}>
+                                        <Rating value={review.rating} precision={0.5} sx={{ color: "orange" }} readOnly/>
+                                        <Typography sx={{mt: 1, fontWeight: 600}}>{review.reviewerName}</Typography>
+                                        <Typography sx={{mt: 1, fontWeight: 500, color: theme.palette.text.primary}}>{review.comment}</Typography>
+                                        <Typography color="text.secondary" fontSize="12px">Posted on {new Date(review.date).toLocaleDateString()}</Typography>
+                                    </Card>
+                                </Grid>
+                            ))}
+                        </Grid>
+                        {/* Review Modal */}
+                        <Modal 
+                            open={openReviewModal} onClose={() => setOpenReviewModal(false)} closeAfterTransition 
+                            slots={{backdrop: Backdrop}} slotProps={{
+                                backdrop: {
+                                timeout: 300,
+                                },
+                            }}
                             >
-                                <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
-                                    <LocalShippingIcon sx={{ color: expanded === 0 ? "#00796b" : "#4caf50", transition: "0.3s" }} />
+                            <Fade in={openReviewModal}>
+                                <Box sx={{
+                                    position: 'absolute',
+                                    top: '50%',
+                                    left: '50%',
+                                    transform: 'translate(-50%, -50%) scale(1)',
+                                    width: { xs: "90%", sm: 450 },
+                                    bgcolor: 'background.paper',
+                                    borderRadius: "16px",
+                                    boxShadow: 24,
+                                    p: 4,
+                                    outline: "none",
+                                }}>
+                                    <Typography variant="h5" sx={{ mb: 2, fontWeight: 700 }}>
+                                        {t("WriteReview")}
+                                    </Typography>
+
+                                    <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
+                                        <TextField fullWidth label={t("YourName")} variant="outlined"/>
+                                        <Box>
+                                            <Typography sx={{ fontSize: "16px", fontWeight: 600, mb: 1 }}>
+                                                {t("Rating")}
+                                            </Typography>
+                                            <Rating size="large" />
+                                        </Box>
+                                        <TextField fullWidth label={t("YourReview")} multiline rows={4} variant="outlined" />
+                                        <Button variant="contained" fullWidth sx={{ py: 1.2, fontSize: "16px", borderRadius: "10px" }}>
+                                            {t("SubmitReview")}
+                                        </Button>
+                                    </Box>
+                                </Box>
+                            </Fade>
+                        </Modal>
+
+                    </TabPanel>
+                    
+                    {/* Third Tap */}
+                    <TabPanel value="2">
+                        <Box sx={{ maxWidth: 900, mx: "auto", py: 6 }}>
+                            
+                            <Accordion expanded={expanded === 0} defaultExpanded onChange={() => setExpanded(expanded === 0 ? false : 0)}
+                            sx={{ mb: 2, borderRadius: 3, boxShadow: "0 6px 20px rgba(0,0,0,0.5)", transition: "0.3s" }}
+                            >
+                                <AccordionSummary
+                                    expandIcon={<ExpandMoreIcon />}
+                                    sx={{
+                                    px: 3,
+                                    py: 1,
+                                    bgcolor: expanded === 0 
+                                        ? `linear-gradient(90deg, ${theme.palette.mode === 'dark' ? '#37474f' : '#e0f7fa'}, ${theme.palette.mode === 'dark' ? '#263238' : '#b2ebf2'})` 
+                                        : theme.palette.background.paper
+                                    }}
+                                >
+                                    <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
+                                    <LocalShippingIcon sx={{ color: expanded === 0 ? (theme.palette.mode === 'dark' ? '#80cbc4' : '#00796b') : (theme.palette.mode === 'dark' ? '#cfd8dc' : '#4caf50'), transition: "0.3s" }} />
                                     <Typography fontWeight="bold">{t("productsDelivered")}</Typography>
-                                </Box>
-                            </AccordionSummary>
-                            <AccordionDetails sx={{ px: 4, py: 2, bgcolor: "#fafafa", boxShadow: "inset 0 2px 8px rgba(0,0,0,0.05)", borderRadius: 2 }}>
-                                <Typography color="text.secondary">
+                                    </Box>
+                                </AccordionSummary>
+                                <AccordionDetails sx={{ px: 4, py: 2, bgcolor: theme.palette.background.default, boxShadow: "inset 0 2px 8px rgba(0,0,0,0.05)", borderRadius: 2 }}>
+                                    <Typography color="text.secondary">
                                     {t("productsDeliveredWithin")}
-                                </Typography>
-                            </AccordionDetails>
-                        </Accordion>
+                                    </Typography>
+                                </AccordionDetails>
+                            </Accordion>
 
-                        <Accordion expanded={expanded === 1} onChange={() => setExpanded(expanded === 1 ? false : 1)}
+                            <Accordion expanded={expanded === 1} onChange={() => setExpanded(expanded === 1 ? false : 1)}
                             sx={{ mb: 2, borderRadius: 3, boxShadow: "0 6px 20px rgba(0,0,0,0.5)", transition: "0.3s" }}
-                        >
-                            <AccordionSummary
-                            expandIcon={<ExpandMoreIcon />}
-                            sx={{ px: 3, py: 1, bgcolor: expanded === 1 ? "linear-gradient(90deg, #fff3e0, #ffe0b2)" : "#f5f5f5" }}
                             >
-                                <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
-                                    <ReplayIcon sx={{ color: expanded === 1 ? "#ef6c00" : "#ff9800", transition: "0.3s" }} />
+                                <AccordionSummary
+                                    expandIcon={<ExpandMoreIcon />}
+                                    sx={{
+                                    px: 3,
+                                    py: 1,
+                                    bgcolor: expanded === 1 
+                                        ? `linear-gradient(90deg, ${theme.palette.mode === 'dark' ? '#bf360c' : '#fff3e0'}, ${theme.palette.mode === 'dark' ? '#e65100' : '#ffe0b2'})` 
+                                        : theme.palette.background.paper
+                                    }}
+                                >
+                                    <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
+                                    <ReplayIcon sx={{ color: expanded === 1 ? (theme.palette.mode === 'dark' ? '#ffb74d' : '#ef6c00') : (theme.palette.mode === 'dark' ? '#ffcc80' : '#ff9800'), transition: "0.3s" }} />
                                     <Typography fontWeight="bold">{t("returnProduct")}</Typography>
-                                </Box>
-                            </AccordionSummary>
-                            <AccordionDetails sx={{ px: 4, py: 2, bgcolor: "#fafafa", boxShadow: "inset 0 2px 8px rgba(0,0,0,0.05)", borderRadius: 2 }}>
-                                <Typography color="text.secondary">
+                                    </Box>
+                                </AccordionSummary>
+                                <AccordionDetails sx={{ px: 4, py: 2, bgcolor: theme.palette.background.default, boxShadow: "inset 0 2px 8px rgba(0,0,0,0.05)", borderRadius: 2 }}>
+                                    <Typography color="text.secondary">
                                     {t("Absolutely")}
-                                </Typography>
-                            </AccordionDetails>
-                        </Accordion>
+                                    </Typography>
+                                </AccordionDetails>
+                            </Accordion>
 
-                        <Accordion expanded={expanded === 2} onChange={() => setExpanded(expanded === 2 ? false : 2)}
+                            <Accordion expanded={expanded === 2} onChange={() => setExpanded(expanded === 2 ? false : 2)}
                             sx={{ mb: 2, borderRadius: 3, boxShadow: "0 6px 20px rgba(0,0,0,0.5)", transition: "0.3s" }}
-                        >
-                            <AccordionSummary
-                            expandIcon={<ExpandMoreIcon />}
-                            sx={{ px: 3, py: 1, bgcolor: expanded === 2 ? "linear-gradient(90deg, #e3f2fd, #bbdefb)" : "#f5f5f5" }}
                             >
-                                <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
-                                    <VerifiedUserIcon sx={{ color: expanded === 2 ? "#1565c0" : "#2196f3", transition: "0.3s" }} />
+                                <AccordionSummary
+                                    expandIcon={<ExpandMoreIcon />}
+                                    sx={{
+                                    px: 3,
+                                    py: 1,
+                                    bgcolor: expanded === 2 
+                                        ? `linear-gradient(90deg, ${theme.palette.mode === 'dark' ? '#0d47a1' : '#e3f2fd'}, ${theme.palette.mode === 'dark' ? '#1565c0' : '#bbdefb'})` 
+                                        : theme.palette.background.paper
+                                    }}
+                                >
+                                    <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
+                                    <VerifiedUserIcon sx={{ color: expanded === 2 ? (theme.palette.mode === 'dark' ? '#82b1ff' : '#1565c0') : (theme.palette.mode === 'dark' ? '#90caf9' : '#2196f3'), transition: "0.3s" }} />
                                     <Typography fontWeight="bold">{t("productsAuthentic")}</Typography>
-                                </Box>
-                            </AccordionSummary>
-                            <AccordionDetails sx={{ px: 4, py: 2, bgcolor: "#fafafa", boxShadow: "inset 0 2px 8px rgba(0,0,0,0.05)", borderRadius: 2 }}>
-                                <Typography color="text.secondary">
+                                    </Box>
+                                </AccordionSummary>
+                                <AccordionDetails sx={{ px: 4, py: 2, bgcolor: theme.palette.background.default, boxShadow: "inset 0 2px 8px rgba(0,0,0,0.05)", borderRadius: 2 }}>
+                                    <Typography color="text.secondary">
                                     {t("productsGuaranteed")}
-                                </Typography>
-                            </AccordionDetails>
-                        </Accordion>
+                                    </Typography>
+                                </AccordionDetails>
+                            </Accordion>
 
-                        <Accordion expanded={expanded === 3} onChange={() => setExpanded(expanded === 3 ? false : 3)}
+                            <Accordion expanded={expanded === 3} onChange={() => setExpanded(expanded === 3 ? false : 3)}
                             sx={{ mb: 2, borderRadius: 3, boxShadow: "0 6px 20px rgba(0,0,0,0.5)", transition: "0.3s" }}
-                        >
-                            <AccordionSummary
-                            expandIcon={<ExpandMoreIcon />}
-                            sx={{ px: 3, py: 1, bgcolor: expanded === 3 ? "linear-gradient(90deg, #fce4ec, #f8bbd0)" : "#f5f5f5" }}
                             >
-                                <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
-                                    <DiscountIcon sx={{ color: expanded === 3 ? "#c2185b" : "#f50057", transition: "0.3s" }} />
+                                <AccordionSummary
+                                    expandIcon={<ExpandMoreIcon />}
+                                    sx={{
+                                    px: 3,
+                                    py: 1,
+                                    bgcolor: expanded === 3 
+                                        ? `linear-gradient(90deg, ${theme.palette.mode === 'dark' ? '#880e4f' : '#fce4ec'}, ${theme.palette.mode === 'dark' ? '#c2185b' : '#f8bbd0'})` 
+                                        : theme.palette.background.paper
+                                    }}
+                                >
+                                    <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
+                                    <DiscountIcon sx={{ color: expanded === 3 ? (theme.palette.mode === 'dark' ? '#f48fb1' : '#c2185b') : (theme.palette.mode === 'dark' ? '#f06292' : '#f50057'), transition: "0.3s" }} />
                                     <Typography fontWeight="bold">{t("discounts")}</Typography>
-                                </Box>
-                            </AccordionSummary>
-                            <AccordionDetails sx={{ px: 4, py: 2, bgcolor: "#fafafa", boxShadow: "inset 0 2px 8px rgba(0,0,0,0.05)", borderRadius: 2 }}>
-                                <Typography color="text.secondary">
+                                    </Box>
+                                </AccordionSummary>
+                                <AccordionDetails sx={{ px: 4, py: 2, bgcolor: theme.palette.background.default, boxShadow: "inset 0 2px 8px rgba(0,0,0,0.05)", borderRadius: 2 }}>
+                                    <Typography color="text.secondary">
                                     {t("SubscribeToNewsletter")}
-                                </Typography>
-                            </AccordionDetails>
-                        </Accordion>
+                                    </Typography>
+                                </AccordionDetails>
+                            </Accordion>
 
-                        <Accordion expanded={expanded === 4} onChange={() => setExpanded(expanded === 4 ? false : 4)}
+                            <Accordion expanded={expanded === 4} onChange={() => setExpanded(expanded === 4 ? false : 4)}
                             sx={{ mb: 2, borderRadius: 3, boxShadow: "0 6px 20px rgba(0,0,0,0.5)", transition: "0.3s" }}
-                        >
-                            <AccordionSummary
-                            expandIcon={<ExpandMoreIcon />}
-                            sx={{ px: 3, py: 1, bgcolor: expanded === 4 ? "linear-gradient(90deg, #f3e5f5, #e1bee7)" : "#f5f5f5" }}
                             >
-                                <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
-                                    <CropFreeIcon sx={{ color: expanded === 4 ? "#6a1b9a" : "#9c27b0", transition: "0.3s" }} />
+                                <AccordionSummary
+                                    expandIcon={<ExpandMoreIcon />}
+                                    sx={{
+                                    px: 3,
+                                    py: 1,
+                                    bgcolor: expanded === 4 
+                                        ? `linear-gradient(90deg, ${theme.palette.mode === 'dark' ? '#4a148c' : '#f3e5f5'}, ${theme.palette.mode === 'dark' ? '#6a1b9a' : '#e1bee7'})` 
+                                        : theme.palette.background.paper
+                                    }}
+                                >
+                                    <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
+                                    <CropFreeIcon sx={{ color: expanded === 4 ? (theme.palette.mode === 'dark' ? '#b39ddb' : '#6a1b9a') : (theme.palette.mode === 'dark' ? '#ce93d8' : '#9c27b0'), transition: "0.3s" }} />
                                     <Typography fontWeight="bold">{t("rightSize")}</Typography>
-                                </Box>
-                            </AccordionSummary>
-                            <AccordionDetails sx={{ px: 4, py: 2, bgcolor: "#fafafa", boxShadow: "inset 0 2px 8px rgba(0,0,0,0.05)", borderRadius: 2 }}>
-                                <Typography color="text.secondary">
+                                    </Box>
+                                </AccordionSummary>
+                                <AccordionDetails sx={{ px: 4, py: 2, bgcolor: theme.palette.background.default, boxShadow: "inset 0 2px 8px rgba(0,0,0,0.05)", borderRadius: 2 }}>
+                                    <Typography color="text.secondary">
                                     {t("detailedSize")}
-                                </Typography>
-                            </AccordionDetails>
-                        </Accordion>
-                    </Box>
-                </TabPanel>
-            </Container>
-            
-        </TabContext>
+                                    </Typography>
+                                </AccordionDetails>
+                            </Accordion>
+
+                        </Box>
+                    </TabPanel>
+                </Container>
+                
+            </TabContext>
         </Box>
     </Box>
     </>    

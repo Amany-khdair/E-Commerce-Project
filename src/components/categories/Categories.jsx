@@ -1,4 +1,4 @@
-import { Box, Card, CircularProgress, Grid, IconButton, Paper, Typography } from '@mui/material';
+import { Box, Card, CircularProgress, Grid, IconButton, Paper, Typography, useTheme } from '@mui/material';
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import { useRef } from 'react';
@@ -11,7 +11,7 @@ export default function Categories() {
   const {isLoading, isError, data} = useCategories();
   const navigate = useNavigate();
   const { t, i18n } = useTranslation();
-
+  const theme = useTheme();
   if(isLoading)return(
     <Box sx={{display: "flex", justifyContent: "center", alignItems: "center", py: 5}}>
         <CircularProgress sx={{color: "primary.main"}}/>
@@ -65,8 +65,8 @@ export default function Categories() {
       <Box ref={refScroll} sx={{display: "flex", gap: 2, overflowX: "auto", scrollBehavior: "smooth", "&::-webkit-scrollbar": {display: "none"},}}>
         {data.response.map((category) =>        
             <Card key={category.id} elevation={4} onClick={() => navigate(`/products?category=${category.name}`)} sx={{textAlign: "center", display: "flex", justifyContent: "center",alignItems: "center", p: 2, my:3, minWidth: { xs: 150, sm: 140 }, border: "1px solid rgba(0, 0, 0, 0.3)", cursor: "pointer", transition: "0.3s", 
-                "&:hover":{boxShadow: "0px 8px 24px rgba(0, 0, 0, 0.12)", transform: "translateY(-4px)"}}}>
-                  <Typography fontWeight={500} color='black'>
+                "&:hover":{boxShadow: theme.palette.mode === "dark"? "0px 8px 24px rgba(255,255,255,0.1)": "0px 8px 24px rgba(0,0,0,0.12)" , transform: "translateY(-4px)"}}}>
+                  <Typography fontWeight={500} color= 'theme.palette.text.primary'>
                     {category.name}
                   </Typography>
             </Card>

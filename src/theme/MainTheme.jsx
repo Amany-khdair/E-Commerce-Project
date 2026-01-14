@@ -1,17 +1,20 @@
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 
-const MainTheme = createTheme({
-  palette: {
-
-    primary: {
-      main: "#DB4444"  
+const MainTheme = (mode)=>{
+  return createTheme({
+    palette: {
+        mode: mode,
+        primary: {
+            main: "#DB4444"  
+        },  
+        secondary: {
+          main: "#fff"
+        },
     },
-    
-  },
     typography: {
       fontFamily: '"Poppins", sans-serif',
     },
   });
+}
 
-
-  export default MainTheme
+  export default MainTheme;

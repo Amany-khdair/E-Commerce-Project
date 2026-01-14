@@ -1,4 +1,4 @@
-import { Box, Breadcrumbs, Button, Card, CardContent, CardMedia, Grid, Link, Stack, Typography } from '@mui/material';
+import { Box, Breadcrumbs, Button, Card, CardContent, CardMedia, Grid, Link, Stack, Typography, useTheme } from '@mui/material';
 import React from 'react';
 import Snowfall from 'react-snowfall';
 import aboutImg from '../../assets/images/about.webp';
@@ -18,6 +18,8 @@ import { useTranslation } from 'react-i18next';
 
 export default function About() {
   const { t } = useTranslation();
+  const theme = useTheme();
+
   const stats = [
     { icon: <StorefrontIcon />, value: '10.5k', label: t("SellersActiveOurSite") },
     { icon: <PaidIcon />, value: '33k', label: t("MonthlyProductSale") },
@@ -66,17 +68,17 @@ export default function About() {
                 borderRadius: 2,
                 p: 4,
                 textAlign: 'center',                
-                color: 'black', 
-                backgroundColor: 'white',               
+                color: theme.palette.text.primary, 
+                backgroundColor: theme.palette.background.default,               
                 transition: 'all 0.5s ease',
                 boxShadow: '0px 4px 15px rgba(0, 0, 0, 0.6)',
                 '&:hover': {
                    backgroundColor: 'primary.main', 
-                   color: 'white', 
+                   color: theme.palette.text.primary, 
                    boxShadow: '0px 12px 30px rgba(219, 68, 68, 0.45)',
                    transform: 'translateY(-8px)'
                   },
-                '&:hover .icon':{background: 'linear-gradient(135deg, white, rgba(255,255,255,0.4))',}
+                '&:hover .icon':{background: 'linear-gradient(135deg, theme.palette.text.primary, rgba(255,255,255,0.4))',}
 
               }}>
                 <Box className="icon" sx={{ 
@@ -97,6 +99,7 @@ export default function About() {
         <Typography variant="body1" color="text.secondary" sx={{ py: 2, mx: "auto" }}>
           {t("TeamIntro")}
         </Typography>
+        
         <Grid container spacing={4} sx={{ py: 8, justifyContent: "center" }}>               
           {team.map((member, index)=>(
             <Grid item xs={12} md={6} key={index}>
