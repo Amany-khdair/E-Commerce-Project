@@ -3,10 +3,12 @@ import useAuthStore from './src/store/authStore'
 import { Box, Button, Paper, Typography } from '@mui/material';
 import CancelOutlinedIcon from '@mui/icons-material/CancelOutlined';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 export default function ProtectedRouter({children}) {
   const token = useAuthStore(state=>state.token);
   const navigate = useNavigate();
+  const { t } = useTranslation();
   
   if (!token) {
     return (
@@ -42,19 +44,18 @@ export default function ProtectedRouter({children}) {
           </Box>
 
           <Typography variant="h5" fontWeight={700} mb={1}>
-            Access Restricted
+            {t("AccessRestricted")}
           </Typography>
 
           <Typography variant="body2" color="text.secondary" mb={3}>
-            You need to be logged in to view this page.  
-            Please login to continue.
+            {t("NeedToLogedIn")}
           </Typography>
 
           <Button variant="contained"
             fullWidth sx={{ py: 1.3, borderRadius: 3, fontWeight: 600 }}
             onClick={() => navigate("/auth/login")}
           >
-            Login Now
+            {t("LoginNow")}
           </Button>
         </Paper>
       </Box>

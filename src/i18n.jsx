@@ -193,7 +193,9 @@ i18n
             "PhoneNumber": "Phone Number",            
             "SignUpWithGoogle": "Sign up with Google",
             "AlreadyHaveAccount": "Already have an account?",
-
+            "AccessRestricted": "Access Restricted",
+            "NeedToLogedIn": "You need to be logged in to view this page. Please login to continue.",
+            "LoginNow": "Login Now",
 
         }
       },
@@ -269,7 +271,7 @@ i18n
             "TermsOfUse": "شروط الاستخدام",
             "FAQ": "الأسئلة الشائعة",
             "FollowUs": "تابعنا على:",
-            "CopyRight": "© أماني 2026. جميع الحقوق محفوظة",
+            "CopyRight": " جميع الحقوق محفوظة © أماني 2026.",
             "Something went wrong": "حدث شيئاً خاطئاً!",
             "Offer Ended": "انتهى العرض… لكن لا تفوتك العروض القادمة!",
             "Summer Sale": "تخفيضات الصيف على جميع ملابس السباحة – خصم 50%!",
@@ -385,6 +387,9 @@ i18n
             "PhoneNumber": "رقم الهاتف",            
             "SignUpWithGoogle": "التسجيل باستخدام جوجل",
             "AlreadyHaveAccount": "هل لديك حساب بالفعل؟",
+            "AccessRestricted": "تم تقييد الوصول",
+            "NeedToLogedIn": "يجب تسجيل الدخول لعرض هذه الصفحة. يُرجى تسجيل الدخول للمتابعة.",
+            "LoginNow": "تسجيل الدخول الآن",
 
 
 
