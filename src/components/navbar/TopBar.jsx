@@ -79,7 +79,7 @@ export default function TopBar() {
               borderRadius: "50%",
               p: 1,
               bgcolor: mode === 'dark' ? "#fff" : "#DB4444",
-              color: mode === 'dark' ? "#000" : "#fff",
+              color: mode === 'dark' ? "#515151ff" : "#fff",
               transition: "all 0.4s ease",
               "&:hover": {
                 transform: "rotate(20deg) scale(1.1)",

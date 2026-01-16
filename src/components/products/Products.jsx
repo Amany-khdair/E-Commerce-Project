@@ -95,10 +95,7 @@ export default function Products() {
           </IconButton>
         </Box>
       </Box>
-      
-
-      
-
+    
       {/* Slider Wrapper */}
       <Box sx={{maxWidth: { xs: "100%", sm: 500, md: 700, lg: 1000 }, width: "100%", overflow: "hidden", mt: 3 , mx:"auto", py: 2}}>
         <Box

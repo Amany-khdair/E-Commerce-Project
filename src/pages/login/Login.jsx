@@ -1,7 +1,7 @@
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import sideImage from "../../assets/images/Side Image.webp";
-import {IconButton, InputAdornment, TextField, Typography, useMediaQuery} from "@mui/material";
+import {Button, IconButton, InputAdornment, TextField, Typography, useMediaQuery} from "@mui/material";
 import SendIcon from "@mui/icons-material/Send";
 import styles from "./login.module.css";
 import { Link as RouterLink } from "react-router-dom";
@@ -94,7 +94,7 @@ export default function Login() {
             )}
 
             <Box onSubmit={handleSubmit(loginForm)} component={"form"} sx={{ mt: 5, display: "flex", flexDirection: "column", gap: 3 }}>
-              <TextField id="standard-basic" label={t("UserEmail")} {...register("email")} type="email" sx={{textAlign: i18n.language === "ar" ? "right" : "left"}}
+              <TextField label={t("UserEmail")} {...register("email")} type="email" sx={{textAlign: i18n.language === "ar" ? "right" : "left"}}
                 variant="standard" error={!!errors.email} helperText={errors.email?.message}
                 InputLabelProps={{
                   sx: {
@@ -110,7 +110,7 @@ export default function Login() {
                 </Typography>
               )}
 
-              <TextField id="standard-basic" label={t("Password")} {...register("password")} type={showPassword ? "text" : "password"} variant="standard"
+              <TextField label={t("Password")} {...register("password")} type={showPassword ? "text" : "password"} variant="standard"
                 error={!!errors.password} helperText={errors.password?.message}
                 InputLabelProps={{
                   sx: {
@@ -133,10 +133,10 @@ export default function Login() {
                 </Typography>
               )}
               <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center"}}>
-                <LoadingButton loading={isSubmitting} loadingIndicator={t("Processing")} variant="contained" type="submit" sx={{
+                <Button loading={isSubmitting} loadingIndicator={t("Processing")} variant="contained" type="submit" sx={{
                     backgroundColor: "#DB4444", py: "13px", px: "30px", mx: "5px"}} endIcon={<SendIcon />}
                 >{t("LogIn")}
-                </LoadingButton>
+                </Button>
                 <Typography component={RouterLink} to={"/auth/forgetPassword"} variant="span"
                   sx={{ color: "#DB4444", fontWeight: 300, fontSize: "16px", textDecoration: "none"}}>
                   {t("ForgetPassword")}

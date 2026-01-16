@@ -76,8 +76,7 @@ export default function FlashSales() {
             <CountDown />
           </Box>
         </Box>                       
-      </Box>
-            
+      </Box>             
       
       {/* Arrows */}    
       <Box sx={{display: "flex", justifyContent: "flex-end", gap: 1, mt: 1  }}>
@@ -140,10 +139,10 @@ export default function FlashSales() {
               fontWeight: 600,
               zIndex: 3
             }}>
-              -{Math.round(product.discountPercentage)}%
+              -{Math.round(product.discount)}%
             </Box>
 
-            {/* Hover Icons (hidden) */}
+            {/* Hover Icons */}
             <Box
               className="hover-icons"
               sx={{
@@ -241,7 +240,7 @@ export default function FlashSales() {
               </Typography>
 
               <Typography sx={{ color: "gray", textDecoration: "line-through" }}>
-                ${(product.price + product.price * (product.discountPercentage / 100)).toFixed(0)}
+                ${(product.price + product.price * (product.discount / 100)).toFixed(0)}
               </Typography>
             </Box>
 

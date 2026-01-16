@@ -3,11 +3,9 @@ import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
-import InputBase from "@mui/material/InputBase";
 import IconButton from "@mui/material/IconButton";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
-import SearchIcon from "@mui/icons-material/Search";
 import MenuIcon from "@mui/icons-material/Menu";
 import CloseIcon from "@mui/icons-material/Close";
 import CancelOutlinedIcon from '@mui/icons-material/CancelOutlined';
@@ -28,25 +26,6 @@ import { Button } from "@mui/material";
 import useAuthStore from "../../store/authStore";
 import CartDrawerContent from "../../pages/cart/CartDrawerContent";
 import { useTranslation } from "react-i18next";
-
-
-// =====================Search box =====================
-const SearchWrapper = styled("div")(() => ({
-  position: "relative",
-  backgroundColor: "#F5F5F5",
-  borderRadius: "4px",
-  width: "100%",     
-  maxWidth: "250px", 
-  height: "40px",
-  display: "flex",
-  alignItems: "center",
-  paddingLeft: "10px",
-}));
-
-const SearchInput = styled(InputBase)(() => ({
-  width: "100%",
-  "& input": { fontSize: "14px" },
-}));
 
 // ===================== Nav link =====================
 const NavItem = styled("span")(() => ({
@@ -152,11 +131,7 @@ export default function Navbar() {
             justifyContent: "flex-end",
             alignItems: "center",
             gap: "15px",
-          }}>
-          <SearchWrapper>
-            <SearchInput placeholder= {t("WALF")} />
-            <SearchIcon sx={{ cursor: "pointer" }} />
-          </SearchWrapper>
+          }}>          
 
           {token != null ? (
             <>              
@@ -271,11 +246,7 @@ export default function Navbar() {
         </Box>
 
         {/*=====================Mobile View==================*/}
-        <Box sx={{ display: { xs: "flex", md: "none" }}}>
-          <SearchWrapper>
-            <SearchInput placeholder={t("WALF")} />
-            <SearchIcon sx={{ cursor: "pointer"}} />
-          </SearchWrapper>
+        <Box sx={{ display: { xs: "flex", md: "none" }}}>         
 
           {token != null ?
           <>

@@ -212,7 +212,17 @@ i18n
             "OrderPlaced": "Order Placed 🎉",
             "ContinueShopping": "Continue Shopping",
             "Error": "Error",
-            "SomethingWentWrongCheckOut": "Something went wrong, please try again or refresh this page."
+            "SomethingWentWrongCheckOut": "Something went wrong, please try again or refresh this page.",
+            "AllCategories": "All Categories",
+            "Filters": "Filters",
+            "MinPrice": "Min Price",
+            "MaxPrice": "Max Price",
+            "Name": "Name",
+            "Rate": "Rate",
+            "Order": "Order",
+            "Ascending": "Ascending",
+            "Descending": "Descending",
+            "ApplyFilter": "Apply Filter",
 
 
 
@@ -426,7 +436,19 @@ i18n
             "OrderPlaced": "تم تأكيد الطلب 🎉",
             "ContinueShopping": "متابعة التسوق",
             "Error": "خطأ",
-            "SomethingWentWrongCheckOut": "حدث خطأ ما، يرجى المحاولة مرة أخرى أو إعادة تحميل الصفحة."
+            "SomethingWentWrongCheckOut": "حدث خطأ ما، يرجى المحاولة مرة أخرى أو إعادة تحميل الصفحة.",
+            "AllCategories": "كل التصنيفات",
+            "Filters": "الفلاتر",
+            "MinPrice": "أقل سعر",
+            "MaxPrice": "أعلى سعر",
+            "Name": "الاسم",
+            "Rate": "التقييم",
+            "Order": "الترتيب",
+            "Ascending": "تصاعدي",
+            "Descending": "تنازلي",
+            "ApplyFilter": "تطبيق الفلاتر",
+
+
 
 
 
