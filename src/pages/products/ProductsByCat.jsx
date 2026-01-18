@@ -39,7 +39,7 @@ export default function ProductsByCat() {
               { category?.name }
           </Link>
       </Breadcrumbs>
-      
+
       <GradientText sx={{ textAlign: i18n.language === "ar"? "right": "left", mt: 4, mb: 6}}>
         {t("ProductsInCategory", { name: category?.name })}
       </GradientText>
@@ -51,7 +51,7 @@ export default function ProductsByCat() {
           </Grid>
         ))}
         {products.length === 0 && (
-          <Typography sx={{ textAlign: "center", width: "100%", py: 5 }}>
+          <Typography sx={{ fontSize: "24px", textAlign: "center", width: "100%", py: 5 }}>
             {t("NoProductsFoundInThisCategory")}
           </Typography>
         )}

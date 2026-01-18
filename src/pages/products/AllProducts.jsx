@@ -147,7 +147,7 @@ export default function AllProducts() {
                                 >
                                     <ListItemText primary={cat.name} primaryTypographyProps={{ fontSize: i18n.language === "ar"? '16px': '14px' }} />
                                 </ListItemButton>
-                            ))}
+                            ))}                            
                         </List>
                     </Box>
                 </Grid>
@@ -173,6 +173,11 @@ export default function AllProducts() {
                                 <ProductsCard product={product} />
                             </Grid>
                         ))}
+                        {products.length === 0 && (
+                            <Typography sx={{ fontSize: "24px", textAlign: "center", width: "100%", py: 5 }}>
+                            {t("NoProductsFoundInThisCategory")}
+                            </Typography>
+                        )}
                     </Grid>
 
                     {pagesCount > 1 && (

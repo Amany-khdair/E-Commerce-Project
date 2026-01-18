@@ -24,7 +24,7 @@ export default function AuthFooter() {
       links: [
         { name: t("PrivacyPolicy"), path: "" },
         { name: t("TermsOfUse"), path: "" },
-        { name: t("FAQ"), path: "" },
+        { name: t("FAQs"), path: "/faqs" },
         { name: t("Contact"), path: "/contact" },
       ],
     },
