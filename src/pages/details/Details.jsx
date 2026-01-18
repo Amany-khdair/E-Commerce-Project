@@ -20,6 +20,7 @@ import { bounce, fadeInUp } from '../../animation/Animation';
 import useAddToCart from '../../hooks/useAddToCart';
 import { useTranslation } from 'react-i18next';
 import FaqsComponent from '../../components/faqsComponent/FaqsComponent';
+import useReviews from '../../hooks/useReviews';
 export default function Details() {
     const {id} = useParams();
     const {isLoading, isError, data} = useDetails(id);
@@ -61,6 +62,18 @@ export default function Details() {
     }, [sortReviews, data?.response?.reviews]);
 
     const [openReviewModal, setOpenReviewModal] = useState(false);
+    const {mutate: addReview, isPending: reviewPending} = useReviews(
+        {onSuccessCallback: () => {
+            setOpenReviewModal(false);
+            setRating(0);
+            setComment("");
+        }, 
+        onErrorCallback: () => {
+            setOpenReviewModal(false);
+        }}
+    );
+    const [rating, setRating] = useState(0);
+    const [comment, setComment] = useState("");
 
     const images = product ? [data.response.image, ...(data.response.subImages || [])] : [];
 
@@ -307,14 +320,8 @@ export default function Details() {
                             ))}
                         </Grid>
                         {/* Review Modal */}
-                        <Modal 
-                            open={openReviewModal} onClose={() => setOpenReviewModal(false)} closeAfterTransition 
-                            slots={{backdrop: Backdrop}} slotProps={{
-                                backdrop: {
-                                timeout: 300,
-                                },
-                            }}
-                            >
+                        <Modal open={openReviewModal} onClose={() => setOpenReviewModal(false)} 
+                        closeAfterTransition BackdropComponent={Backdrop} BackdropProps={{ timeout: 300 }}>
                             <Fade in={openReviewModal}>
                                 <Box sx={{
                                     position: 'absolute',
@@ -338,10 +345,20 @@ export default function Details() {
                                             <Typography sx={{ fontSize: "16px", fontWeight: 600, mb: 1 }}>
                                                 {t("Rating")}
                                             </Typography>
-                                            <Rating size="large" />
+                                            <Rating value={rating} onChange={(e, newValue)=>setRating(newValue)} size="large" />
                                         </Box>
-                                        <TextField fullWidth label={t("YourReview")} multiline rows={4} variant="outlined" />
-                                        <Button variant="contained" fullWidth sx={{ py: 1.2, fontSize: "16px", borderRadius: "10px" }}>
+                                        <TextField fullWidth label={t("YourReview")} multiline rows={4} value={comment} onChange={(e)=>setComment(e.target.value)} variant="outlined" />
+                                        
+                                        <Button variant="contained" fullWidth disabled={reviewPending || rating === 0} 
+                                        onClick={() => {
+                                            addReview({
+                                                productId: product.id,
+                                                rating: rating,
+                                                comment: comment 
+                                            });
+                                        }}
+
+                                        sx={{ py: 1.2, fontSize: "16px", borderRadius: "10px" }}>
                                             {t("SubmitReview")}
                                         </Button>
                                     </Box>

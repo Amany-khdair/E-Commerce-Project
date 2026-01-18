@@ -225,6 +225,7 @@ i18n
             "ApplyFilter": "Apply Filter",
             "ProductsInCategory": "Products in  {{name}} category",
             "NoProductsFoundInThisCategory": "No products found in this category.",
+            "Review added successfully!": "Review added successfully!",
 
 
 
@@ -450,7 +451,8 @@ i18n
             "Descending": "تنازلي",
             "ApplyFilter": "تطبيق الفلاتر",
             "ProductsInCategory": "المنتجات في فئة {{name}}",
-            "NoProductsFoundInThisCategory": "لا توجد منتجات في هذه الفئة."
+            "NoProductsFoundInThisCategory": "لا توجد منتجات في هذه الفئة.",
+            "Review added successfully!": "تم إضافة التعليق بنجاح !",
 
 
 
