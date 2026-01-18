@@ -223,6 +223,8 @@ i18n
             "Ascending": "Ascending",
             "Descending": "Descending",
             "ApplyFilter": "Apply Filter",
+            "ProductsInCategory": "Products in  {{name}} category",
+            "NoProductsFoundInThisCategory": "No products found in this category.",
 
 
 
@@ -447,6 +449,9 @@ i18n
             "Ascending": "تصاعدي",
             "Descending": "تنازلي",
             "ApplyFilter": "تطبيق الفلاتر",
+            "ProductsInCategory": "المنتجات في فئة {{name}}",
+            "NoProductsFoundInThisCategory": "لا توجد منتجات في هذه الفئة."
+
 
 
 
