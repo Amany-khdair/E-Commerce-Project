@@ -17,9 +17,11 @@ import Products from './components/products/Products';
 import AllProducts from './pages/products/AllProducts';
 import Details from './pages/details/Details';
 import ProtectedRouter from '../ProtectedRouter';
-import Account from './pages/account/Account';
 import ProductsByCat from './pages/products/ProductsByCat';
 import Faqs from './pages/faqs/Faqs';
+import ProfileLayout from './pages/profile/ProfileLayout';
+import ProfileInfo from './pages/profile/ProfileInfo';
+import ProfileOrders from './pages/profile/ProfileOrders';
 
 const router = createBrowserRouter([
   {
@@ -56,11 +58,26 @@ const router = createBrowserRouter([
           </ProtectedRouter>          
         },
         {
-          path: 'account',
+          path: 'profile',
           element: 
           <ProtectedRouter>
-            <Account/>
-          </ProtectedRouter>
+            <ProfileLayout/>
+          </ProtectedRouter>,
+          children:[
+            {
+              index: true,
+              element: 
+              <ProtectedRouter>
+                <ProfileInfo/>
+              </ProtectedRouter>              
+            },{
+              path: 'orders',
+              element:
+              <ProtectedRouter>
+                <ProfileOrders/>
+              </ProtectedRouter>              
+            }
+          ]
         },
         {
           path: 'checkout',

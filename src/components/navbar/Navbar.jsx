@@ -22,7 +22,7 @@ import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import Divider from "@mui/material/Divider";
 import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
-import { Button } from "@mui/material";
+import { Button, ListItemButton } from "@mui/material";
 import useAuthStore from "../../store/authStore";
 import CartDrawerContent from "../../pages/cart/CartDrawerContent";
 import { useTranslation } from "react-i18next";
@@ -207,12 +207,12 @@ export default function Navbar() {
                   }
                 }}
               >
-                <MenuItem>
+                <MenuItem onClick={() => {navigate("/profile"); handleCloseMenu();}}>
                   <PersonOutlineIcon />
                   {t("MMA")}
                 </MenuItem>
 
-                <MenuItem>
+                <MenuItem onClick={() => {navigate("/profile/orders"); handleCloseMenu();}}>
                   <ShoppingCartOutlinedIcon />
                   {t("MO")}
                 </MenuItem>
@@ -325,46 +325,52 @@ export default function Navbar() {
             ].map((item) => {
               if (item.type === "divider") return <Divider key={item.key} sx={{ my: 1 }} />;
               return(
-                <ListItem button key={item.text} component={item.path ? RouterLink : "button"} to={item.path}
-                sx={{
-                  borderRadius: 2,
-                  paddingY: 1.5,
-                  paddingX: 2,
-                  transition: "0.3s",
-                  "&:hover": { 
-                    backgroundColor: "#DB4444",
-                    color: "#fff",
-                    "& .MuiTypography-root": { color: "#fff" }
-                  },...(item.listItemSx || {})
-                }} 
-                onClick={() => {
-                  item.onClick?.();
-                  setOpenDrawer(false)}}>
-
-                <ListItemText
-                  primary={item.text}    
-                  sx={{
-                    ".MuiTypography-root": {
-                      fontSize: "14px",
-                      color: "black",
-                      fontWeight: 600,
-                      width: "fit-content",
-                      cursor: "pointer",
-                      position: "relative",
-                      paddingBottom: "3px",
-                      ...(item.textSx || {}),
-                      "&:hover::after": {
-                        content: "''",
-                        position: "absolute",
-                        left: 0,
-                        bottom: 0,
-                        width: "100%",
-                        height: "2px",
-                        backgroundColor: "black",
+                <ListItem key={item.text} disablePadding>
+                  <ListItemButton component={item.path ? RouterLink : "button"} to={item.path}
+                    sx={{
+                      borderRadius: 2,
+                      paddingY: 1.5,
+                      paddingX: 2,
+                      transition: "0.3s",
+                      "&:hover": {
+                        backgroundColor: "#DB4444",
+                        color: "#fff",
+                        "& .MuiTypography-root": { color: "#fff" }
                       },
-                    },
-                  }}/>
+                      ...(item.listItemSx || {})
+                    }}
+                    onClick={() => {
+                      item.onClick?.();
+                      setOpenDrawer(false);
+                    }}
+                  >
+                    <ListItemText
+                      primary={item.text}
+                      sx={{
+                        ".MuiTypography-root": {
+                          fontSize: "14px",
+                          color: "black",
+                          fontWeight: 600,
+                          width: "fit-content",
+                          cursor: "pointer",
+                          position: "relative",
+                          paddingBottom: "3px",
+                          ...(item.textSx || {}),
+                          "&:hover::after": {
+                            content: "''",
+                            position: "absolute",
+                            left: 0,
+                            bottom: 0,
+                            width: "100%",
+                            height: "2px",
+                            backgroundColor: "black",
+                          },
+                        },
+                      }}
+                    />
+                  </ListItemButton>
                 </ListItem>
+
               )
               
             })}

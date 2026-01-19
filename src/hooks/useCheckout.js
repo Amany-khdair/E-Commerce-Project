@@ -14,13 +14,12 @@ export default function useCheckout() {
         mutationFn:async({paymentMethod})=>{
             return await axiosAuthInstance.post('/checkouts', {paymentMethod})
         },
-        onSuccess:(response)=>{
-            queryClient.invalidateQueries({querykey:['carts']});          
-
+        onSuccess:(response)=>{          
            if(response.data.url){
             location.href = response.data.url;
            }
-
+           
+           queryClient.invalidateQueries({querykey:['carts']});          
            const message = response?.message || t("OrderOnTheWay");
            
                  Swal.fire({

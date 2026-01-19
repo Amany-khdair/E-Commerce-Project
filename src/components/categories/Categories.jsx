@@ -9,7 +9,6 @@ import { useTranslation } from 'react-i18next';
 export default function Categories() {
   const refScroll = useRef(null);  
   const {isLoading, isError, data} = useCategories();
-  console.log(data);
   const navigate = useNavigate();
   const { t, i18n } = useTranslation();
   const theme = useTheme();

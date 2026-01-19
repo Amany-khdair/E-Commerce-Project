@@ -22,7 +22,7 @@ export default function Footer() {
     {
       title: t("Account"),
       links: [
-        { name: t("MyAccount"), path: "/account" },
+        { name: t("MyAccount"), path: "/profile" },
         { name: t("Cart"), path: "/cart" },
         { name: t("Wishlist"), path: "/wishlist" },
         { name: t("Shop"), path: "/allProducts" },
