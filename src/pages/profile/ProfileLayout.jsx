@@ -29,7 +29,7 @@ export default function ProfileLayout() {
       <Box component={'section'}>        
         <Container maxWidth="lg">
           <GradientText sx={{fontSize: {xs: '20px', sm: '34px', md: '42px'}}}>
-            {t("Welcome")}, {data?.fullName}
+            {t("WLC")}, {data?.fullName}
          </GradientText>
           <Grid container spacing={2}>
             {/* Sidebar */}

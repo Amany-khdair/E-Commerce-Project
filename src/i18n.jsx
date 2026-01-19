@@ -226,7 +226,10 @@ i18n
             "ProductsInCategory": "Products in  {{name}} category",
             "NoProductsFoundInThisCategory": "No products found in this category.",
             "Review added successfully!": "Review added successfully!",
-
+            "MyInfo": "My Info",
+            "MyOrders": "My Orders",
+            "RecentOrders": "Recent Orders",
+            "NoOrdersFound": "No orders found",
 
 
 
@@ -453,6 +456,10 @@ i18n
             "ProductsInCategory": "المنتجات في فئة {{name}}",
             "NoProductsFoundInThisCategory": "لا توجد منتجات في هذه الفئة.",
             "Review added successfully!": "تم إضافة التعليق بنجاح !",
+            "MyInfo": "معلوماتي",
+            "MyOrders": "طلباتي",
+            "RecentOrders": "أحدث الطلبات",
+            "NoOrdersFound": "لا توجد طلبات",
 
 
 

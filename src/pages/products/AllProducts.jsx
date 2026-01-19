@@ -188,6 +188,7 @@ export default function AllProducts() {
                                 onChange={(e, value) => setPage(value)} 
                                 color="primary" 
                                 size="large"
+                                style={{direction: i18n.language === "ar"? "ltr": "ltr" }}
                             />
                         </Box>
                     )}

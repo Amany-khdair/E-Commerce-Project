@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import useProfile from '../../hooks/useProfile';
 
 export default function ProfileOrders() {
-    const { t } = useTranslation();
+    const { t, i18n } = useTranslation();
     const theme = useTheme();
     const [page, setPage] = useState(1);
     const {data, isLoading, isError} = useProfile();  
@@ -92,12 +92,13 @@ export default function ProfileOrders() {
            
             {pagesCount > 1 && (
                         <Box sx={{ display: "flex", justifyContent: "center", mt: 6 }}>
-                            <Pagination 
+                            <Pagination
                                 count={pagesCount} 
                                 page={page} 
                                 onChange={(e, value) => setPage(value)} 
                                 color="primary" 
                                 size="large"
+                                style={{direction: i18n.language === "ar"? "ltr": "ltr" }}
                             />
                         </Box>
                     )}
