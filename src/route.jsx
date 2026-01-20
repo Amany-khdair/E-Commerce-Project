@@ -23,6 +23,7 @@ import ProfileLayout from './pages/profile/ProfileLayout';
 import ProfileInfo from './pages/profile/ProfileInfo';
 import ProfileOrders from './pages/profile/ProfileOrders';
 import Settings from './pages/profile/Settings';
+import ErrorPage from './pages/errorPage/ErrorPage';
 
 const router = createBrowserRouter([
   {
@@ -109,6 +110,10 @@ const router = createBrowserRouter([
         {
           path: 'faqs',
           element: <Faqs/>
+        },
+        {
+          path: '*',
+          element: <ErrorPage/>
         }
     ],
   },

@@ -217,7 +217,7 @@ export default function Navbar() {
                   {t("MO")}
                 </MenuItem>
 
-                <MenuItem>
+                <MenuItem onClick={() => {navigate("/profile/cancellations"); handleCloseMenu();}}>
                   <CancelOutlinedIcon />
                   {t("MC")}
                 </MenuItem>

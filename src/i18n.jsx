@@ -249,6 +249,9 @@ i18n
             "PersonalSettings": "Personal Settings",
             "MemberSince": "Member Since",
             "NotSet": "Not set",
+            "ErrorTitle" : "Page Not Found",
+            "ErrorMessage" :" The page you are looking for doesn't exist.",
+            "BackToHome": "Back To Home",
 
 
 
@@ -497,7 +500,10 @@ i18n
             "Update": "تحديث",
             "PersonalSettings": "الإعدادات الشخصية",
             "MemberSince": "عضو منذ",
-            "NotSet": "غير مُحدّد"
+            "NotSet": "غير مُحدّد",
+            "ErrorTitle" : "الصفحة غير موجودة",
+            "ErrorMessage" :"يبدو أن الصفحة التي تحاول البحث عنها غير موجودة !",
+            "BackToHome": "العودة الى الصفحة الرئيسية",
 
 
 
