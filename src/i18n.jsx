@@ -230,6 +230,25 @@ i18n
             "MyOrders": "My Orders",
             "RecentOrders": "Recent Orders",
             "NoOrdersFound": "No orders found",
+            "Settings": "Settings",
+            "SecurityAndActions": "Security & Actions",
+            "UpdateProfile": "Update Profile",
+            "ChangeEmail": "Change Email",
+            "ChangePassword": "Change Password",
+            "Language": "Language",
+            "DarkMode": "Dark Mode",
+            "LightMode": "Light Mode",
+            "City": "City",
+            "Cancel": "Cancel",
+            "SaveChanges": "Save Changes",
+            "NewEmail": "New Email",
+            "Submit": "Submit",
+            "CurrentPassword": "Current Password",
+            "ConfirmNewPassword": "Confirm New Password",
+            "Update": "Update",
+            "PersonalSettings": "Personal Settings",
+            "MemberSince": "Member Since",
+            "NotSet": "Not set",
 
 
 
@@ -460,7 +479,25 @@ i18n
             "MyOrders": "طلباتي",
             "RecentOrders": "أحدث الطلبات",
             "NoOrdersFound": "لا توجد طلبات",
-
+            "Settings": "الإعدادات",
+            "SecurityAndActions": "الأمان والإجراءات",
+            "UpdateProfile": "تحديث الملف الشخصي",
+            "ChangeEmail": "تغيير البريد الإلكتروني",
+            "ChangePassword": "تغيير كلمة المرور",
+            "Language": "اللغة",
+            "DarkMode": "الوضع الداكن",
+            "LightMode": "الوضع الفاتح",
+            "City": "المدينة",
+            "Cancel": "إلغاء",
+            "SaveChanges": "حفظ التعديلات",
+            "NewEmail": "بريد إلكتروني جديد",
+            "Submit": "إرسال",
+            "CurrentPassword": "كلمة المرور الحالية",
+            "ConfirmNewPassword": "تأكيد كلمة المرور الجديدة",
+            "Update": "تحديث",
+            "PersonalSettings": "الإعدادات الشخصية",
+            "MemberSince": "عضو منذ",
+            "NotSet": "غير مُحدّد"
 
 
 

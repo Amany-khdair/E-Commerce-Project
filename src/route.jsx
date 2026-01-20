@@ -22,6 +22,7 @@ import Faqs from './pages/faqs/Faqs';
 import ProfileLayout from './pages/profile/ProfileLayout';
 import ProfileInfo from './pages/profile/ProfileInfo';
 import ProfileOrders from './pages/profile/ProfileOrders';
+import Settings from './pages/profile/Settings';
 
 const router = createBrowserRouter([
   {
@@ -76,6 +77,12 @@ const router = createBrowserRouter([
               <ProtectedRouter>
                 <ProfileOrders/>
               </ProtectedRouter>              
+            },{
+              path: 'settings',
+              element:
+              <ProtectedRouter>
+                <Settings/>
+              </ProtectedRouter>
             }
           ]
         },

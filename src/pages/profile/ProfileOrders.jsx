@@ -28,7 +28,7 @@ export default function ProfileOrders() {
     return (
         <Box>
             <Typography variant="h5" fontWeight="700" mb={3}>
-                {t("RecentOrders")} ({data.orders?.length || 0})
+                {t("MyOrders")} ({data.orders?.length || 0})
             </Typography>
 
             <TableContainer sx={{width: {xs: "100%", md: "500px", lg: "750px"}}}>

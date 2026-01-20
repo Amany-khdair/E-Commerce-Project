@@ -56,15 +56,15 @@ export default function Details() {
         const copiedReviews = [...data.response.reviews];
 
         if (sortReviews === t("Latest")){
-            return copiedReviews.sort((a, b) => new Date(b?.date || "") - new Date(a?.date || ""));
+            return copiedReviews.sort((a, b) => new Date(b?.createdAt || "") - new Date(a?.createdAt || ""));
         }
-        return copiedReviews.sort((a, b) => new Date(a?.date || "") - new Date(b?.date || ""));   
+        return copiedReviews.sort((a, b) => new Date(a?.createdAt || "") - new Date(b?.createdAt || ""));   
     }, [sortReviews, data?.response?.reviews]);
 
     const [openReviewModal, setOpenReviewModal] = useState(false);
     const {mutate: addReview, isPending: reviewPending} = useReviews(
         {onSuccessCallback: () => {
-            setOpenReviewModal(false);
+            setOpenReviewModal(false);          
             setRating(0);
             setComment("");
         }, 
@@ -76,7 +76,7 @@ export default function Details() {
     const [comment, setComment] = useState("");
 
     const images = product ? [data.response.image, ...(data.response.subImages || [])] : [];
-
+console.log(data);
     useEffect(() => {
         if (product) {
             const images = [data.response.image, ...(data.response.subImages || [])];
@@ -311,10 +311,14 @@ export default function Details() {
                             {sortedReviews.map((review, i) =>(
                                 <Grid item xs={12} sm={6} md={6} key={i} sx={{mx: {sm: "auto"}}}>
                                     <Card elevation={2} sx={{width: {xs: "100%", sm: 500}, borderRadius: "14px", border: "1px solid #ddd", p: 3}}>
-                                        <Rating value={review.rating} precision={0.5} sx={{ color: "orange" }} readOnly/>
-                                        <Typography sx={{mt: 1, fontWeight: 600}}>{review.reviewerName}</Typography>
+                                        <Box display="flex" justifyContent="space-between" alignItems="center">
+                                            <Typography sx={{mt: 1, fontWeight: 600}}>
+                                                {review?.userName && review.userName[0].toUpperCase() + review.userName.slice(1)}
+                                            </Typography>
+                                            <Rating value={review.rating} precision={0.5} sx={{ color: "orange" }} readOnly/>                                            
+                                        </Box>                                        
                                         <Typography sx={{mt: 1, fontWeight: 500, color: theme.palette.text.primary}}>{review.comment}</Typography>
-                                        <Typography color="text.secondary" fontSize="12px">Posted on {new Date(review.date).toLocaleDateString()}</Typography>
+                                        <Typography color="text.secondary" fontSize="12px">Posted on {new Date(review.createdAt).toLocaleDateString()}</Typography>
                                     </Card>
                                 </Grid>
                             ))}
@@ -352,7 +356,7 @@ export default function Details() {
                                         <Button variant="contained" fullWidth disabled={reviewPending || rating === 0} 
                                         onClick={() => {
                                             addReview({
-                                                productId: product.id,
+                                                productId: product.id,                                               
                                                 rating: rating,
                                                 comment: comment 
                                             });

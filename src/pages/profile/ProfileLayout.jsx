@@ -6,13 +6,13 @@ import GradientText from '../../functions/GradientText';
 import { NavLink, Outlet } from 'react-router-dom';
 import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
+import SettingsIcon from '@mui/icons-material/Settings';
 import Snowfall from 'react-snowfall';
 
 export default function ProfileLayout() {
     const {data, isLoading, isError} = useProfile();
     const { t } = useTranslation();
     const theme = useTheme();
-    console.log(data);
 
     if(isLoading)
     return(
@@ -28,14 +28,15 @@ export default function ProfileLayout() {
       <Snowfall color='#82C3D9' style={{ position: 'fixed' }} />
       <Box component={'section'}>        
         <Container maxWidth="lg">
-          <GradientText sx={{fontSize: {xs: '20px', sm: '34px', md: '42px'}}}>
-            {t("WLC")}, {data?.fullName}
+          <GradientText sx={{fontSize: {xs: '20px', sm: '30px', md: '42px'}}}>
+           ⚜️ {t("WLC")}  {data?.fullName}⚜️
          </GradientText>
           <Grid container spacing={2}>
             {/* Sidebar */}
             <Grid item xs={12} md={3}>
                 <Paper elevation={0} sx={{ p: 1, borderRadius: '16px', border: '1px solid #eee' }}>
                     <Stack spacing={1} sx={{ display: 'flex', flexDirection: 'column', p: 1 }}>                                            
+                          <Typography variant='body1' sx={{color: 'text.secondary', textAlign: "center"}}>{t("DashBoard")}</Typography>
                           <Button component={NavLink} to='' sx={{                                                         
                               p: 1.5,
                               borderRadius: '12px',                              
@@ -66,13 +67,29 @@ export default function ProfileLayout() {
                                   backgroundColor: (theme) => theme.palette.action.hover,
                               }
 
-                          }}><ShoppingCartOutlinedIcon/> {''}{t("MyOrders")}</Button>                                    
+                          }}><ShoppingCartOutlinedIcon/> {''}{t("MyOrders")}</Button>     
+
+                           <Button component={NavLink} to='settings' sx={{                             
+                              p: 1.5,
+                              borderRadius: '12px',                              
+                              color: 'text.secondary',
+                              transition: '0.3s',
+                              '&.active': {
+                                  backgroundColor: (theme) => theme.palette.primary.main,
+                                  color: (theme) => theme.palette.primary.contrastText,
+                                  boxShadow: (theme) => `0 4px 12px ${theme.palette.primary.main}33`,
+                              },
+                              '&:hover:not(.active)': {
+                                  backgroundColor: (theme) => theme.palette.action.hover,
+                              }
+
+                          }}><SettingsIcon/> {''}{t("Settings")}</Button>                                 
                     </Stack>
                 </Paper>
             </Grid>
 
             <Grid item xs={12} md={9}>
-                <Paper elevation={0} sx={{ p: {xs: 2, md: 4}, borderRadius: '16px', border: '1px solid #eee', minHeight: '500px' }}>
+                <Paper elevation={4} sx={{ p: {xs: 2, md: 4}, borderRadius: '16px', border: '1px solid #eee', width: "100%"}}>
                     <Outlet />
                 </Paper>
             </Grid>

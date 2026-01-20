@@ -9,14 +9,14 @@ export default function useReviews({ onSuccessCallback, onErrorCallback } = {}) 
     return useMutation({
         mutationFn: async ({ rating, comment, productId }) => {
             return await axiosAuthInstance.post(`Products/${productId}/reviews`,
-                {
+                {                  
                     Rating: rating,
                     Comment: comment
                 }
             );
         },
         onSuccess: (data, variables) => {
-            queryClient.invalidateQueries({queryKey: ["productDetails", variables.productId]});            
+            queryClient.invalidateQueries({querykey: ["productDetails", variables.productId]});            
             Swal.fire({
                 title: t("Success"),
                 text: t("Review added successfully!"),
