@@ -12,7 +12,7 @@ export default function ErrorPage() {
             <Snowfall color='#82C3D9' style={{ position: 'fixed' }} />
             <Box
                 sx={{
-                    minHeight: "100vh",
+                    my: 16,                 
                     display: "flex",
                     flexDirection: "column",
                     justifyContent: "center",
