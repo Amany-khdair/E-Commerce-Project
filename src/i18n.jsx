@@ -252,6 +252,29 @@ i18n
             "ErrorTitle" : "Page Not Found",
             "ErrorMessage" :" The page you are looking for doesn't exist.",
             "BackToHome": "Back To Home",
+            "MyWishlist": "My Wishlist",
+            "Item": "Item",
+            "Items": "Items",
+            "ClearAllItems": "Clear All Items",
+            "YourWishlistIsEmpty": "Your wishlist is empty",
+            "LooksLikeYouHaventAddedAnythingYet": "Looks like you haven't added anything yet. Start exploring our products!",            
+            "ContactUs": "Contact Us",
+            "FillForm": "Please fill out the form below and we will get back to you as soon as possible.",
+            "LastName": "Last Name",
+            "YourMessage": "Your Message",
+            "SendMessage": "Send Message",
+            "Required": "Required",
+            "InvalidEmail": "Invalid email address",
+            "FirstNamePlaceholder": "e.g. John",
+            "LastNamePlaceholder": "e.g. Doe",
+            "EmailPlaceholder": "john@example.com",
+            "MessagePlaceholder": "Describe your inquiry...",
+            "MessageSent": "Message sent successfully!",
+            "WeWillContactYouSoon": "We will contact you soon.",
+            "Okay": "Okay",
+
+
+          
 
 
 
@@ -504,6 +527,29 @@ i18n
             "ErrorTitle" : "الصفحة غير موجودة",
             "ErrorMessage" :"يبدو أن الصفحة التي تحاول البحث عنها غير موجودة !",
             "BackToHome": "العودة الى الصفحة الرئيسية",
+            "MyWishlist": "قائمتي المفضلة",
+            "Item": "عنصر",
+            "Items": "عناصر",
+            "ClearAllItems": "إفراغ كل العناصر",
+            "YourWishlistIsEmpty": "قائمتك المفضلة فارغة",
+            "LooksLikeYouHaventAddedAnythingYet": "يبدو أنك لم تضف أي منتجات بعد. ابدأ باستكشاف منتجاتنا!",            
+            "ContactUs": "تواصل معنا",
+            "FillForm": "يرجى تعبئة النموذج أدناه وسنقوم بالرد عليك في أقرب وقت ممكن.",            
+            "LastName": "اسم العائلة",           
+            "YourMessage": "رسالتك",
+            "SendMessage": "إرسال الرسالة",
+            "Required": "هذا الحقل مطلوب",
+            "InvalidEmail": "البريد الإلكتروني غير صالح",
+            "FirstNamePlaceholder": "مثال: أحمد",
+            "LastNamePlaceholder": "مثال: خالد",
+            "EmailPlaceholder": "example@example.com",
+            "MessagePlaceholder": "اكتب تفاصيل رسالتك...",
+            "MessageSent": "تم إرسال الرسالة بنجاح!",
+            "WeWillContactYouSoon": "سنتواصل معك قريبًا.",
+            "Okay": "حسناً",
+
+
+          
 
 
 

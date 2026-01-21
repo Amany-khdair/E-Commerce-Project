@@ -9,14 +9,16 @@ import { Link, useNavigate } from 'react-router-dom';
 import Snowfall from 'react-snowfall';
 import useAddToCart from '../../hooks/useAddToCart';
 import { useTranslation } from 'react-i18next';
+import useWishlist from '../../hooks/useWishlist';
 
 export default function Products() {
-  const navigate = useNavigate();
-  const [likedProducts, setLikedProducts] = useState([]);
+  const navigate = useNavigate();  
   const [page, setPage] = useState(0);
   const { t, i18n } = useTranslation();
-
   const { isLoading, isError, data } = useProducts();
+  
+  const toggleWishlist = useWishlist((state) => state.toggleWishlist);
+  const wishlist = useWishlist((state) => state.wishlist);
   
   const products = data?.response?.data?.slice(0, 16) ?? [];  const isXs = useMediaQuery("(max-width:600px)");
   const {mutate: addToCart, isPending} = useAddToCart();   
@@ -51,14 +53,7 @@ export default function Products() {
   const handlePrev = () => {
     if (page > 0) setPage((prev) => prev - 1);
   };
-
-  const handleLike = (id) => {
-    setLikedProducts((prev) =>
-      prev.includes(id)
-        ? prev.filter((pid) => pid !== id) // un-like
-        : [...prev, id] // like
-    );
-  };
+  
 
   return (
     <Box sx={{ px: { xs: 2, md: 6 }, py: {xs: 2, md: 6}, my: {xs: 2, md: 5} }}>
@@ -66,14 +61,7 @@ export default function Products() {
       <Box sx={{display: "flex", justifyContent: "space-between"}}>
         <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
           <Box sx={{ display: "flex", gap: 2, alignItems: "center" }}>
-            <Box
-              sx={{
-                width: 15,
-                height: 35,
-                borderRadius: 1,
-                bgcolor: "primary.main",
-              }}
-            />
+            <Box sx={{ width: 15, height: 35, borderRadius: 1, bgcolor: "primary.main" }}/>
             <Typography sx={{ color: "primary.main", fontWeight: 600 }}>
               {t("OurProducts")}
             </Typography>
@@ -108,11 +96,13 @@ export default function Products() {
             transform: `translateX(-${shift}px)`,
             transition: "transform 0.6s ease-in-out",
           }}
-        >
-          {products.map((product) => (
+        > 
+          {products.map((product) => {
+            const isCurrentlyLiked = wishlist.some(item => item.id === product.id);
+
+            return (
             <Box key={product.id} sx={{ width:{xs: 150, sm:250}  }}>
-              <Card
-                sx={{
+              <Card sx={{
                   width: { xs: 140, sm: 170, md: 200, lg: 240 },
                   height: 330,
                   p: 2,                  
@@ -127,104 +117,32 @@ export default function Products() {
                 }}
               >
                 <Box sx={{ overflow: "hidden", position: "relative" }}>
-                  <Box
-                    className="hover-icons"
-                    sx={{
-                      display: "flex",
-                      flexDirection: "column",
-                      gap: 1,
-                      opacity: 0,
-                      position: "absolute",
-                      top: 10,
-                      right: 10,
-                      transition: "0.5s",
-                      zIndex: 3,
-                    }}
-                  >
-                    <IconButton
-                      size="small"
-                      onClick={() => handleLike(product.id)}
-                      sx={{
-                        width: 34,
-                        height: 34,
-                        bgcolor: likedProducts.includes(product.id)
-                          ? "primary.main"
-                          : "#fff",
-                        transition: "0.5s",  
-                        "&:hover": {
-                          bgcolor: "primary.main",
-                          color: "#fff",
-                        },
-                        "&:hover svg": {
-                            color: "#fff"
-                        },
-                      }}
-                    >
-                      <FavoriteBorderOutlinedIcon
-                        sx={{
-                          color: likedProducts.includes(product.id)
-                            ? "#fff"
-                            : "black",
-                        }}
-                      />
+                    <Box className="hover-icons"
+                      sx={{ display: "flex", flexDirection: "column", gap: 1, opacity: 0, position: "absolute", top: 10, right: 10, transition: "0.5s", zIndex: 3}}>
+                    <IconButton size='small' onClick={() => toggleWishlist(product)} sx={{width: 34, height: 34, backgroundColor: isCurrentlyLiked ? "primary.main" : "#fff", 
+                      color: isCurrentlyLiked ? "#fff" : "black", transition: "0.5s", "&:hover":{backgroundColor: "primary.main", color: "#fff", transform: "scale(1.1)", transition: "0.7s"}, "&:hover svg":{color: "#fff"} }}>
+                        <FavoriteBorderOutlinedIcon sx={{color: isCurrentlyLiked ? "#fff" : "black"}}/>
                     </IconButton>
 
-                    <IconButton
-                      size="small"
-                      onClick={() => navigate(`/details/${product.id}`)}
-                      sx={{
-                        width: 34,
-                        height: 34,
-                        bgcolor: "#fff",
-                        transition: "0.5s",
-                        "&:hover": {
-                          bgcolor: "primary.main",
-                          color: "#fff",
-                        },
-                        "&:hover svg": {
-                            color: "#fff"
-                        }
-                      }}
-                    >
-                      <VisibilityOutlinedIcon sx={{color: "black"}}/>
+                    <IconButton size="small" onClick={() => navigate(`/details/${product.id}`)} sx={{
+                        width: 34, height: 34, bgcolor: "#fff", transition: "0.5s", "&:hover": { bgcolor: "primary.main", color: "#fff" }, "&:hover svg": {color: "#fff"}}}>
+                      <VisibilityOutlinedIcon sx={{ color: "black" }} />
                     </IconButton>
                   </Box>
 
-                  <img
-                    src={product.image}
-                    alt={product.name}
-                    style={{
-                      width: "100%",
-                      height: 180,
-                      objectFit: "contain",
-                      padding: 10,
-                      transition: "0.5s",
-                    }}
-                  />
+                  <img src={product.image} alt={product.name} style={{ width: "100%", height: 180, objectFit: "contain", padding: 10, transition: "0.5s"}}/>
                 </Box>
 
                 <Typography fontWeight={500} mt={1}>
                   {product.name}
                 </Typography>
 
-                <Box
-                  sx={{
-                    display: "flex",
-                    justifyContent: "space-evenly",
-                    flexDirection:{xs: "column", sm: "column", md: "row"},
-                    mt: 1,
-                  }}
-                >
+                <Box sx={{ display: "flex", justifyContent: "space-evenly", flexDirection:{xs: "column", sm: "column", md: "row"}, mt: 1 }}>
                   <Typography color="primary.main" fontWeight={600}>
                     ${product.price}
                   </Typography>
-                  <Rating
-                    value={product.rate}
-                    precision={0.5}
-                    readOnly
-                    size="small"
-                    sx={{ color: "orange" }}
-                  />
+                  
+                  <Rating value={product.rate} precision={0.5} readOnly size="small" sx={{ color: "orange" }}/>
                 </Box>
 
                 <Button className="hover-btn" fullWidth onClick={()=>addToCart({ProductId:product.id, Count: 1})} disabled={isPending}
@@ -246,8 +164,8 @@ export default function Products() {
                   {t("ATC")}
                 </Button>
               </Card>
-            </Box>
-          ))}
+            </Box>)
+          })}
         </Box>
       </Box>
 

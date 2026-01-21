@@ -21,6 +21,7 @@ import useAddToCart from '../../hooks/useAddToCart';
 import { useTranslation } from 'react-i18next';
 import FaqsComponent from '../../components/faqsComponent/FaqsComponent';
 import useReviews from '../../hooks/useReviews';
+import useWishlist from '../../hooks/useWishlist';
 export default function Details() {
     const {id} = useParams();
     const {isLoading, isError, data} = useDetails(id);
@@ -33,14 +34,10 @@ export default function Details() {
     const product = data?.response || null;
     const {mutate: addToCart, isPending} = useAddToCart();   
     const [quantity, setQuantity] = useState(1);
-    const [likedProducts, setLikedProducts] = useState([]);
-    const handleLike = (id) => {
-        setLikedProducts(prev =>
-            prev.includes(id)
-            ? prev.filter(pid => pid !== id) // un-like
-            : [...prev, id] // like
-        );
-    };
+
+    const toggleWishlist = useWishlist((state) => state.toggleWishlist);
+    const wishlist = useWishlist((state) => state.wishlist);
+    const isCurrentlyLiked = wishlist.some(item => item.id === product?.id);
 
     const handleIncrease = () =>setQuantity(prev => prev+1);
     const handleDecrease = () =>setQuantity(prev =>(prev > 1 ? prev - 1 : 1))
@@ -72,11 +69,12 @@ export default function Details() {
             setOpenReviewModal(false);
         }}
     );
+
     const [rating, setRating] = useState(0);
     const [comment, setComment] = useState("");
 
     const images = product ? [data.response.image, ...(data.response.subImages || [])] : [];
-console.log(data);
+
     useEffect(() => {
         if (product) {
             const images = [data.response.image, ...(data.response.subImages || [])];
@@ -235,7 +233,7 @@ console.log(data);
                                 {t("BuyNow")}
                             </Button>
 
-                            <IconButton onClick={() => handleLike(data.response.id)} sx={{border: "1px solid #ccc", borderRadius: "8px", backgroundColor: likedProducts.includes(data.response.id) ? "primary.main" : "transparent", color: likedProducts.includes(data.response.id) ? "#fff" : "primary.main", "&:hover":{color: "primary.main", border:  "1px solid #DB4444"}}}>
+                            <IconButton onClick={() => toggleWishlist(product)} sx={{border: "1px solid #ccc", borderRadius: "8px", backgroundColor: isCurrentlyLiked ? "primary.main" : "transparent", color: isCurrentlyLiked ? "#fff" : "primary.main", "&:hover":{color: "primary.main", border:  "1px solid #DB4444"}}}>
                                 <FavoriteBorderIcon />
                             </IconButton>
                         </Stack>

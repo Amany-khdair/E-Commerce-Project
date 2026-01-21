@@ -11,7 +11,7 @@ export default function CountDown({ customRenderer }) {
     if (saved) {
       setEndDate(Number(saved));
     } else {
-      const newEnd = Date.now() + 1000 * 60 * 60 * 24 * 30;
+      const newEnd = Date.now() + 1000 * 60 * 60 * 24 * 10;
       setEndDate(newEnd);
       localStorage.setItem("countdownEnd", newEnd);
     }

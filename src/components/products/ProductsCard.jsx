@@ -1,25 +1,21 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Box, Card, CardContent, Typography, IconButton, Rating, Button, useTheme } from '@mui/material';
 import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlined';
 import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import useAddToCart from '../../hooks/useAddToCart';
+import useWishlist from '../../hooks/useWishlist';
 
 export default function ProductsCard({ product }) {
     const theme = useTheme();
     const navigate = useNavigate();
     const { t } = useTranslation();
     const {mutate: addToCart, isPending} = useAddToCart();
-    const [likedProducts, setLikedProducts] = useState([]);
 
-    const handleLike = (id) => {
-        setLikedProducts(prev =>
-            prev.includes(id)
-            ? prev.filter(pid => pid !== id) // un-like
-            : [...prev, id] // like
-        );
-    };
+    const toggleWishlist = useWishlist((state) => state.toggleWishlist);
+    const wishlist = useWishlist((state) => state.wishlist);
+    const isCurrentlyLiked = wishlist.some(item => item.id === product.id);
 
   return (
     <Card sx={{display: "flex", flexDirection: "column", width: 250,  height: 300, transition: "0.3s", border: "1px solid #eee", backgroundColor: theme.palette.background.paper, 
@@ -28,8 +24,9 @@ export default function ProductsCard({ product }) {
         <Box sx={{ overflow: "hidden", position: "relative" }}>                                
             {/* Icons on hover */}
             <Box className="hover-icons" sx={{display: "flex", flexDirection: "column", gap: 1, opacity: 0, position: "absolute", top: 10, right: 10, transition: "0.5s", zIndex: 3}}>
-                <IconButton size='small' onClick={() => handleLike(product.id)} sx={{width: 34, height: 34, backgroundColor: likedProducts.includes(product.id) ? "primary.main" : "#fff", transition: "0.5s", "&:hover":{backgroundColor: "primary.main", color: "#fff", transform: "scale(1.1)", transition: "0.7s"}, "&:hover svg":{color: "#fff"} }}>
-                    <FavoriteBorderOutlinedIcon sx={{color: likedProducts.includes(product.id) ? "#fff" : "black"}}/>
+                <IconButton size='small' onClick={() => toggleWishlist(product)} sx={{width: 34, height: 34, backgroundColor: isCurrentlyLiked ? "primary.main" : "#fff", 
+                    color: isCurrentlyLiked ? "#fff" : "black", transition: "0.5s", "&:hover":{backgroundColor: "primary.main", color: "#fff", transform: "scale(1.1)", transition: "0.7s"}, "&:hover svg":{color: "#fff"} }}>
+                    <FavoriteBorderOutlinedIcon sx={{color: isCurrentlyLiked ? "#fff" : "black"}}/>
                 </IconButton>
 
                 <IconButton size='small' sx={{width: 34, height: 34, backgroundColor: "#ffff", transition: "0.5s", "&:hover":{backgroundColor: "primary.main", color: "#fff", transform: "scale(1.1)", transition: "0.7s"}, "&:hover svg":{color: "#fff"}}}>
