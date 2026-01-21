@@ -5,6 +5,7 @@ import ProductsCard from '../../components/products/ProductsCard';
 import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlined';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import GradientText from '../../functions/GradientText';
 
 export default function Wishlist() {
   const { t, i18n } = useTranslation();
@@ -24,13 +25,13 @@ export default function Wishlist() {
         gap: 2
       }}>
         <Box>
-          <Typography variant="h4" fontWeight="800" sx={{ color: 'text.primary', position: 'relative' }}>
-              {t("MyWishlist")}
+          <GradientText>
+            {t("MyWishlist")}
             <Typography component="span" sx={{ marginLeft: i18n.language === "ar" ? 0 : "1rem", marginRight: i18n.language === "ar" ? "1rem" : 0, fontSize: '1.2rem', color: 'primary.main', fontWeight: 600 }}>
               ({wishlist.length} {wishlist.length === 1 ? t("Item") : t("Items")})
             </Typography>
-          </Typography>
-          <Box sx={{ width: 60, height: 4, bgcolor: 'primary.main', borderRadius: 2, mt: 1 }} />
+          </GradientText>        
+          <Box sx={{ width: 110, height: 4, bgcolor: 'primary.main', borderRadius: 2, mt: 1 }} />
         </Box>
 
         {wishlist.length > 0 && (
