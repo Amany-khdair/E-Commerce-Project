@@ -91,12 +91,11 @@ export default function FlashSales() {
         </Box>
 
         {/* Products */}
-        <Grid container spacing={2}
+        <Box container spacing={2}
           ref={scrollRef}
           sx={{
-            display: "flex",
-            width: "100%",
-            gap: 2,
+            display: "flex",            
+            gap: {xs: 4.5, md: 2},
             overflowX: "auto",
             mt: 3,
             scrollBehavior: "smooth",
@@ -107,7 +106,7 @@ export default function FlashSales() {
             const isCurrentlyLiked = wishlist.some(item => item.id === product.id);
 
             return (
-              <Grid item xs={12} sm={6} md={3} key={product.id}>
+              <Box key={product.id} sx={{flex: "0 0 auto", width: {xs: 250, sm: 260, md: 280}}}>
                 <Card xs={12} sm={6} md={3}
                   key={product.id}
                   sx={{
@@ -192,10 +191,10 @@ export default function FlashSales() {
                     </Stack>
                   </CardActionArea>        
                 </Card>
-              </Grid>            
+              </Box>            
             )
           })}
-        </Grid>
+        </Box>
 
         {/* View All */}
         <Box textAlign="center" mt={4}>
