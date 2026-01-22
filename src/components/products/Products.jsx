@@ -38,10 +38,10 @@ export default function Products() {
         </Stack>
 
         <Stack direction="row" spacing={1}>
-          <IconButton onClick={() => {i18n.language === 'ar'? handleScroll('next') : handleScroll('prev')}} sx={{ '&:hover': {bgcolor: '#eee'} }}>
+          <IconButton onClick={() => {i18n.language === 'ar'? handleScroll('next') : handleScroll('prev')}}>
             <ArrowBackIosNewIcon fontSize="small" sx={{ transform: i18n.language === "ar" ? "rotate(180deg)" : "none" }} />
           </IconButton>
-          <IconButton onClick={() => {i18n.language === 'ar'? handleScroll('prev') : handleScroll('next')}} sx={{ '&:hover': {bgcolor: '#eee'} }}>
+          <IconButton onClick={() => {i18n.language === 'ar'? handleScroll('prev') : handleScroll('next')}}>
             <ArrowForwardIosIcon fontSize="small" sx={{ transform: i18n.language === "ar" ? "rotate(180deg)" : "none" }} />
           </IconButton>
         </Stack>
