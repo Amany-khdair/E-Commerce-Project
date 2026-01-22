@@ -22,6 +22,9 @@ import { useTranslation } from 'react-i18next';
 import FaqsComponent from '../../components/faqsComponent/FaqsComponent';
 import useReviews from '../../hooks/useReviews';
 import useWishlist from '../../hooks/useWishlist';
+import useAuthStore from '../../store/authStore';
+import NotSignedModal from '../../components/modal/NotSignedModal';
+
 export default function Details() {
     const {id} = useParams();
     const {isLoading, isError, data} = useDetails(id);
@@ -42,7 +45,7 @@ export default function Details() {
     const handleIncrease = () =>setQuantity(prev => prev+1);
     const handleDecrease = () =>setQuantity(prev =>(prev > 1 ? prev - 1 : 1))
 
-    const [value, setValue] = React.useState('1');
+    const [value, setValue] = useState('1');
     const handleChange = (event, newValue) => {
         setValue(newValue);
     };
@@ -74,7 +77,9 @@ export default function Details() {
     const [comment, setComment] = useState("");
 
     const images = product ? [data.response.image, ...(data.response.subImages || [])] : [];
-
+    const token = useAuthStore(state=>state.token);
+    const [openNotSignedModal, setOpenNotSignedModal] = useState(false);
+ 
     useEffect(() => {
         if (product) {
             const images = [data.response.image, ...(data.response.subImages || [])];
@@ -166,7 +171,7 @@ export default function Details() {
                             <Badge badgeContent={`${t("Available")}: ${product.quantity}`}
                             sx={{ "& .MuiBadge-badge": {
                                 backgroundColor: "#DB4444",
-                                color: theme.palette.text.primary,             
+                                color: "white",             
                                 fontWeight: 600,
                                 pt:2,
                                 fontSize: "0.8rem",
@@ -229,7 +234,8 @@ export default function Details() {
                                 </IconButton>
                             </Box>
 
-                            <Button variant="contained" color="primary"  onClick={()=>addToCart({ProductId:product.id, Count: 1})} disabled={isPending} sx={{textTransform: "none", px: {xs: 2, sm: 3}, py: {xs: 1, sm: 1}, textAlign: i18n.language === "ar" ? "right" : "left" }}>
+                            <Button variant="contained" color="primary" onClick={() => !token ? setOpenNotSignedModal(true) : addToCart({ ProductId: product.id, Count:quantity})} 
+                                disabled={isPending} sx={{textTransform: "none", px: {xs: 2, sm: 3}, py: {xs: 1, sm: 1}, textAlign: i18n.language === "ar" ? "right" : "left" }}>
                                 {t("BuyNow")}
                             </Button>
 
@@ -379,6 +385,8 @@ export default function Details() {
             </TabContext>
         </Box>
     </Box>
+
+    <NotSignedModal open={openNotSignedModal} onClose={()=> setOpenNotSignedModal(false)}/>
     </>    
   )
 }

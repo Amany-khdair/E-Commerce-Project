@@ -272,6 +272,12 @@ i18n
             "MessageSent": "Message sent successfully!",
             "WeWillContactYouSoon": "We will contact you soon.",
             "Okay": "Okay",
+            "LoginRequired": "Login Required",
+            "PleaseLoginToContinue": "You must be logged in to add items or make purchases.",
+            "GoToLogin": "Go to Login",
+            "MaybeLater": "Maybe Later",
+
+
 
 
           
@@ -547,6 +553,11 @@ i18n
             "MessageSent": "تم إرسال الرسالة بنجاح!",
             "WeWillContactYouSoon": "سنتواصل معك قريبًا.",
             "Okay": "حسناً",
+            "LoginRequired": "تسجيل الدخول مطلوب",
+            "PleaseLoginToContinue": "يجب تسجيل الدخول حتى تتمكن من الإضافة أو الشراء.",
+            "GoToLogin": "الانتقال لصفحة تسجيل الدخول",
+            "MaybeLater": "ربما لاحقًا",
+
 
 
           

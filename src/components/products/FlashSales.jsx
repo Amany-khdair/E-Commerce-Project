@@ -1,6 +1,6 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import { useProducts } from '../../hooks/useProducts';
-import { Box, Button, Card, CircularProgress, IconButton, Rating, Typography } from '@mui/material';
+import { Box, Button, Card, CardActionArea, CircularProgress, IconButton, Rating, Typography, Stack, Grid } from '@mui/material';
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlined';
@@ -10,18 +10,25 @@ import CountDown from '../../animation/CountDown';
 import useAddToCart from '../../hooks/useAddToCart';
 import { useTranslation } from 'react-i18next';
 import useWishlist from '../../hooks/useWishlist';
+import useAuthStore from '../../store/authStore';
+import NotSignedModal from '../modal/NotSignedModal';
 
 export default function FlashSales() {
   const navigate = useNavigate();
   const { isLoading, isError, data } = useProducts();
-
+  const { t, i18n } = useTranslation();
+  
   const toggleWishlist = useWishlist((state) => state.toggleWishlist);
   const wishlist = useWishlist((state) => state.wishlist);
-
-  const products = data?.response?.data?.slice(0, 8) ?? [];  const scrollRef = useRef();
+  
   const {mutate: addToCart, isPending} = useAddToCart();   
-  const { t, i18n } = useTranslation();
  
+  const token = useAuthStore(state=>state.token);
+  const [openNotSignedModal, setOpenNotSignedModal] = useState(false);
+
+  const products = data?.response?.data?.slice(0, 8) ?? [];  
+  const scrollRef = useRef();
+  
   if (isLoading)
     return (
       <Box sx={{ display: "flex", justifyContent: "center", py: 5 }}>
@@ -45,202 +52,164 @@ export default function FlashSales() {
   };
 
   return (
-    <Box sx={{ px: { xs: 2, md: 6 }, py: 3 }}>
-      {/* Header */}
-      <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
-        <Box sx={{ display: "flex", gap: 2, alignItems: "center" }}>
-          <Box sx={{ width: 15, height: 35, bgcolor: "primary.main", borderRadius: 1 }} />
-          <Typography sx={{ color: "primary.main", fontWeight: 600 }}>
-            {t("Today's")}
-          </Typography>
+    <>
+      <Box sx={{ px: { xs: 2, md: 6 }, py: 3 }}>
+        {/* Header */}
+        <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
+          <Box sx={{ display: "flex", gap: 2, alignItems: "center" }}>
+            <Box sx={{ width: 15, height: 35, bgcolor: "primary.main", borderRadius: 1 }} />
+            <Typography sx={{ color: "primary.main", fontWeight: 600 }}>
+              {t("Today's")}
+            </Typography>
+          </Box>
+
+          <Box sx={{display: "flex", gap: {xs: 1, sm: 3}, alignItems: {sm: "flex-start", md: "center"},  flexDirection:{xs: "column", sm: "column", md: "row"}}}>
+            <Typography variant="h4" fontWeight={600}>
+              {t("FlashSales")}
+            </Typography>
+            <Box sx={{ mt: 2 }}>
+              <CountDown />
+            </Box>
+          </Box>                       
+        </Box>             
+        
+        {/* Arrows */}    
+        <Box sx={{display: "flex", justifyContent: "flex-end", gap: 1, mt: 1  }}>
+          <IconButton onClick={() => xScroll(i18n.language === "ar" ? "right" : "left")}>
+            <ArrowBackIosNewIcon 
+              fontSize="small" 
+              sx={{ transform: i18n.language === "ar" ? "rotate(180deg)" : "none" }} 
+            />
+          </IconButton>
+
+          <IconButton onClick={() => xScroll(i18n.language === "ar" ? "left" : "right")}>
+            <ArrowForwardIosIcon 
+              fontSize="small" 
+              sx={{ transform: i18n.language === "ar" ? "rotate(180deg)" : "none" }} 
+            />
+          </IconButton>
         </Box>
 
-        <Box sx={{display: "flex", gap: {xs: 1, sm: 3}, alignItems: {sm: "flex-start", md: "center"},  flexDirection:{xs: "column", sm: "column", md: "row"}}}>
-          <Typography variant="h4" fontWeight={600}>
-            {t("FlashSales")}
-          </Typography>
-          <Box sx={{ mt: 2 }}>
-            <CountDown />
-          </Box>
-        </Box>                       
-      </Box>             
-      
-      {/* Arrows */}    
-      <Box sx={{display: "flex", justifyContent: "flex-end", gap: 1, mt: 1  }}>
-        <IconButton onClick={() => xScroll(i18n.language === "ar" ? "right" : "left")}>
-          <ArrowBackIosNewIcon 
-            fontSize="small" 
-            sx={{ transform: i18n.language === "ar" ? "rotate(180deg)" : "none" }} 
-          />
-        </IconButton>
-
-        <IconButton onClick={() => xScroll(i18n.language === "ar" ? "left" : "right")}>
-          <ArrowForwardIosIcon 
-            fontSize="small" 
-            sx={{ transform: i18n.language === "ar" ? "rotate(180deg)" : "none" }} 
-          />
-        </IconButton>
-      </Box>
-
-      <Box
-        ref={scrollRef}
-        sx={{
-          display: "flex",
-          width: "100%",
-          gap: 2,
-          overflowX: "auto",
-          mt: 3,
-          scrollBehavior: "smooth",
-          "&::-webkit-scrollbar": { display: "none" }
-        }}
-      >
-        {products.map((product) => {
-          const isCurrentlyLiked = wishlist.some(item => item.id === product.id);
-          return (
-            <Card
-              key={product.id}
-              sx={{
-                flex: "0 0 260px",
-                borderRadius: "10px",             
-                height: 330,
-                p: 2,                                  
-                textAlign: "center",
-                position: "relative",
-                transition: "0.5s",
-                "&:hover .hover-icons": { opacity: 1 },            
-                "&:hover img": { transform: "scale(1.2)" },                   
-                "&:hover .hover-btn": { opacity: 1 },
-                boxShadow: "0 2px 8px rgba(0,0,0,0.08)",
-              }}
-            >
-
-              {/* Badge */}
-              <Box sx={{
-                position: "absolute",
-                top: 12,
-                left: 12,
-                bgcolor: "#DB4444",
-                color: "#fff",
-                px: 1,
-                py: "2px",
-                borderRadius: 1,
-                fontSize: "0.75rem",
-                fontWeight: 600,
-                zIndex: 3
-              }}>
-                -{Math.round(product.discount)}%
-              </Box>
-
-              {/* Hover Icons */}
-              <Box
-                className="hover-icons"
-                sx={{
-                  opacity: 0,
-                  transition: "all 0.5s",
-                  position: "absolute",
-                  top: 10,
-                  right: 10,
-                  display: "flex",
-                  flexDirection: "column",
-                  gap: 1,
-                  zIndex: 4
-                }}
-              >
-
-                <IconButton size='small' onClick={() => toggleWishlist(product)} sx={{width: 34, height: 34, backgroundColor: isCurrentlyLiked ? "primary.main" : "#fff", 
-                  color: isCurrentlyLiked ? "#fff" : "black", transition: "0.5s", "&:hover":{backgroundColor: "primary.main", color: "#fff", transform: "scale(1.1)", transition: "0.7s"}, "&:hover svg":{color: "#fff"} }}>
-                      <FavoriteBorderOutlinedIcon sx={{color: isCurrentlyLiked ? "#fff" : "black"}}/>
-                  </IconButton>
-
-                <IconButton size="small" onClick={() => navigate(`/details/${product.id}`)} sx={{
-                    width: 34, height: 34, bgcolor: "#fff", transition: "0.5s", "&:hover": { bgcolor: "primary.main", color: "#fff" }, "&:hover svg": {color: "#fff"}}}>
-                  <VisibilityOutlinedIcon sx={{ color: "black" }} />
-                </IconButton>
-              </Box>
-
-              {/* Image */}
-              <Box
-                sx={{
-                  bgcolor: "#f5f5f5",
-                  borderRadius: 2,
-                  height: 180,
-                  overflow: "hidden",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  mb: 1
-                }}
-              >
-                <img
-                  src={product.image} alt={product.name}
-                  style={{
-                    width: "100%",
-                    height: "100%",
-                    objectFit: "contain",
-                    transition: "0.5s"
-                  }}
-                />
-              </Box>
-
-              {/* Title */}
-              <Typography fontWeight={600} fontSize="0.9rem">
-                {product.name}
-              </Typography>
-
-              {/* Price */}
-              <Box sx={{ display: "flex", gap: 1, mt: 1, justifyContent: "space-evenly" }}>
-                <Typography fontWeight={700} color="#DB4444">
-                  ${product.price}
-                </Typography>
-
-                <Typography sx={{ color: "gray", textDecoration: "line-through" }}>
-                  ${(product.price + product.price * (product.discount / 100)).toFixed(0)}
-                </Typography>
-              </Box>
-
-              {/* Rating */}
-              <Rating
-                value={product.rate}
-                precision={0.5}
-                readOnly
-                size="small"
-                sx={{ mt: 1 }}
-              />
-
-              <Button className="hover-btn" fullWidth onClick={()=>addToCart({ProductId:product.id, Count: 1})} disabled={isPending}
-                sx={{
-                  opacity: 0,
-                  transition: "0.5s",
-                  bgcolor: "black",
-                  position: "absolute",
-                  bottom: 10,
-                  left: "50%",    
-                  transform: "translateX(-50%)",                              
-                  color: "#fff",
-                  textTransform: "none",
-                  py: "6px",
-                  borderRadius: 1,
-                  "&:hover": { bgcolor: "#222" }
-                }}
-              >
-                {t("ATC")}
-              </Button>
-            </Card>
-          )          
-        })}
-      </Box>
-
-      {/* View All */}
-      <Box textAlign="center" mt={4}>
-        <Button
-          component={Link}
-          to="/allProducts"
-          variant="contained"
-          sx={{ px: "30px", py: "10px", textTransform: "none" }}
+        {/* Products */}
+        <Grid container spacing={2}
+          ref={scrollRef}
+          sx={{
+            display: "flex",
+            width: "100%",
+            gap: 2,
+            overflowX: "auto",
+            mt: 3,
+            scrollBehavior: "smooth",
+            "&::-webkit-scrollbar": { display: "none" }
+          }}
         >
-          {t("VAP")}
-        </Button>
+          {products.map((product) => {
+            const isCurrentlyLiked = wishlist.some(item => item.id === product.id);
+
+            return (
+              <Grid item xs={12} sm={6} md={3} key={product.id}>
+                <Card xs={12} sm={6} md={3}
+                  key={product.id}
+                  sx={{
+                    width: 280,
+                    borderRadius: "10px",                                                                                 
+                    textAlign: "center",
+                    position: "relative",
+                    border: '1px solid #f0f0f0',
+                    transition: "0.3s",
+                    '&:hover': { boxShadow: '0 10px 20px rgba(0,0,0,0.05)', transform: 'translateY(-4px)' },
+                    '&:hover .action-buttons': { opacity: 1 },
+                    '&:hover .add-to-cart': { opacity: 1, bottom: 0 },
+                    boxShadow: "0 2px 8px rgba(0,0,0,0.08)",
+                  }}
+                >
+                  {/* Discount Badge */}
+                  <Box sx={{
+                    position: "absolute",
+                    top: 12,
+                    left: 12,
+                    bgcolor: "#DB4444",
+                    color: "#fff",
+                    px: 1,
+                    py: "2px",
+                    borderRadius: 1,
+                    fontSize: "0.75rem",
+                    fontWeight: 600,
+                    zIndex: 3
+                  }}>
+                    -{Math.round(product.discount)}%
+                  </Box>
+
+                  {/* Image + Hover Buttons */}
+                  <Box sx={{ bgcolor: '#F5F5F5', position: 'relative', height: 230, display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' }}>
+                    <Stack className="action-buttons" spacing={1} sx={{ position: 'absolute', top: 12, right: 12, opacity: 0, transition: '0.3s', zIndex: 2 }}>
+                      <IconButton
+                        size="small"
+                        onClick={() => toggleWishlist(product)}
+                        sx={{ bgcolor: isCurrentlyLiked ? 'primary.main' : 'white', color: isCurrentlyLiked ? 'white' : 'black', '&:hover': { bgcolor: 'primary.main', color: 'white' } }}
+                      >
+                        <FavoriteBorderOutlinedIcon fontSize="small" />
+                      </IconButton>
+
+                      <IconButton
+                        size="small"
+                        onClick={() => navigate(`/details/${product.id}`)}
+                        sx={{ bgcolor: 'white', color: 'black', '&:hover': { bgcolor: 'primary.main', color: 'white' } }}
+                      >
+                        <VisibilityOutlinedIcon fontSize="small" />
+                      </IconButton>
+
+                    </Stack>
+
+                    <Box component="img" src={product.image} alt={product.name} sx={{ width: '70%', height: 180, objectFit: 'contain', transition: "0.5s", "&:hover": {transform: "scale(1.2)" } }} />
+
+                    <Button
+                      className="add-to-cart"
+                      fullWidth
+                      onClick={() => !token ? setOpenNotSignedModal(true) : addToCart({ ProductId: product.id, Count: 1 })}
+                      disabled={isPending}
+                      sx={{
+                        position: 'absolute', bottom: -50, left: 0, opacity: 0, transition: '0.3s',
+                        bgcolor: 'black', color: 'white', borderRadius: 0, py: 1.5,
+                        '&:hover': { bgcolor: '#333' }
+                      }}
+                    >
+                      {t("ATC")}
+                    </Button>
+                  </Box>
+
+                  {/* Card Content */}
+                  <CardActionArea sx={{ p: 2 }} onClick={() => navigate(`/details/${product.id}`)}>
+                    <Typography fontWeight={700} noWrap sx={{ mb: 1 }}>{product.name}</Typography>
+                    <Stack direction="row" spacing={2} alignItems="center">
+                      <Box sx={{ display: "flex", gap: 1, mt: 1, justifyContent: "space-evenly" }}>
+                        <Typography fontWeight={700} color="#DB4444">${product.price}</Typography>
+                        <Typography sx={{ color: "gray", textDecoration: "line-through" }}>
+                          ${(product.price + product.price * (product.discount / 100)).toFixed(0)}
+                        </Typography>
+                      </Box>
+                      <Rating value={product.rate} size="small" readOnly precision={0.5} />
+                    </Stack>
+                  </CardActionArea>        
+                </Card>
+              </Grid>            
+            )
+          })}
+        </Grid>
+
+        {/* View All */}
+        <Box textAlign="center" mt={4}>
+          <Button
+            component={Link}
+            to="/allProducts"
+            variant="contained"
+            sx={{ px: "30px", py: "10px", textTransform: "none" }}
+          >
+            {t("VAP")}
+          </Button>
+        </Box>
       </Box>
-    </Box>
+      <NotSignedModal open={openNotSignedModal} onClose={()=> setOpenNotSignedModal(false)}/>
+    </>
   );
 }
